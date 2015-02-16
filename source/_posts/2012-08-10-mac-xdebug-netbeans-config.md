@@ -1,5 +1,5 @@
 --- 
-categories: ['PHP','Mac']
+categories: 'Mac'
 comments: true
 layout: post
 title: mac下配置php调试环境

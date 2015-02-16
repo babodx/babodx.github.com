@@ -1,5 +1,5 @@
 --- 
-categories: ['PHP','Linux']
+categories: 'PHP'
 comments: true
 layout: post
 title: "php eaccelerator vs fastcgi_cache性能比较"

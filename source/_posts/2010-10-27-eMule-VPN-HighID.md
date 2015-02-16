@@ -1,5 +1,5 @@
 --- 
-categories: ['Linux','Windows']
+categories: 'Linux'
 comments: true
 layout: post
 title: 通过VPN获取eMule的HighID

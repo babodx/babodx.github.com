@@ -1,5 +1,5 @@
 --- 
-categories: ['Hardware','Mobile']
+categories: 'Hardware'
 comments: true
 layout: post
 title: 诺基亚E63刷机

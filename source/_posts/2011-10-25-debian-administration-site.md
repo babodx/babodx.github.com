@@ -1,5 +1,5 @@
 --- 
-categories: ['Linux','Website']
+categories: 'Linux'
 comments: true
 layout: post
 title: 一个关于debian系统管理的站点

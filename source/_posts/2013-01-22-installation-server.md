@@ -1,5 +1,5 @@
 --- 
-categories: ['Linux','Windows']
+categories: 'Linux'
 comments: true
 layout: post
 title: 批量部署系统方案

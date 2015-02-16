@@ -1,5 +1,5 @@
 --- 
-categories: ['Virtualization','Linux']
+categories: 'Virtualization'
 comments: true
 layout: post
 title: 安装和使用xen-shell

@@ -1,5 +1,5 @@
 ---
-categories: ['Hardware','Mac']
+categories: 'Hardware'
 comments: true
 layout: post
 title: "2012 macbook Air 使用华为E1750 3g上网卡"

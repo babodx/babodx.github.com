@@ -1,5 +1,5 @@
 --- 
-categories: ['Linux','PHP']
+categories: 'PHP'
 comments: true
 layout: post
 title: php-fpm查找php慢速代码

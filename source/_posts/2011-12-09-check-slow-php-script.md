@@ -1,5 +1,5 @@
 --- 
-categories: ['PHP','Linux']
+categories: 'PHP'
 comments: true
 layout: post
 title: 如何找到执行慢的php程序

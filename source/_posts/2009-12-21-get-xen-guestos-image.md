@@ -1,5 +1,5 @@
 --- 
-categories: ['Virtualization','Linux']
+categories: 'Virtualization'
 comments: true
 layout: post
 title: "获取XEN guestOS的images文件"

@@ -1,5 +1,5 @@
 --- 
-categories: ['Hardware','Mobile']
+categories: 'Hardware'
 comments: true
 layout: post
 title: "我的新手机HTC hero g3"

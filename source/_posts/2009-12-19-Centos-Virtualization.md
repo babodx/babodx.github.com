@@ -1,5 +1,5 @@
 --- 
-categories: ['Virtualization','Linux']
+categories: 'Virtualization'
 comments: true
 layout: post
 title: CentOS虚拟化服务的配置

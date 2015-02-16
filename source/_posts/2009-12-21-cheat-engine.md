@@ -1,5 +1,5 @@
 --- 
-categories: ['Game','Software']
+categories: 'Game'
 comments: true
 layout: post
 title: "一个内存所搜的好用具--Cheat Engine"

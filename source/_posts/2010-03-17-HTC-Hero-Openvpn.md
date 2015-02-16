@@ -1,5 +1,5 @@
 --- 
-categories: ['Hardware','Mobile']
+categories: 'Hardware'
 comments: true
 layout: post
 title: "HTC hero g3 openvpn设置"

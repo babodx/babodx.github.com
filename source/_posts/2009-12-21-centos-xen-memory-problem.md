@@ -1,5 +1,5 @@
 --- 
-categories: ['Virtualization','Linux']
+categories: 'Virtualization'
 comments: true
 layout: post
 title: "CentOS 5.3 安装虚拟化后的内存识别问题."

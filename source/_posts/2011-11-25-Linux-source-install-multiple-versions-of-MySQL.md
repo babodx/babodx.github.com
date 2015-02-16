@@ -1,5 +1,5 @@
 --- 
-categories: ['Database','Linux']
+categories: 'Database'
 comments: true
 layout: post
 title: Linux源码安装MySQL多版本共存

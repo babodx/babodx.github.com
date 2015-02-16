@@ -1,5 +1,5 @@
 --- 
-categories: ['Virtualization','Linux']
+categories: 'Virtualization'
 comments: true
 layout: post
 title: "CentOS 5.3下成功安装了Xen虚拟化服务。"

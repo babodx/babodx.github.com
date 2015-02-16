@@ -1,5 +1,5 @@
 --- 
-categories: ['Linux','Virtualization']
+categories: 'Virtualization'
 comments: true
 layout: post
 title: debian6.0.5(squeeze)安装配置xen-4.0虚拟化

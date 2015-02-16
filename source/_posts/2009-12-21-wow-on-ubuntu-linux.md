@@ -1,5 +1,5 @@
 --- 
-categories: ['Linux','Game']
+categories: 'Linux'
 comments: true
 layout: post
 title: "ubuntu8.04 玩魔兽世界 2.4.3(8606)"

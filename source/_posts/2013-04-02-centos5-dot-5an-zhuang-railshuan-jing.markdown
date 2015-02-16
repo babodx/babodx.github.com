@@ -3,7 +3,8 @@ layout: post
 title: "centos5.5安装rails环境"
 date: 2013-04-02 13:10
 comments: true
-categories: ['Rails','Linux']
+categories: 'Rails'
+
 ---
 
 最近招生需要写一个考试结果查询程序，就用rails来写了。以前一直java、php的，发现rails的高效开发以后，就打算尝试下。

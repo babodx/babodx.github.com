@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "hexo-renderer-ejs": "*",
+    "hexo-renderer-marked": "*",
     "hexo-renderer-stylus": "*",
-    "hexo-renderer-marked": "*"
+    "lodash": "^3.1.0",
+    "marked": "^0.3.3"
   }
 }

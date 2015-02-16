@@ -1,5 +1,5 @@
 ---
-categories: ['PHP','CSS']
+categories: 'PHP'
 comments: true
 layout: post
 title: emlog访问速度优化之minify整合css与js文件

@@ -1,5 +1,5 @@
 --- 
-categories: ['Linux','Game']
+categories: 'Linux'
 comments: true
 layout: post
 title: CENTOS下安装MUDOS跑侠客行

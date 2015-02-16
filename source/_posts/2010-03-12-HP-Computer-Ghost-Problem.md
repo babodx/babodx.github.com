@@ -1,5 +1,5 @@
 --- 
-categories: ['Windows','Hardware']
+categories: 'Hardware'
 comments: true
 layout: post
 title: "HP台式机器，ghost系统后，提示windows could not start"
