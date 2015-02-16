@@ -92,4 +92,4 @@ deploy:
   type: git
   repo: 
     github: git@github.com:babodx/babodx.github.io.git,master
-    gitcafe: git@gitcafe.com:babodx/babodx.git,gitcafe-pages
+    #gitcafe: git@gitcafe.com:babodx/babodx.git,gitcafe-pages
