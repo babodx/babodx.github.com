@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Plan on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/plan/</link>
+    <description>Recent content in Plan on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 20 Feb 2013 13:55:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/plan/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>我2013年学习列表</title>
+      <link>https://xinlogs.com/post/2013-02-20-wo-2013nian-xue-xi-lie-biao/</link>
+      <pubDate>Wed, 20 Feb 2013 13:55:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-02-20-wo-2013nian-xue-xi-lie-biao/</guid>
+      <description>&lt;p&gt;#2013学习计划&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

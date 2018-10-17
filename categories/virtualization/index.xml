@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Virtualization on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/virtualization/</link>
+    <description>Recent content in Virtualization on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 06 Aug 2012 17:50:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/virtualization/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>debian6.0.5(squeeze)安装配置xen-4.0虚拟化</title>
+      <link>https://xinlogs.com/post/2012-08-06-debian-xen-install/</link>
+      <pubDate>Mon, 06 Aug 2012 17:50:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2012-08-06-debian-xen-install/</guid>
+      <description>#系统安装#
+我是通过http://mirrors.163.com下载的 debian-6.0.5-amd64-CD-1.iso 最小安装有一张CD就可以了，安装的是debian6.0.5(squeeze) 64位版本
+安装没啥好说的，最小化安装，除了基本系统就多选择了一个ssh server。
+安装好系统后，进入系统首先设置网卡，不要用dhcp选择static模式 编辑/etc/network/interfaces文件如下
+# The loopback network interfaceauto lo iface lo inet loopback # The primary network interface #allow-hotplug eth0 auto eth0 iface eth0 inet static address 192.168.1.10 netmask 255.255.255.0 broadcast 192.168.1.255 network 192.168.1.0 gateway 192.168.1.1  我这里只有一个eth0网卡，采用192.168.1.10的IP地址
+接下来修改apt的源，采用mirrors.163.com提供的服务器，这样速度比较快 修改/etc/apt/sources.list 内容如下
+deb http://mirrors.163.com/debian/ squeeze main non-free contrib deb http://mirrors.163.com/debian/ squeeze-proposed-updates main non-free contrib deb-src http://mirrors.163.com/debian/ squeeze main non-free contrib deb-src http://mirrors.163.com/debian/ squeeze-proposed-updates main non-free contrib  执行apt-get update更新源</description>
+    </item>
+    
+    <item>
+      <title>CentOS 5.3 安装虚拟化后的内存识别问题.</title>
+      <link>https://xinlogs.com/post/2009-12-21-centos-xen-memory-problem/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-centos-xen-memory-problem/</guid>
+      <description>昨天单位到了2台SUN x4450.
+硬件配置相当强力.
+CPU 4颗6核的 Intel&amp;reg; Xeon&amp;reg; CPU X7460 @ 2.66GHz
+系统可以识别出24颗处理器
+[root@localhost ~]# cat /proc/cpuinfo |grep processor|wc -l 24  内存64G
+在内存问题上,我郁闷了一阵子.我用dmesg、free、top查看，都是32G
+开始以为CentOS 5.3的64位内核就能支持到32G呢。又尝试在启动参数里加mem=64G
+又上论坛询问、查看官方文档，都说CentOS 5.3 64bit应该没有内存限制的。
+后来我发现了，原来问题出在安装的虚拟化上面
+用xm top可以正确识别内存。而且安装的系统，只是当作xm 里面的一个dom0来运行的。</description>
+    </item>
+    
+    <item>
+      <title>CentOS 5.3下成功安装了Xen虚拟化服务。</title>
+      <link>https://xinlogs.com/post/2009-12-21-centos-install-xen/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-centos-install-xen/</guid>
+      <description>今天参照下面文档成功安装了虚拟化服务。
+http://www.howtoforge.com/paravirtualization-with-xen-on-centos-5.3-x86_64-p2
+并且在虚拟化服务里，安装了一台vm01的虚拟Centos。
+不过时间比较长，通过网络安装，用了4个小时。</description>
+    </item>
+    
+    <item>
+      <title>CentOS里的Xen配置pygrub</title>
+      <link>https://xinlogs.com/post/2009-12-21-centos-xen-pygrub/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-centos-xen-pygrub/</guid>
+      <description>如果用virt-install生成一台虚拟服务器 在查看配置的时候，会发现已经没有了kernel=这个配置来制定启动内核。而是用了
+bootloader = &#39;/usr/bin/pygrub&#39;
+关于这个，可以参考 http://wiki.xensource.com/xenwiki/PyGrub
+CentOS 5.3的虚拟化，好像没有了XenU的内核，而是改用了这种新的方式。
+反正我用kernel启动失败了。后来用这个方式已经可以正常使用虚拟服务器了。</description>
+    </item>
+    
+    <item>
+      <title>ubuntu 9.04安装xen</title>
+      <link>https://xinlogs.com/post/2009-12-21-ubuntu-904-install-xen/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-ubuntu-904-install-xen/</guid>
+      <description>主要参考下面两旁文章，先贴过来，以后再整理。
+http://oceanobservatories.org/spaces/display/CIDev/Xen+on+Ubuntu+9.04+(Jaunty)
+http://linux.com/community/blogs/Xen-Create-a-Jaunty-DomU-using-xen-create-image.html
+安装xen
+Xen on Ubuntu 9.04 (Jaunty)
+Added by Thomas Im , last edited by Thomas Im on Jun 11, 2009 (view change) Labels: (None) Following applies to Ubuntu 9.04 Jaunty 64-bit installation. Notes taken from rebuild of &amp;lsquo;amoeba&amp;rsquo; development system. Installation sudo apt-get install ubuntu-xen-server # Jaunty Xen package does not include the dom0 Xen kernel so these must be installed separately wget http://security.debian.org/debian-security/pool/updates/main/l/linux-2.6/linux-modules-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb wget http://security.debian.org/debian-security/pool/updates/main/l/linux-2.6/linux-image-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb sudo dpkg -i linux-modules-2.</description>
+    </item>
+    
+    <item>
+      <title>安装和使用xen-shell</title>
+      <link>https://xinlogs.com/post/2009-12-21-install-xen-shell/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-install-xen-shell/</guid>
+      <description>转自：http://www.xen-tools.org/software/xen-shell/install.html
+Installing &amp;amp; using the Xen-Shell
+This shell makes several assumptions in the way that it operates:
+ That you have a Xen 3.x host running. Then Xen host has several guests running. That you don&amp;rsquo;t wish to give your users shell access on the host.  If these assumptions are not valid for your environment then you might find that you have problems.
+Installation
+Download either a release, or a current version of the CVS repository and install it by executing:</description>
+    </item>
+    
+    <item>
+      <title>怎么mount一个xen的img映像。转载</title>
+      <link>https://xinlogs.com/post/2009-12-21-howto-mount-xen-img/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-howto-mount-xen-img/</guid>
+      <description>First you need to find out the partitions and the startsector of partitions:  [root@xen rruban]# file rheltest.img rheltest.img: x86 boot sector, GRand Unified Bootloader (0.94); partition 1: ID=0x83, active, starthead 1, startsector 63, 208782 sectors; partition 2: ID=0x8e, starthead 0, startsector 208845, 3871665 sectors, code offset 0x48  There are 3 partitions inside the image file. The startsector of each partition is also listed. Boot partition will have start sector 63.</description>
+    </item>
+    
+    <item>
+      <title>获取XEN guestOS的images文件</title>
+      <link>https://xinlogs.com/post/2009-12-21-get-xen-guestos-image/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-get-xen-guestos-image/</guid>
+      <description>我们可以从http://stacklet.com/其实就是原来http://jailtime.org/站点找我们需要的xen image文件
+在2009年的时候，jailtime.org发布了一个新闻
+######May 4th, 2009###### The jailtime project has been relaunched with a new name and site: Stacklet As part of the relaunch all of the distributions currently on jailtime have been upgraded to their latest versions. Also, all of the code for creating the images is now publically available – see http://stacklet.com/ for further details&amp;hellip;. Jailtime will remain online but downloads will probably be turned off eventually as the transition to stacklet proceeds.</description>
+    </item>
+    
+    <item>
+      <title>CentOS虚拟化服务的配置</title>
+      <link>https://xinlogs.com/post/2009-12-19-centos-virtualization/</link>
+      <pubDate>Sat, 19 Dec 2009 14:50:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-19-centos-virtualization/</guid>
+      <description>单位到了一台sun的x4450服务器，打算开学前部署好虚拟化服务，给每位带学生实训的老师一台虚拟的windows 2003 Server. 大约需要20台虚拟服务器
+##服务器介绍##
+ 硬件配置： CPU: 4颗 Intel&amp;reg; Xeon&amp;reg; CPU X7460 @ 2.66GHz (每颗6核心，供24核心) 内存: 64G 硬盘: 8块 Vendor: HITACHI Model: H101414SCSUN146G Rev: SA25  ##虚拟方案## 用CentOS 5.3 64bit 作为DOM0，来管理整个虚拟化服务。然后采用hvm方式虚拟20台Windows server 2003。
+##虚拟服务器配置：##
+ CPU：1颗 内存：1G 硬盘：30G  整体结构如下
+在SunFire X4450的硬件上，安装Xen虚拟化服务。所有硬件由Xen内核管理，我们的CentOS 5.3 64bit操作系统跑在Xen内核上面，负责管理以后创建的DOM1到DOMN的多个虚拟服务器。
+##虚拟化服务的安装##
+这个就不具体写了，可以参考我前面的blog或者http://www.howtoforge.com/paravirtualization-with-xen-on-centos-5.3-x86_64-p2
+如果不安装图形界面，在用virt-install安装windows操作系统的时候，需要VNC服务。这样可以远程通过VNC客户端连接来安装，因为ssh的方式没有图形界面。 如果安装了图形界面的CentOS，就很容易了。直接用图形界面的虚拟机管理程序安装即可。
+##GUESTOS的配置## 由于每台虚拟服务器安装后，并没有开启远程服务，所以我们还是需要通过VNC连接登入虚拟服务器。在配置好IP和远程服务后，就可以使用远程桌面登陆了。 在每台虚拟服务器的配置文件里，加入如下语句
+vnc = 2 vncunused = 2 vnclisten = &amp;quot;10.10.15.151&amp;quot; vncpasswd = &amp;quot;password&amp;quot;  注意： password为登陆vnc的密码，根据实际情况设置。vnclisten设置的是主机CentOS的IP
+突破8台虚拟服务器的限制
+默认安装后，CentOS的max_loop最大值是8，这样我们默认只能启动8个虚拟服务器（不过半虚拟的linux好像不受这个影响） 我们需要修改这个参数</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mac | 鑫的方向</title>
+    <meta property="og:title" content="Mac - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Mac">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/categories/mac/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/categories/mac/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">mac</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-10-02-iterm2gei-sshchuang-kou-shang-se/">iterm2给ssh窗口上色</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年10月2日
+                                21:58
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#给iterm2的ssh窗口上颜色#</p>
+
+<p>经常开ssh登陆远程服务器，有时自己都分不清那个是远程那个是本地了。</p>
+
+<p>今天看到一个技巧，可以让iterm2 给ssh到远程的窗口上个颜色。这样一看颜色就知道不是本地了。</p>
+
+<p>首先就是编辑~.zshrc文件,在末尾加入</p>
+
+<pre><code>source iterm2.zsh
+
+</code></pre>
+
+<p>然后在用户目录创建一个iterm2.zsh文件， …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-10-02-iterm2gei-sshchuang-kou-shang-se/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-05-06-securecrt-for-mac-store-password/">mac下的secureCRT如何保存密码？</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年5月6日
+                                11:03
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>mac下面的secureCRT默认保存不上密码，我们选择了保存密码后，下次登录还是提示密码错误。</p>
+
+<p>解决办法：
+因为secureCRT默认采用mac的keychain来处理密码，所以会出现这个问题。我们只需要去掉这个选项即可正常。</p>
+
+<p>打开secureCRT后，按&rdquo;command+,&rdquo; 在&rdquo;advanced&rdquo;里面 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-05-06-securecrt-for-mac-store-password/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-08-10-mac-xdebug-netbeans-config/">mac下配置php调试环境</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年8月10日
+                                16:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>已经用了mac有2个月了，基本网络管理和开发工作都在mac下面了。</p>
+
+<p>下面说下如何配置mac下面的php调试环境</p>
+
+<p><strong>我的环境：</strong></p>
+
+<ul>
+<li>macbook air 2012款<br /></li>
+<li>Mac OS X 10.8 系统</li>
+<li>php环境：XAMPP 1.7.3</li>
+<li>开发工具：一般用sublime text 2，调试或者项目开发用netbeans</li>
+</ul>
+
+<p>下面说说如何安装调试环境，主要就 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2012-08-10-mac-xdebug-netbeans-config/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-29-accelerate-app-store-download/">快速提升app store下载速度</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月29日
+                                10:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>前两天开始更新MAC OS Mountain Lion。</p>
+
+<p>为了下载这个4.5G的内容，可是郁闷坏了。计算出来的剩余时间7天。</p>
+
+<p>于是开始找加速下载的办法，看来一些帖子以后基本知道了下载速度主要取决与dns将你的请求解析到哪台服务器。</p>
+
+<p>网上一般是都是基于自己找到一台快速的下载服务器IP，然后手动修改/etc/hosts文件的办法。
+ 
+但是其实看原来就知 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2012-07-29-accelerate-app-store-download/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-13-mac-vnc-rdp-over-ssh/">mac下用ssh转发端口</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月13日
+                                19:50
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>起因是这样的，我在服务器上安装了个虚拟winxp。但是想要在外网远程控制却不行，因为这个虚拟系统没有公网IP。</p>
+
+<p>我的服务器是有公网IP的，例如：210.1.1.1</p>
+
+<p>服务器所在内网全部是10.0.1.x 网段，外网IP是通过路由器映射给服务器的，也就是说服务器上查看IP，只有10.0.1.1这个
+ 
+虚拟机我是用的xen，然后采用nat方式将一 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2012-07-13-mac-vnc-rdp-over-ssh/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

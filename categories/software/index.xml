@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/software/</link>
+    <description>Recent content in Software on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 25 Oct 2011 18:30:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/software/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>离线博客工具-菊子曰</title>
+      <link>https://xinlogs.com/post/2011-10-25-write-blog-offline/</link>
+      <pubDate>Tue, 25 Oct 2011 18:30:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-10-25-write-blog-offline/</guid>
+      <description>因为迁移到了emlog，最近几天一直在鼓弄博客。
+今天又尝试用离线工具写博客了。
+在网站上搜索了下，发现国人开发的菊子曰不错。所以开始了这次尝试
+功能方面日常写文章应该足够了。
+就是如果是程序员用，代码高亮效果很一般 还有就是日志摘要功能，并不能符合emlog的日志摘要，基本只能全篇发上来。感觉如果文章不是很长，建议还是采用在线编辑吧。 再有就是采用了离线发布，将不能自动和新浪微博同步</description>
+    </item>
+    
+    <item>
+      <title>一个在windows下很好用的MySQL工具Navicat</title>
+      <link>https://xinlogs.com/post/2009-12-21-navicat/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-navicat/</guid>
+      <description>为了解决中文乱码，我的Mysql都设置了使用utf8编码
+这样一来，使用SQLyog Enterprise查看表里面内容，就都不能正常显示了。可能SQLyog需要设置？反正我没有搞出来。
+不过后来我换用了Navicat 7以后，感觉很好。所有中文内容都可以正确显示
+比mysql front也要强很多。以后我就用这个了 而且支持Linux,windows,mac三个平台。下面是介绍
+PremiumSoft Navicat™ is a powerful MySQL database administration and development tool that is not only sophisticated enough for professional developers, but also easy to learn for new users. With an user-friendly GUI, Navicat™ lets you quickly and easily create, organize, access and share information in a secure and convenient way.  PremiumSoft Navicat supports multiple MySQL server connections which can be connected locally or remotely.</description>
+    </item>
+    
+    <item>
+      <title>一个很好的开源企业内部IM解决方案</title>
+      <link>https://xinlogs.com/post/2009-12-21-opensource-im/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-opensource-im/</guid>
+      <description>今天发现了http://www.igniterealtime.org这个项目首页
+这个项目可以在企业内部架设一台服务器，来完成内部IM功能。客户端可以想QQ或者MSN一样登陆。并且通过服务器上设置GATEWAY功能，还能与MSN等主流软件通讯。
+具体功能还没有测试，不过打算有时间的时候架设下进行试用。</description>
+    </item>
+    
+    <item>
+      <title>一款匿名浏览器--XeroBank Browser</title>
+      <link>https://xinlogs.com/post/2009-12-21-xerobank-browser/</link>
+      <pubDate>Mon, 21 Dec 2009 15:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-xerobank-browser/</guid>
+      <description>XeroBank Browser 用来上网，可以很好的隐藏你的ip地址。利用Tor(The Onion Router)可以自动通过多层代理跳转，来隐藏你的IP因为是通过代理的，所以速度肯定要慢一些。但可以访问一些国内封锁的IP地址</description>
+    </item>
+    
+    <item>
+      <title>windows下的拷贝利器teracopy</title>
+      <link>https://xinlogs.com/post/2009-08-02-tearcopy/</link>
+      <pubDate>Sun, 02 Aug 2009 14:30:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-08-02-tearcopy/</guid>
+      <description>周四晚上的时候，300G的硬盘在Ghost的时候，分区表损坏，导致数据全丢失了。
+这两天在不停的拷贝数据，导文件。
+发现windows自带的资源管理器拷贝文件的速度和稳定性都不是很好。
+于是找到了一款很不错的小软件tearcopy
+网站 http://www.codesector.com/teracopy.php
+文件很小，大约1.5M
+拷贝速度很快，我从usb设备拷贝，速度大约23M每秒。&amp;lt;
+建议拷贝多个文件或者大文件，都安装这个小软件。
+下面是具体说明，我就不翻译，大家自己看看吧。很牛，还支持win7
+TeraCopy is a compact program designed to copy and move files at the maximum possible speed, providing the user a lot of features:   Copy files faster. TeraCopy uses dynamically adjusted buffers to reduce seek times. Asynchronous copy speeds up file transfer between two physical hard drives.   Pause and resume file transfers. Pause copy process at any time to free up system resources and continue with a single click.</description>
+    </item>
+    
+  </channel>
+</rss>

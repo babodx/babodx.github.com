@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Linux | 鑫的方向</title>
+    <meta property="og:title" content="Linux - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Linux">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/categories/linux/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/categories/linux/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">linux</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-10-25-debian-administration-site/">一个关于debian系统管理的站点</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年10月25日
+                                14:55
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                这个站点有很多关于debian系统管理的信息和经验。
+不过这个站点对于IE支持不好，页面会出现错位。建议还是采用firefox或者chrome这类的浏览器吧。
+网址：<a href="http://www.debian-administration.org/">http://www.debian-administration.org/</a>
+简介如下，照搬的原文：
+<h1>Debian Administration</h1>
+This site was created as …
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-10-25-debian-administration-site/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-10-20-centos-install-ruby-rubygems/">centos 源码安装ruby和rubygems</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年10月20日
+                                23:10
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p><strong>获得ruby源代码</strong></p>
+
+<pre><code>wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz
+</code></pre>
+
+<p><strong>解压并编译ruby</strong></p>
+
+<pre><code>tar zxvf ruby-1.9.2-p290.tar.gz  
+cd ruby-1.9.2-p290
+./configure …</code></pre>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-10-20-centos-install-ruby-rubygems/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-11-26-tomcat-memory-check/">监控tomcat内存占用</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年11月26日
+                                19:47
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近单位给客户部署的一台服务器，主要跑的JAVA应用，一个物业OA系统。经常因为Tomcat内存占用过高而停止响应。</p>
+
+<p>观察了一下，每次停止响应时候，Tomcat进程占用内存超过1.2G</p>
+
+<p>初步怀疑是程序不够完善有内存泄露的地方，但是一时半会也找不到具体代码哪里有问题。</p>
+
+<p>我就写了一个shell不断监控Tomcat进程内存占用，当发现内存占用大于800M，我 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-11-26-tomcat-memory-check/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-11-04-stop-tomcat-shell/">CentOS下的Tomcat停止脚本</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年11月4日
+                                19:23
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我在CentOS 5.3 64bit上安装的Tomcat有个小问题，就是不能通过service tomcat stop停止或者server tomcat restart重启。</p>
+
+<p>我看了下/etc/init.d/tomcat的文件，和以前没有什么不一样，但就是不能正常停止。</p>
+
+<p>后来我自己修改了/etc/init.d/tomcat文件，改为直接kill进程。目前 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-11-04-stop-tomcat-shell/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-10-27-emule-vpn-highid/">通过VPN获取eMule的HighID</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年10月27日
+                                20:46
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>一般单位里，我们都是通过单位网关上网。这种情况下打开eMule肯定获取到的是LowID（低ID）。那么既然我们可以通过VPN来翻墙，有没有办法通过VPN来获取到eMule的HighID（高ID）呢？</p>
+
+<p>答案是肯定的：可以。</p>
+
+<p>只要我们将VPN服务器的外网IP上的对应端口映射到我们VPN客户端获取到的IP端口上就可以。</p>
+
+<p>我的VPN服务器，就是跑在我这台博客服 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-10-27-emule-vpn-highid/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-08-26-centos-install-mudos/">CENTOS下安装MUDOS跑侠客行</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年8月26日
+                                15:05
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在放假，我又玩了玩很久以前的网络游戏北美侠客行。一个纯文字的MUD游戏。而且自己在CentOS下也架设了一个，下面就说说我的安装过程，给自己做个记录，怕以后忘记。</p>
+
+<p>要架设一个MUD游戏，需要MUDOS和MUDLIB两部分。这里简单解释一下，其实我也刚接触，有不对的地方还望见谅。</p>
+
+<p>MUDOS我理解就是一个跑MUD游戏的平台或者理解为模拟器，只要符 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-08-26-centos-install-mudos/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-04-05-vps-dropbox-install/">一款Linux下同步备份文件的好软件DROPBOX</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年4月5日
+                                16:03
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>原来一直用tar、sync等软件实现备份。需要些脚本还要找一台其他服务器进行同步。现在有了DROPBOX这个网站提供的服务，一切都变容易了。</p>
+
+<p><strong>DROPBOX网站：</strong>
+<a href="www.dropbox.com">http://www.dropbox.com/</a>
+<strong>DROP功能：</strong>
+偷懒直接把官方介绍帖过来了。主要就是免费提供2G的同步空间，可以自动同步文件并保留文件的历史版本</p>
+
+<p><h1>Dropbox …</h1></p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-04-05-vps-dropbox-install/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-03-15-openvpn-install/">CentOS 5.3下OpenVPN安装和Win7下OpenVPN GUI安装</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年3月15日
+                                14:28
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>本来我是在美国的VPS服务器上安装的pptp vpn，这个vpn可以用windows自带的拨号连接，配置也很方便。刚配置好的时候很好用，可以开youtube也可以访问一些被封闭的站点。但是后来家里的歌华有线好像调整了一些路由配置，导致我在家里就不能连接vpn了。单位也不能连接。我用老婆家里的adsl尝试连接正常，用联通3G连接也正常。。。。这个既然是网络的问 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-03-15-openvpn-install/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-03-12-hp-msa1000-dl380g5-centos5/">CentOS 5.4 基于HP Proliant DL380 G5服务器配置Modular Smart Array 1000存储</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年3月12日
+                                14:36
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>原来单位的存储一直是分两个800G的区，挂在到Windows下。Windows的系统总要担心病毒，所以打算迁移到CentOS Linux下。</p>
+
+<p>参考了<a href="http://blog.s135.com/post/415/">http://blog.s135.com/post/415/</a>这篇文章，但是他的文章里是单控制器，并且没有用到光纤。所以配置上有些不同</p>
+
+<p><strong>硬件配置</strong></p>
+
+<ul>
+<li>一台HP MSA 1000存储设备（包含两个Modular …</li></ul>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-03-12-hp-msa1000-dl380g5-centos5/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-01-24-postfix-extmail-attachment-bug/">postfix&#43;extmail的附件大小显示和限制问题解决办法</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年1月24日
+                                21:06
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在给一个公司部署了postfix+extmail的邮件系统后，遇到了附件大小限制问题。</p>
+
+<p>extmail默认设置是5M，但是由于extmail的统计大小方法问题，一般附件限制比设置的小了1/3。也就是你设置了5M，也就能到3M多。</p>
+
+<p>这里先说下大小限制的配置。</p>
+
+<p>一、修改extmail的webmail.cf …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-01-24-postfix-extmail-attachment-bug/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/categories/linux/page/2/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/categories/linux/">1</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/2/">2</a>
+    </li>
+    
+    <li class="current">
+        <a href="/categories/linux/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/5/">5</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/categories/linux/page/4/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

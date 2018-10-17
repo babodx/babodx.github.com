@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>win7下使用联通无线上网卡HUAWEI E1750 | 鑫的方向</title>
+    <meta property="og:title" content="win7下使用联通无线上网卡HUAWEI E1750 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2010-02-12T18:29:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2010-02-12T18:29:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="win7下使用联通无线上网卡HUAWEI E1750">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2010-02-12-huawei-e1750-on-win7/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">win7下使用联通无线上网卡HUAWEI E1750</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2010年2月12日
+                            18:29
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/hardware">Hardware</a>
+                            
+                                <a href="/categories/windows">Windows</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>老婆单位年底搞活动，抽奖中了一个联通的无线上网卡。型号HUAWEI E1750</p>
+
+<p>本来打算给我笔记本用的，我系统是Windows 7。结果发现用不了，安装上以后，无线上网软件提示找不到设备。。。。。。</p>
+
+<p><strong>解决办法</strong></p>
+
+<p>让Windows 7自动找驱动，肯定是没戏了。用光盘自带软件的驱动也不灵。后来到HUAWEI网站查找最近驱动，最终下面网站找到了相关更新</p>
+
+<p><code>http://www.huaweidevice.com/cn/downloadCenter.do?method=doListSoftwareid=1&amp;fla y=findsoftwareName=E1750</code></p>
+
+<pre><code>E1750 E1750-WINMACB300D00SP04C112( U TPS11[1].301.08.24.112_MAC11.3 01.06.07.112)(China Unicom) China Unicom  2009-12-23 
+</code></pre>
+
+<p>以上是Win7下可以使用的驱动更新。大约28M</p>
+
+<p>安装步骤是先安装Mobile_Card_Driver_3.09.exe驱动，然后正确识别设备后，运行UTPS11.301.08.24.112_MAC11.301.06.07.112.B433.exe更新设备的固件。最后再安装无线上网软件。</p>
+
+<p>可是我安装文档的方法，在Win7下并没有成功，运行UTPS11.301.08.24.112_MAC11.301.06.07.112.B433.exe更新的时候，总是提示没有找到设备或者正在有软件占用设备或者没有管理员权限。。。。。</p>
+
+<p>后来找了一台WinXP系统的机器，按照文档步骤一次成功。</p>
+
+<p>然后再将更新过的E1750插到Win7上面，就可以自动识别设备了。识别成功后如下图。</p>
+
+<p><img src="http://farm9.staticflickr.com/8251/8512574602_ee146a4011.jpg" alt="e1750驱动截图" /></p>
+
+<p>这样继续安装无线上网软件就可以正确识别并上网了。下面是正确识别后的截图</p>
+
+<p><img src="http://farm9.staticflickr.com/8105/8511465149_d5c86d6172.jpg" alt="e1750成功驱动" /></p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2010-02-02-my-htc-hero-mobile/">我的新手机HTC hero g3</a></li>
+        
+        <li><a href="/post/2010-01-28-e63-nokia-fireware-update/">诺基亚E63刷机</a></li>
+        
+        <li><a href="/post/2010-01-24-postfix-extmail-attachment-bug/">postfix&#43;extmail的附件大小显示和限制问题解决办法</a></li>
+        
+        <li><a href="/post/2010-01-19-extman/">extman后台登陆问题解决方法</a></li>
+        
+        <li><a href="/post/2010-01-12-open-telnet-win7/">win7下启动telnet--转载</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

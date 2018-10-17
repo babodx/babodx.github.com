@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ruby on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/ruby/</link>
+    <description>Recent content in Ruby on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 12 Aug 2013 11:03:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/ruby/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ruby采用ActiveRecord方式访问Mysql</title>
+      <link>https://xinlogs.com/post/2013-08-12-ruby-with-activerecord-access-mysql/</link>
+      <pubDate>Mon, 12 Aug 2013 11:03:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-08-12-ruby-with-activerecord-access-mysql/</guid>
+      <description>&lt;p&gt;前段时间一个朋友的DZ论坛因为误操作导致部分帖子被删除，因为发现的比较晚，所以再删除后已经有很多新帖子被发布了。所以就无法简单的还原到帖子被删除的某个时间点，因为这样就会造成数据库回档，很多新的帖子将消失。&lt;/p&gt;
+
+&lt;p&gt;我想到的处理办法就是采用一个删除点前的备份恢复到一个新表中，然后用程序判断被删除的帖子导入到现在的数据库中。而最近一直比较迷恋ruby的我，理所当然就采用ruby来写了。&lt;/p&gt;
+
+&lt;p&gt;ruby直接访问mysql可以采用mysql2这个gem，但是我发现居然不支持预编译sql语句，导致一些帖子里的特殊字符无法处理。后来就采用了ruby直接加载ActiveRecord的方法来处理。下面就是我最后的代码了。&lt;/p&gt;
+
+&lt;p&gt;下面这个代码是为了修复数据导入后，DZ里面两个表直接关联错误，导致的某些版块显示不正常的问题。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ruby将DBF文件导入MYSQL库</title>
+      <link>https://xinlogs.com/post/2011-03-22-ruby_import_dbf_to_mysql/</link>
+      <pubDate>Tue, 22 Mar 2011 19:43:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-03-22-ruby_import_dbf_to_mysql/</guid>
+      <description>单位招生项目，需要向MySQL灌入一些数据测试。因为原始数据都是DBF文件，就是foxpro数据库。
+下面是用ruby代码实现的导入功能。
+require &#39;rubygems&#39; require &#39;dbf&#39; require &#39;mysql2&#39; require &#39;iconv&#39; @the_year=&amp;quot;2011&amp;quot; @start_time=Time.now @major_list=[] client = Mysql2::Client.new(:host =&amp;gt; &amp;quot;localhost&amp;quot;, :username =&amp;gt; &amp;quot;root&amp;quot;,:password=&amp;gt;&amp;quot;dxzddp&amp;quot;,:database=&amp;gt;&amp;quot;enroll&amp;quot;)#创建数据库连接 results = client.query(&amp;quot;SELECT major_id FROM major WHERE the_year=&#39;#{@the_year}&#39;&amp;quot;, :as =&amp;gt; :array) results.each do |row| @major_list.push(row[0]) end p @major_list table = DBF::Table.new(&amp;quot;d:/ss.dbf&amp;quot;) table.each do |record| @sfzh=record.sfzh @name=Iconv.iconv(&amp;quot;utf-8&amp;quot;, &amp;quot;gb18030&amp;quot;, record.xm) @sfzh=record.sfzh @ksh=record.ksh @major=@major_list.choice @major2=@major_list.choice @major2=@major_list.choice while @major2==@major @to_student_info=&amp;quot;insert into student_info (student_no,access_pwd,the_year) VALUES (&#39;#{@sfzh}&#39;,&#39;e10adc3949ba59abbe56e057f20f883e&#39;,&#39;#{@the_year}&#39;)&amp;quot; @to_candidate=&amp;quot;insert into candidate (candidate_name,id_card_no,candidate_no,state,has_submitted,the_year) VALUES (&#39;#{@name}&#39;,&#39;#{@sfzh}&#39;,&#39;#{@ksh}&#39;,&#39;A&#39;,&#39;Y&#39;,&#39;#{@the_year}&#39;)&amp;quot; @to_candidate_ideal=&amp;quot;insert into candidate_ideal (candidate_id,first_major,second_major,allow_adjustment,is_living_in_college) VALUES (last_insert_id(),&#39;#{@major}&#39;,&#39;#{@major2}&#39;,&#39;Y&#39;,&#39;Y&#39;)&amp;quot; @to_candidate_score=&amp;quot;insert into candidate_score (candidate_id) VALUES (last_insert_id())&amp;quot; @to_contact_info=&amp;quot;insert into contact_info (candidate_id) VALUES (last_insert_id())&amp;quot; @to_school_info=&amp;quot;insert into school_info (candidate_id) VALUES (last_insert_id())&amp;quot; begin client.</description>
+    </item>
+    
+    <item>
+      <title>学习Ruby中......</title>
+      <link>https://xinlogs.com/post/2009-12-21-study-ruby-1/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-study-ruby-1/</guid>
+      <description>####学习Ruby中&amp;hellip;&amp;hellip;####
+终于拿到了Programming Ruby 中文第2版.开始认真学习Ruby
+不过感觉翻译的不是很好
+而且有网友已经整理了勘误表 http://farm9.staticflickr.com/8527/8509573735_f7c64d2b5c_z.jpg
+我在阅读的时候,也发现了一些翻译的不是很明白的地方
+ 16页 第2章 2.3
+ Ruby的数组(arrays)和散列表(hashes)是被索引的收集.(indexed collections)
+  原文:Ruby&amp;rsquo;s arrays and hashes are indexed collections
+我感觉这句话的意思应该是说:Ruby的数组和哈希表是有(被)索引的集合
+在后面的哈希表里面,也有讲解
+Hashes (some times known as associative arrays, maps,or dictionaries) are similar to arrays in that they are indexed collections of object references. 哈希表(有时也称关系数组,映射或者词典) 和数组的相似之处是他们都是有(被)索引的对象引用的集合
+ 45页 第4章 4.1 倒数第8行  使用这些方法,你可以用数组来实现栈(stack),收集(set),队列(queue),双向队列(dequeue)和先进先出队列(fifo)
+原文:Using these,you can treat arrays as stacks,sets,queues,dequeues,and fifos
+我感觉这里的set应该是集合,就是说可以用数组实现集合</description>
+    </item>
+    
+  </channel>
+</rss>

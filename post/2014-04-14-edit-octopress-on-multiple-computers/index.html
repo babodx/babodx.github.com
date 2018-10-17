@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>多电脑同步octopress | 鑫的方向</title>
+    <meta property="og:title" content="多电脑同步octopress - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2014-04-14T21:30:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2014-04-14T21:30:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="多电脑同步octopress">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">多电脑同步octopress</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2014年4月14日
+                            21:30
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/octopress">Octopress</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>采用markdown编写博客文章，然后通过octopress发布到github上。感觉写博客就像编程一样有意思。
+但是当我们有多台电脑的时候，如何同步呢？或者家里有了octopress环境，单位如何写博客呢？
+下面是我常用的方法
+</p>
+
+<p>##安装步骤##</p>
+
+<p><strong>需要安装git环境，可以使用git命令即可。</strong></p>
+
+<p><strong>需要安装ruby环境，建议采用rvm安装</strong></p>
+
+<p>有了以上条件后，只要将github上的blog源码clone到本地就可以来。我的博客是将正式发布的内容通过octopress的rake deploy发布到master分支。所有的文章markdown源码push到source分支。</p>
+
+<p>当我需要在别的机器同步一份的时候，首先就是同步一份源码下来。</p>
+
+<pre><code>git clone -b source https://github.com/babodx/babodx.github.com.git blog
+</code></pre>
+
+<p>同步源码到blog目录后，进入到blog目录。删除_deploy目录，再将master分支同步到_deploy目录</p>
+
+<pre><code>cd blog
+git clone https://github.com/babodx/babodx.github.com.git _deploy
+</code></pre>
+
+<p>这样就完成了同步，接着需要安装需要打gem</p>
+
+<pre><code>bundle install
+</code></pre>
+
+<p>以后如果两台机器需要同步，只要pull一份代码就可以了</p>
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2014-04-08-zabbix-introduction/">zabbix介绍</a></li>
+        
+        <li><a href="/post/2014-02-09-backup-to-aliyun-oss/">备份到阿里云的oss</a></li>
+        
+        <li><a href="/post/2013-10-03-nginx-reverse-proxy-websockets/">nginx反向代理websockets</a></li>
+        
+        <li><a href="/post/2013-10-02-iterm2gei-sshchuang-kou-shang-se/">iterm2给ssh窗口上色</a></li>
+        
+        <li><a href="/post/2013-10-02-yi-ci-ru-qin-jian-cha/">一次入侵检查</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

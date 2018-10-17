@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>squid缓存php页面 | 鑫的方向</title>
+    <meta property="og:title" content="squid缓存php页面 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2012-01-17T19:25:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2012-01-17T19:25:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="squid缓存php页面">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2012-01-17-squid-cache-php-script/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">squid缓存php页面</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2012年1月17日
+                            19:25
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>这两天在看squid反向代理加速web应用方面的内容。</p>
+
+<p>总体来看squid的cache都是缓存一些静态内容，例如图片、css、js等文件。而动态内容是不能缓存的。那有没有办法让squid缓存php文件呢？答案是肯定的。</p>
+
+<p>首先用squid反向代理后，我们访问一个test.html的静态页面。</p>
+
+<pre><code>[root@localhost ~]# curl -I http://xinlogs.com:3128/test.html
+HTTP/1.0 200 OK
+Content-Type: text/html
+Content-Length: 77
+Accept-Ranges: bytes
+Server: Tengine/1.2.1
+Date: Tue, 17 Jan 2012 12:38:36 GMT
+Last-Modified: Tue, 17 Jan 2012 01:29:47 GMT
+X-Cache: HIT from squid.xinlogs.com
+Via: 1.1 squid.xinlogs.com:3128 (squid/2.7.STABLE9)
+Connection: close
+</code></pre>
+
+<p>可以看到X-Cache: HIT from squid.xinlogs.com，成功命中缓存。说明是被squid缓存的内容直接给我们了。
+而访问一个动态页面呢？</p>
+
+<pre><code>[root@localhost ~]# curl -I http://xinlogs.com:3128/test.php
+
+HTTP/1.0 200 OK
+
+Server: Tengine/1.2.1
+
+Date: Tue, 17 Jan 2012 12:40:52 GMT
+
+Content-Type: text/html
+
+Vary: Accept-Encoding
+
+X-Powered-By: PHP/5.3.8
+
+X-Cache: MISS from squid.xinlogs.com
+
+Via: 1.1 squid.xinlogs.com:3128 (squid/2.7.STABLE9)
+
+Connection: close
+</code></pre>
+
+<p>通过X-Cache: MISS from squid.xinlogs.com，可以看到是未命中，也就是从squid后端的nginx请求到的内容。</p>
+
+<p>查了写资料，发现之所以不缓存动态脚本，主要是php文件没有输出Last-Modified: Tue, 17 Jan 2012 01:29:47 GMT这行头信息。</p>
+
+<p>下面我们构造一个可以输出头信息的php文件test2.php来测试下。</p>
+
+<pre><code>&lt;?php
+$now = time();
+$generatedAt = gmdate(&quot;D, d M Y H:i:s T&quot;,$now);
+//print_r($generatedAt);
+$lastModified = gmdate(&quot;D, d M Y 00:00:00 T&quot;,$now);
+$expiresAt = gmdate(&quot;D, D M Y H:i:s T&quot;,strtotime($lastModified)+86400);
+$maxAge=strtotime($expiresAt)-strtotime($generatedAt);
+header('Last-modified: '.$lastModified);
+header('Cache-control: max-age=' . $maxAge);
+echo &quot;Test&quot;.time();
+</code></pre>
+
+<p>这里我们通过header函数来构造了Last-Modified和Cache-control头信息。</p>
+
+<p>再让我们通过curl -I来查看下是否可以缓存这个test2.php文件</p>
+
+<pre><code>
+[root@localhost ~]# curl -I http://xinlogs.com:3128/test2.php
+
+HTTP/1.0 200 OK
+
+Server: Tengine/1.2.1
+
+Date: Tue, 17 Jan 2012 12:46:08 GMT
+
+Content-Type: text/html
+
+Vary: Accept-Encoding
+
+X-Powered-By: PHP/5.3.8
+
+Last-Modified: Tue, 17 Jan 2012 00:00:00 GMT
+
+Cache-Control: max-age=-1169168
+
+Age: 60
+
+Content-Length: 14
+
+X-Cache: HIT from squid.xinlogs.com
+
+Via: 1.1 squid.xinlogs.com:3128 (squid/2.7.STABLE9)
+
+Connection: close
+</code></pre>
+
+<p>通过上面信息，可以看到test2.php已经被缓存了。</p>
+
+<p><strong>总结：通过在php脚本里输出header头信息，还是可以让squid缓存上php文件的。</strong></p>
+
+<p><strong>但是目前还有一些问题没有解决：</strong></p>
+
+<p>通过IE浏览器访问可以正常命中，通过chrome或者firefox浏览器每次访问都是如下未命中</p>
+
+<pre><code>1326794201.750      1 210.56.223.167 TCP_REFRESH_MISS/200 355 GET http://xinlogs.com:3128/test2.php - FIRST_UP_PARENT/xinlogs text/html
+</code></pre>
+
+<p>而且不同访问方式的第一次访问也都是未命中，比如wget -S第一次访问未命中，如果换了curl -I再访问，还是未命中。</p>
+
+<p>尝试在squid.conf文件里加入了reload-into-ims on选项，但是无效。</p>
+
+<p>以上问题估计还需要看看是不是需要配合nginx的设置来解决，因为静态文件是不存在这些问题的。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2012-01-15-mysql-error-index-is-slower/">Mysql错误索引比没索引还慢</a></li>
+        
+        <li><a href="/post/2011-12-30-php-performance-debugging-tools/">php性能调试工具</a></li>
+        
+        <li><a href="/post/2011-12-29-find-php-slow-code/">php-fpm查找php慢速代码</a></li>
+        
+        <li><a href="/post/2011-12-25-ssh-login-protection-by-denyhosts/">通过denyhosts保护ssh登陆</a></li>
+        
+        <li><a href="/post/2011-12-22-monitor-network-connections-of-linux/">linux网络连接数量监控</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

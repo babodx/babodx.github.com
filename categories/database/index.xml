@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Database on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/database/</link>
+    <description>Recent content in Database on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 15 Jan 2012 16:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/database/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mysql错误索引比没索引还慢</title>
+      <link>https://xinlogs.com/post/2012-01-15-mysql-error-index-is-slower/</link>
+      <pubDate>Sun, 15 Jan 2012 16:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2012-01-15-mysql-error-index-is-slower/</guid>
+      <description>今天一个客户反映网站某个页面很慢。初步分析是数据库查询造成的延时。 打开数据库的慢查询日志，监控到如下语句
+# Time: 120115 1:09:37 # User@Host: sq_ttt[sq_ttt] @ localhost [] # Query_time: 3.895267 Lock_time: 0.000131 Rows_sent: 1 Rows_examined: 168835 use sq_ttt; SET timestamp=1326560977; SELECT A.*,A.aid AS id FROM p8_article A WHERE A.yz=1 AND A.fid IN (31) AND A.ispic=1 ORDER BY A.list DESC LIMIT 0,1;  这个查询用了3.8s时间。 于是进入数据库开始了这次分析。。。 首先看下表结构
+CREATE TABLE `p8_article` ( `aid` mediumint(7) unsigned NOT NULL AUTO_INCREMENT, `title` varchar(150) NOT NULL DEFAULT &#39;&#39;, `smalltitle` varchar(100) NOT NULL DEFAULT &#39;&#39;, `fid` mediumint(7) unsigned NOT NULL DEFAULT &#39;0&#39;, `mid` mediumint(5) NOT NULL DEFAULT &#39;0&#39;, `fname` varchar(50) NOT NULL DEFAULT &#39;&#39;, `hits` mediumint(7) NOT NULL DEFAULT &#39;0&#39;, `pages` smallint(4) NOT NULL DEFAULT &#39;0&#39;, `comments` mediumint(7) NOT NULL DEFAULT &#39;0&#39;, `posttime` int(10) NOT NULL DEFAULT &#39;0&#39;, `list` int(10) NOT NULL DEFAULT &#39;0&#39;, `uid` mediumint(7) NOT NULL DEFAULT &#39;0&#39;, `username` varchar(30) NOT NULL DEFAULT &#39;&#39;, `author` varchar(30) NOT NULL DEFAULT &#39;&#39;, `copyfrom` varchar(100) NOT NULL DEFAULT &#39;&#39;, `copyfromurl` varchar(150) NOT NULL DEFAULT &#39;&#39;, `titlecolor` varchar(15) NOT NULL DEFAULT &#39;&#39;, `fonttype` tinyint(1) NOT NULL DEFAULT &#39;0&#39;, `picurl` varchar(150) NOT NULL DEFAULT &#39;0&#39;, `ispic` tinyint(1) NOT NULL DEFAULT &#39;0&#39;, `yz` tinyint(1) NOT NULL DEFAULT &#39;0&#39;, `yzer` varchar(30) NOT NULL DEFAULT &#39;&#39;, `yztime` int(10) NOT NULL DEFAULT &#39;0&#39;, `levels` tinyint(2) NOT NULL DEFAULT &#39;0&#39;, `levelstime` int(10) NOT NULL DEFAULT &#39;0&#39;, `keywords` varchar(100) NOT NULL DEFAULT &#39;&#39;, `jumpurl` varchar(150) NOT NULL DEFAULT &#39;&#39;, `iframeurl` varchar(150) NOT NULL DEFAULT &#39;&#39;, `style` varchar(15) NOT NULL DEFAULT &#39;&#39;, `template` varchar(255) NOT NULL DEFAULT &#39;&#39;, `target` tinyint(1) NOT NULL DEFAULT &#39;0&#39;, `ip` varchar(15) NOT NULL DEFAULT &#39;&#39;, `lastfid` mediumint(7) NOT NULL DEFAULT &#39;0&#39;, `money` mediumint(7) NOT NULL DEFAULT &#39;0&#39;, `buyuser` text NOT NULL, `passwd` varchar(32) NOT NULL DEFAULT &#39;&#39;, `allowdown` varchar(150) NOT NULL DEFAULT &#39;&#39;, `allowview` varchar(150) NOT NULL DEFAULT &#39;&#39;, `editer` varchar(30) NOT NULL DEFAULT &#39;&#39;, `edittime` int(10) NOT NULL DEFAULT &#39;0&#39;, `begintime` int(10) NOT NULL DEFAULT &#39;0&#39;, `endtime` int(10) NOT NULL DEFAULT &#39;0&#39;, `description` text NOT NULL, `lastview` int(10) NOT NULL DEFAULT &#39;0&#39;, `digg_num` mediumint(7) NOT NULL DEFAULT &#39;0&#39;, `digg_time` int(10) NOT NULL DEFAULT &#39;0&#39;, `forbidcomment` tinyint(1) NOT NULL DEFAULT &#39;0&#39;, `ifvote` tinyint(1) NOT NULL DEFAULT &#39;0&#39;, `heart` varchar(255) NOT NULL DEFAULT &#39;&#39;, `htmlname` varchar(100) NOT NULL DEFAULT &#39;&#39;, PRIMARY KEY (`aid`), KEY `list` (`list`,`fid`,`yz`,`ispic`) USING BTREE ) ENGINE=MyISAM AUTO_INCREMENT=176567 DEFAULT CHARSET=gbk   然后我们采用explain看看是否使用了索引</description>
+    </item>
+    
+    <item>
+      <title>Linux源码安装MySQL多版本共存</title>
+      <link>https://xinlogs.com/post/2011-11-25-linux-source-install-multiple-versions-of-mysql/</link>
+      <pubDate>Fri, 25 Nov 2011 18:48:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-11-25-linux-source-install-multiple-versions-of-mysql/</guid>
+      <description>原来我的服务器上是MySQL 5.5.16。本来是用的挺稳定。但是当时编译的时候由于手误将DDEFAULT_COLLATION=utf8-general_ci \弄错啦。。。应该是utf8_general_ci。导致很多程序用的时候报错，或者需要修改。 最近发现MySQL更新到了5.5.18了，就打算迁移到新数据库正好修正原来问题。 为了不影响访问，就打算在5.5.16运行的情况下，继续安装好5.5.18.等顺利转移到5.5.18后，再关闭原来MySQL5.5.16版本。 也就有了今天这篇文章。在Linux下从源码安装多版本或者多个MySQL数据库。
+重点：多版本或者多个MySQL同时运行，主要就是多个MySQL需要运行在不同目录，不同的端口，采用不同的数据库路径。
+步骤
+1、首先是下载需要安装的MySQL
+下载mysql 5.5.16
+wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.16.tar.gz/from/http://mysql.mirrors.pair.com/  下载mysql 5.5.18
+wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.16.tar.gz/from/http://mysql.mirrors.pair.com/  2、安装支持程序
+原来版本的MySQL源码安装都是采用./configure和make这些。但是新版本的都是用cmake来弄了。所以如果系统中没有的，需要先安装cmake
+yum install cmake  3、创建MySQL用户和用户组
+/usr/sbin/groupadd mysql /usr/sbin/useradd -g mysql mysql  4、解压、编译、安装MySQL
+解压  tar zxvf mysql-5.5.16.tar.gz cd mysql-5.5.16 
+编译参数
+cmake . \ -DCMAKE_INSTALL_PREFIX=/usr/local/webserver/mysql5516/ \ -DMYSQL_DATADIR=/data0/mysql/3306/data \ -DMYSQL_UNIX_ADDR=/data0/mysql/3306/mysqld.sock \ -DWITH_MYISAM_STORAGE_ENGINE=1 \ -DWITH_INNOBASE_STORAGE_ENGINE=1 \ -DWITH_BLACKHOLE_STORAGE_ENGINE=0 \ -DWITH_ARCHIVE_STORAGE_ENGINE=0 \ -DWITHOUT_PARTITION_STORAGE_ENGINE=1 \ -DENABLED_LOCAL_INFILE=1 \ -DMYSQL_TCP_PORT=3306 \ -DEXTRA_CHARSETS=all \ -DDEFAULT_CHARSET=utf8 \ -DDEFAULT_COLLATION=utf8_general_ci \ -DWITH_DEBUG=0 \ -DWITH_EMBEDDED_SERVER=1 \ -DWITH_SSL=system \ -DWITH_READLINE=1  注意：编译参数里有几项需要根据自己具体情况设置。我这里将MySQL5.</description>
+    </item>
+    
+    <item>
+      <title>mysqldump备份blob类型内容</title>
+      <link>https://xinlogs.com/post/2011-03-30-mysqldump_blob_field/</link>
+      <pubDate>Wed, 30 Mar 2011 15:09:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-03-30-mysqldump_blob_field/</guid>
+      <description>用mysqldump备份出数据库内容到SQL文件。当我们数据库表有blob类型字段的时候，这个导出的SQL再导入的时候就会因为blob字段内容乱码等原因，不能顺利导入了。
+解决办法：
+在用mysqldump备份的时候，采用&amp;ndash;hex-blob参数，这样备份出来的sql文件，就可以顺利导入了。</description>
+    </item>
+    
+    <item>
+      <title>mysqldump解决中文乱码问题</title>
+      <link>https://xinlogs.com/post/2011-03-14-mysqldump-encoding/</link>
+      <pubDate>Mon, 14 Mar 2011 14:32:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-03-14-mysqldump-encoding/</guid>
+      <description>我的数据库采用编码如下：
+mysql&amp;gt; show variables like &#39;coll%&#39;; +----------------------+-------------------+ | Variable_name | Value | +----------------------+-------------------+ | collation_connection | latin1_swedish_ci | | collation_database | latin1_swedish_ci | | collation_server | latin1_swedish_ci | +----------------------+-------------------+ 3 rows in set (0.00 sec) mysql&amp;gt; show variables like &#39;character_set%&#39;; +--------------------------+----------------------------+ | Variable_name | Value | +--------------------------+----------------------------+ | character_set_client | latin1 | | character_set_connection | latin1 | | character_set_database | latin1 | | character_set_filesystem | binary | | character_set_results | latin1 | | character_set_server | latin1 | | character_set_system | utf8 | | character_sets_dir | /usr/share/mysql/charsets/ | +--------------------------+----------------------------+ 8 rows in set (0.</description>
+    </item>
+    
+    <item>
+      <title>Mysql设置不区分表名大小写</title>
+      <link>https://xinlogs.com/post/2011-01-13-mysql-tablename-lowercase/</link>
+      <pubDate>Thu, 13 Jan 2011 16:02:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-01-13-mysql-tablename-lowercase/</guid>
+      <description>今天遇到个问题，有个程序从Windows导入到Linux的时候，表格全部小写了。但程序里很多DAO全是大写调用。
+Linux默认安装的Mysql是表名区分大小写的。
+这个设置主要是在/etc/my.cnf里面的[mysqld]段，加入如下设置项
+lower_case_table_names = 1   如果设置为0，就是区分大小写。设置为1就是不区分了。</description>
+    </item>
+    
+    <item>
+      <title>HeidiSQL一款开源的MySQL图形管理软件</title>
+      <link>https://xinlogs.com/post/2010-11-25-heidisql/</link>
+      <pubDate>Thu, 25 Nov 2010 20:32:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-11-25-heidisql/</guid>
+      <description>以前一直使用Navicat客户端，功能确实强大。不过这个客户端是收费的商业软件。 最近发现有一款HeidiSQL的开源软件，也可以很好的管理MySQL。使用后，发现很不错。这里推荐下 官方介绍： What&amp;rsquo;s this? HeidiSQL is an easy-to-use interface and a &amp;ldquo;working-horse&amp;rdquo; for web-developers using the popular MySQL-Database. It allows you to manage and browse your databases and tables from an intuitive Windows® interface. 放一张官方截图</description>
+    </item>
+    
+    <item>
+      <title>win7安装oracle10g完美解决方案</title>
+      <link>https://xinlogs.com/post/2010-07-12-win7-install-oracle/</link>
+      <pubDate>Mon, 12 Jul 2010 16:05:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-07-12-win7-install-oracle/</guid>
+      <description>最近由于项目需要，要求安装oracle10g数据库进行开发。在安装的时候碰到一些问题，这里记录下解决办法。
+我的系统是win7 中文32位旗舰版。
+数据库是oracle10g
+问题1
+在安装的时候，首先是系统检查。因为默认oracle是不支持win7系统的，所以我们需要修改下文件，让它支持。
+具体办法：
+找到database\stage\prereq\db\refhost.xml文件，在文件里添加如下内容
+ &amp;lt;!--Microsoft Windows 7--&amp;gt; &amp;lt;OPERATING_SYSTEM&amp;gt; &amp;lt;VERSION VALUE=&amp;quot;6.1&amp;quot;/&amp;gt; &amp;lt;/OPERATING_SYSTEM&amp;gt;  问题2 上面只是检查系统是否符合要求，这个时候如果运行setup.exe还有可能出现错误提示。这个时候只要我们右键点setup.exe文件，然后选择“兼容性”标签，勾选上“以兼容模式运行这个程序”并在列表里选择“windows xp(service pack 3)”。然后记得安装的时候选择基本安装模式，不要用高级模式。高级模式到后面还是不能通过。</description>
+    </item>
+    
+    <item>
+      <title>开启或者关闭MYSQL的query log(查询日志)</title>
+      <link>https://xinlogs.com/post/2010-04-05-disable-mysql-query-log/</link>
+      <pubDate>Mon, 05 Apr 2010 19:45:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-04-05-disable-mysql-query-log/</guid>
+      <description>最近在整理服务器的时候，发现mysql的查询日志文件占用了很多空间。这个查询日志文件部分内容如下，随着查询增加，会越来越大
+ Tcp port: 3306 Unix socket: /tmp/mysql.sock Time Id Command Argument 100404 8:36:49 1 Connect zzz@localhost on 1 Init DB zzz 1 Query SET NAMES &#39;utf8&#39; 1 Query SELECT * FROM `boblog_counter` LIMIT 0,1 1 Query SELECT `blogid`,`pubtime`,`edittime`,`blogalias` FROM `boblog_blogs` WHERE `property`&amp;lt;2 ORDER BY `pubtime`DESC LIMIT 0, 1500 1 Quit 100404 8:38:01 2 Connect admin@localhost on 2 Init DB zzz 2 Query SET NAMES &#39;utf8&#39; 2 Query SET sql_mode=&#39;&#39; 2 Query SELECT * FROM `cmseasy_settings` WHERE `tag`=&#39;table-fieldset&#39; ORDER BY 1 DESC limit 1 2 Init DB zzz 2 Query SET NAMES &#39;utf8&#39; 2 Query SET sql_mode=&#39;&#39; 2 Query SELECT * FROM `cmseasy_user` WHERE userid&amp;gt;0 ORDER BY 1 DESC limit 1 2 Init DB zzz 2 Query SET NAMES &#39;utf8&#39; 2 Query SET sql_mode=&#39;&#39; 2 Query SELECT count(typeid) as rec_sum FROM `cmseasy_type` 2 Query SELECT * FROM `cmseasy_type` ORDER BY `order`,1 limit 1000 2 Init DB zzz 2 Query SET NAMES &#39;utf8&#39; 2 Query SET sql_mode=&#39;&#39; 2 Query SELECT count(1) as rec_sum FROM `cmseasy_friendlink` WHERE state&amp;gt;0 and linktype=1 2 Query SELECT * FROM `cmseasy_friendlink` WHERE state&amp;gt;0 and linktype=1 ORDER BY listorder asc,id limit 20 2 Init DB zzz 2 Query SET NAMES &#39;utf8&#39; 2 Query SET sql_mode=&#39;&#39; 2 Query SELECT count(1) as rec_sum FROM `cmseasy_friendlink` WHERE state&amp;gt;0 and linktype=1 2 Query SELECT * FROM `cmseasy_friendlink` WHERE state&amp;gt;0 and linktype=1 ORDER BY listorder asc,id limit 20 2 Init DB zzz 2 Query SET NAMES &#39;utf8&#39; 2 Query SET sql_mode=&#39;&#39; 2 Query SELECT * FROM `cmseasy_templatetag` WHERE name=&#39;å~E¬å~O¸ç®~@ä»~K&#39; ORDER BY 1 DESC limit 1 2 Init DB zzz 2 Query SET NAMES &#39;utf8&#39; 2 Query SET sql_mode=&#39;&#39; 2 Query Describe cmseasy_archive 2 Query SELECT count(1) as rec_sum FROM `cmseasy_archive` WHERE typeid in (2) and checked=1 and (state IS NULL or state&amp;lt;&amp;gt;&#39;-1&#39;) 2 Query SELECT * FROM `cmseasy_archive` WHERE typeid in (2) and checked=1 and (state IS NULL or state&amp;lt;&amp;gt;&#39;-1&#39;) ORDER BY aid desc limit 4  其实记录的都是mysql执行的一些select语句，对于正常运行的服务器，我觉得基本没有必要保留这些日志。</description>
+    </item>
+    
+    <item>
+      <title>Mysql设置my.cnf来记录下全部sql请求</title>
+      <link>https://xinlogs.com/post/2009-12-21-mysql-log-sql/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-mysql-log-sql/</guid>
+      <description>要想记录下提交到mysql数据库的全部sql语句，可以通过修改my.cnf来实现
+修改/etc/my.cnf文件
+找到[mysqld]段 加入
+log=queryLog log-slow-queries=showquerylog  然后就可以到/var/lib/mysql/目录下找到queryLog和showquerylog日志文件了
+里面记录这每个提交到数据库执行的sql语句。
+我的系统CentOS 4.4 rpm方式安装的mysql 5.0.57,如果其它系统或者其它安装方式，可能文件路径会有些不同。</description>
+    </item>
+    
+    <item>
+      <title>如何向万网的Mysql数据库导入数据</title>
+      <link>https://xinlogs.com/post/2009-12-21-mysql-import/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-mysql-import/</guid>
+      <description>昨天单位由一个网站，要放到万网的虚拟主机去。 网站是jsp写的，程序好导。直接ftp过去就可以了。
+可是mysql的数据库怎么导呢？
+我先用
+mysqldump database_name&amp;gt;database_name.sql  然后把这个database_name.sql下载下来。
+再给虚拟主机空间上传一个phpmyadmin来做数据库管理用。这样就可以使用phpmyadmin导入数据了。
+如果网站数据小，这样就ok了。可是我的database_name.sql有60M
+万网空间上的phpmyadmin只能最大支持2M
+于是只能另外想办法。我先导入表格结构吧。
+mysqldump –d database_name&amp;gt;database_name.sql  在phpmyadmin里，选择好数据库后，用导入功能，将database_name.sql导入
+现在有了表结构了，但是每个表都没有数据。我们再继续导入数据。
+我的表里面，除了一个news表格特别大，大约51M，其他都在2M一下。所以我每个表格生成一个txt文件，然后导入到万网的数据库。
+本地进入mysql&amp;gt;提示符后，用以下命令将数据的表格数据导出。
+select * from admin into outfile “/tmp/admin.txt” fields terminated by “|” lines terminated by “@”  上面命令将本地数据库的admin表，导出到/tmp/目录下的admin.txt文件。
+我们有几个表格，就用这个命令导出几个txt文件。
+然后将txt文件用gzip压缩，因为phpmyadmin支持gzip压缩格式的。
+cd /tmp/ gzip admin.txt  最后将压缩的admin.txt.gz下载到本地，用浏览器上传给phpmyadmin导入
+![](
+解决news表格过大问题
+我的news表格有51Ｍ，就算gzip压缩后，还有7M左右，还是不能用phpmyadmin导入。我们可以将news表格的数据切分为多个txt文件，然后保证每个文件gzip后，在2M以内就可以。这个切分就要根据具体表格来判断了。
+我先查询了news表格一共有多少条记录
+select count(*) from news;  返回1477条，表格是51M。压缩后的表格是7M。
+7M/2M=3.5
+1477&amp;frasl;3.5=422条。
+根据上面的计算，只要按照422条一个文件来分割就可以了。为了保险，因为每条记录的大小并不是一样的平均分配，我按照每个文件200条记录来切分。
+select * from news where newId&amp;gt;0 limit 200 into outfile “/tmp/news0.txt” fields terminated by “|” lines terminated by “@”; 然后用  select max(newId) from news where newId&amp;gt;0 limit 200; ```</description>
+    </item>
+    
+    <item>
+      <title>如何建立两个表间的外键</title>
+      <link>https://xinlogs.com/post/2009-12-21-howto-create-foreign-key-on-mysql/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-howto-create-foreign-key-on-mysql/</guid>
+      <description>建立Mysql两个表间的外键,需要满足三个条件
+ 两个表必须是InnoDB表类型 使用在外键关系的域必须为索引型(Index) 使用在外键关系的域必须与数据类型相似  下面举例说明
+我们创建一个班级表和一个学生表,并建立一个外键
+创建班级表
+CREATE TABLE class (id INT NOT NULL AUTO_INCREMENT, classname VARCHAR(50) NOT NULL, PRIMARY KEY(id)) ENGINE=INNODB;  插入班级数据
+INSERT INTO class VALUES (1,&amp;quot;一班&amp;quot;),(2,&amp;quot;二班&amp;quot;),(3,&amp;quot;三班&amp;quot;);  创建学生表
+CREATE TABLE students (id INT(4) NOT NULL, name VARCHAR(50) NOT NULL, FK_class INT(4) NOT NULL, INDEX (FK_class), FOREIGN KEY (FK_class) REFERENCES class (id), PRIMARY KEY(id)) ENGINE=INNODB;  验证外键约束性,我们向students表插入一个学生数据,并让FK_class的值为一个在class表里面不存在的值.
+mysql&amp;gt; INSERT INTO students VALUES (1,&amp;quot;zhang&amp;quot;,5);  马上就会看到Mysql报错
+ERROR 1452 : Cannot add or update a child row: a foreign key constraint fails (`test/students`, CONSTRAINT `students_ibfk_1` FOREIGN KEY (`FK_class`) REFERENCES `class` (`id`))  以上证明外键可以正常工作了</description>
+    </item>
+    
+  </channel>
+</rss>

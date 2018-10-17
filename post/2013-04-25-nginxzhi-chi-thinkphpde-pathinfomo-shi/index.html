@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>nginx支持thinkphp的pathinfo模式 | 鑫的方向</title>
+    <meta property="og:title" content="nginx支持thinkphp的pathinfo模式 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2013-04-25T15:06:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2013-04-25T15:06:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="nginx支持thinkphp的pathinfo模式">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">nginx支持thinkphp的pathinfo模式</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2013年4月25日
+                            15:06
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>最近帮助一个朋友迁移系统。原有系统是www.pinphp.com开发的一套淘宝客程序，跑在Win03服务器上。因为ddos攻击、性能问题等原因，找我迁移到Linux系统下。</p>
+
+<p>首先我推荐的组合当然是现在流行的Ningx+php-fpm模式。便于优化而且效率很高。</p>
+
+<p>部署的过程中遇到的问题就是伪静态无法生效。一些带中文的url无法正常处理等。</p>
+
+<p>后来看代码发现pinphp这套代码是基于thinkphp框架开发。而thinkphp框架采用一种pathinfo的伪静态模式。而nginx本身是不支持pathinfo模式的，要是通过修改fastcgi 参数来支持，可以实现但是会有安全隐患。</p>
+
+<p><strong>什么是pathinfo呢？</strong></p>
+
+<p>因为thinkphp框架要求所有请求都要通过入口文件来转发，所以任何请求都是到index.php后才转发的。为了url好看和便于seo。就产生了pathinfo了，就是我们比如想访问index.php?s=book这样的url，可以直接访问index.php/book. 其实也可以看做是一种特殊的伪静态。index.php后面的url部分作为参数传递给index.php来处理。</p>
+
+<p><strong>nginx要如何处理</strong></p>
+
+<p>index.php/book 这种类型url nginx无法很好处理，而且非要通过pathinfo处理可以，但是会有安全隐患问题。</p>
+
+<p>thinkphp文档里的解决办法是采用伪静态，把全部url转发给index.php?s=来处理。
+下面就是我在nginx里的转发规则</p>
+
+<pre><code>if (!-e $request_filename)
+    {
+        rewrite  ^(.*)$  /index.php?s=$1  last;
+        break;
+    }
+
+</code></pre>
+
+<p>这样/目录后面的url部分就当作index.php?s的参数来处理了。可以完美解决pathinfo问题。而且这样处理后，中文url也可以正常执行了。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/">centos5.5安装rails环境</a></li>
+        
+        <li><a href="/post/2013-03-16-rails-best-practices-2/">rails-best-practices-2</a></li>
+        
+        <li><a href="/post/2013-03-16-rails-best-practices-1/">rails-best-practices-1</a></li>
+        
+        <li><a href="/post/2013-03-14-railszhong-wen-wen-ti/">rails中文问题</a></li>
+        
+        <li><a href="/post/2013-03-03-kuai-su-pei-zhi-vimhe-macvim/">快速配置vim和macvim</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

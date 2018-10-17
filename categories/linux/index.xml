@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/linux/</link>
+    <description>Recent content in Linux on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 07 Aug 2014 16:03:39 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>nginx通过http/1.1访问upstream</title>
+      <link>https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/</link>
+      <pubDate>Thu, 07 Aug 2014 16:03:39 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/</guid>
+      <description>Nginx在做upstream的负载均衡的时候，默认请求后端应用服务器使用的是http/1.0协议。
+单位有个应用在采用nginx做负载均衡后，经常出现一个10s卡住现象。而用浏览器直接访问后端则没有这个问题。通过在后端应用上tcpdump抓包分析，发现nginx提交过来的请求都是http/1.0协议，而浏览器直接过来的是http/1.1协议。
+Nginx初期不支持通过http/1.1协议访问后端应用，直到1.1.4版本后才支持http/1.1协议访问后端。采用http/1.1协议后，因为支持keepalive，可以减少Nginx到后端的连接数。
+##启用http/1.1协议访问upstream 只要在想要启用http/1.1访问的location段加入proxy_http_version和proxy_set_header两项即可。
+location / { proxy_pass http://upstream_domain; proxy_http_version 1.1; proxy_set_header Connection &amp;quot;&amp;quot;; }  </description>
+    </item>
+    
+    <item>
+      <title>CentOS 5.10安装报磁盘空间错误</title>
+      <link>https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/</link>
+      <pubDate>Sat, 14 Jun 2014 05:01:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/</guid>
+      <description>今天单位的一台HP DL380 G7安装CentOS 5.10的时候出现错误。 因为服务器配了7块1T的磁盘，做了个Raid5以后，大约3.8T。所有采用了GPT分区，安装的时候直接报错了，提示GTP分区问题。 参考了如下网站 http://blog.endpoint.com/2013/11/installing-centos-5-on-3tb-drive.html http://oliverpelz.blogspot.it/2010/09/how-to-install-centos-55-on-any-gpt.html http://richardjh.org/blog/install-centos-large-partitions-using-gpt-disk-layout/
+操作步骤都比较麻烦。因为必须安装CentOS5 不然CentOS 6可以很顺利的。。。
+既然GTP分区不行，就用smart盘引导后重新创建Raid。将一个300G空间创建为逻辑卷，剩下的3T空间另外创建一个。 然后将操作系统安装在300G空间内，系统安装成功后再通过parted对3T磁盘分区。
+结果这次安装过成功又报了如下错误：An error occurred transferring the install image to your hard drive. You are probably out of disk space.
+果断采用ctrl+alt+F3切到命令界面，发现有如下提示：CRITICAL: error transferring stage2.img: [Errno 5] Input/output err
+发现这个错误后，已经可以知道不是因为GTP分区引起的了。而是在stage2.img这个文件传输过程中出现错误。 更换安装介质后，问题得到了解决。</description>
+    </item>
+    
+    <item>
+      <title>linux-rescan-scsi</title>
+      <link>https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/</link>
+      <pubDate>Thu, 05 Jun 2014 02:49:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/</guid>
+      <description>最近单位一台服务器在连接EMC DD 640的时候，没有识别出来对应的scsi设备。这里记录下解决办法，其实就是linux如何在不重启的情况下重新扫描scsi设备。 比如HBA卡插上光纤后，无法识别。或者插上新的scsi盘无法识别，都可以用这个方法解决。
+1、先查看有哪些HBA卡的主机号
+ls /sys/class/fc_host/  2、让系统重新扫描FC总线，大约15秒后可以生效
+echo 1 &amp;gt;/sys/class/fc_host/host0/issue_lip  3、重新扫描host0下的scsi设备
+echo “- – -” &amp;gt; /sys/class/scsi_host/host0/scan  验证
+fdisk -l tail -f /var/log/message  # ls /sys/class/scsi_host  </description>
+    </item>
+    
+    <item>
+      <title>自定义zabbix inventory界面</title>
+      <link>https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/</link>
+      <pubDate>Thu, 05 Jun 2014 01:58:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/</guid>
+      <description>Zabbix报警后，点击报警的主机会出现一个host inventory连接。进入host inventory后，可以查看报警主机的一些信息。而Overview内的信息并不多，Details栏内信息又太多了。 我想通过自定义这个Overview将比较关系的操作系统，联系人，硬件位置等信息显示在此页面中.
+通过查看代码，最终发现此页面对应/usr/share/zabbix/include/views目录下的inventory.host.view.php模板文件
+// inventory (OS, Contact, , Hardware, Location) if ($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;]) { if ($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;os&#39;]) { $overviewFormList-&amp;gt;addRow( $this-&amp;gt;data[&#39;tableTitles&#39;][&#39;os&#39;][&#39;title&#39;], new CSpan(zbx_str2links($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;os&#39;]), &#39;text-field&#39;) ); } if ($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;contact&#39;]) { $overviewFormList-&amp;gt;addRow( $this-&amp;gt;data[&#39;tableTitles&#39;][&#39;contact&#39;][&#39;title&#39;], new CSpan(zbx_str2links($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;contact&#39;]), &#39;text-field&#39;) ); } if ($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;hardware&#39;]) { $overviewFormList-&amp;gt;addRow( $this-&amp;gt;data[&#39;tableTitles&#39;][&#39;hardware&#39;][&#39;title&#39;], new CSpan(zbx_str2links($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;hardware&#39;]), &#39;text-field&#39;) ); } if ($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;location&#39;]) { $overviewFormList-&amp;gt;addRow( $this-&amp;gt;data[&#39;tableTitles&#39;][&#39;location&#39;][&#39;title&#39;], new CSpan(zbx_str2links($this-&amp;gt;data[&#39;host&#39;][&#39;inventory&#39;][&#39;location&#39;]), &#39;text-field&#39;) ); } }  其中每一个if段，对应一个信息。我这里分别显示os,contact,hardware和location</description>
+    </item>
+    
+    <item>
+      <title>dig排查dns问题</title>
+      <link>https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/</link>
+      <pubDate>Mon, 14 Apr 2014 22:05:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/</guid>
+      <description>&lt;p&gt;最近单位的某些域名在用联通3g访问的时候，经常有无法解析域名的情况。后来是采用dig逐步排查，解决了问题的。&lt;/p&gt;
+
+&lt;p&gt;##解决问题的思路##
+1、通过ping、dig命令，先判断域名是否可以被解析。&lt;/p&gt;
+
+&lt;p&gt;2、如果只是某些机器不正常，就通过@参数指定dns服务器查询。&lt;/p&gt;
+
+&lt;p&gt;3、如果查询不到解析，就+tcp 采用tcp协议尝试下。&lt;/p&gt;
+
+&lt;p&gt;4、采用+trace通过递归查询，看看那个节点出现的问题&lt;/p&gt;
+
+&lt;p&gt;5、大招，这招还不行就放弃吧&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dig +trace +recurse +all +qr -t NS xinlogs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>备份到阿里云的oss</title>
+      <link>https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/</link>
+      <pubDate>Sun, 09 Feb 2014 16:37:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/</guid>
+      <description>#概述#
+备份一直是个麻烦的问题。备份到本地担心系统坏了导致数据丢失，备份到远程机器成本又有点高。 我的方法是通过ruby下的一个backup gem，来实现定期将mysql数据库和web程序备份到本地的同时，上传到阿里云的oss上。
+##安装##
+###ruby安装###
+通过rvm来安装ruby，首先安装rvm。参考http://rvm.io 网站
+\curl -sSL https://get.rvm.io | bash -s stable  rvm安装后，用如下命令安装ruby
+rvm install ruby  ###安装backup gem###
+gem install backup  ###安装backup-aliyun插件###
+这个插件主要是给backup gem提供可以备份到阿里云oss的功能。 默认的插件依赖carrierwave-aliyun gem，可以上传到杭州站点下的bucket。不支持上传到青岛站点。
+我更新了部分代码，加入了aliyun_area选项。可以支持青岛站点。 安装默认版本
+gem install backup-aliyun  安装我修改后的版本
+git clone https://github.com/babodx/backup-aliyun.git cd backup-aliyun gem build backup-aliyun.gemspec gem install backup-aliyun-0.1.1.gem  ##配置##
+通过backup对数据库和程序文件备份，需要生成配置文件和配置model
+backup generate:config  backup generate:model --trigger my_backup \ --archives --storages=&#39;local&#39; --compressor=&#39;gzip&#39;  编辑Backup/models/my_backup.rb文件，来定义需要备份的内容。具体可以参考http://meskyanichi.github.io/backup/v4/getting-started/ 文档
+我的文件内容如下
+# encoding: utf-8 #引入aliyun备份插件 require &#39;backup-aliyun&#39; Backup::Model.</description>
+    </item>
+    
+    <item>
+      <title>nginx反向代理websockets</title>
+      <link>https://xinlogs.com/post/2013-10-03-nginx-reverse-proxy-websockets/</link>
+      <pubDate>Thu, 03 Oct 2013 11:42:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-10-03-nginx-reverse-proxy-websockets/</guid>
+      <description>&lt;p&gt;有些情况下，部署的服务器是只开80端口的，这个时候如果我们想要ssh怎么弄？&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;就是本地开其他端口的web ssh client，然后通过nginx的80端口反向代理。这个一般都需要走webscokets的，下面我就把我折腾的东西记录下。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;##web client的选择##&lt;/p&gt;
+
+&lt;p&gt;我是用了一个基于python技术，html5，websockets实现的web界面ssh客户端。&lt;a href=&#34;https://github.com/liftoff/GateOne&#34;&gt;!GateOne&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;其实还有一款也不错 ［!Guacamole］(&lt;a href=&#34;http://guac-dev.org/),这个是基于java技术实现的，可以实现VNC,RDP,SSH协议的客户端。&#34;&gt;http://guac-dev.org/),这个是基于java技术实现的，可以实现VNC,RDP,SSH协议的客户端。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;##GateOne安装##&lt;/p&gt;
+
+&lt;p&gt;安装很简单，我是在debian下的环境安装的。&lt;/p&gt;
+
+&lt;p&gt;我主要参考了&lt;a href=&#34;http://liftoff.github.io/GateOne/About/index.html#installation&#34;&gt;http://liftoff.github.io/GateOne/About/index.html#installation&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;###大概步骤###&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>一次入侵检查</title>
+      <link>https://xinlogs.com/post/2013-10-02-yi-ci-ru-qin-jian-cha/</link>
+      <pubDate>Wed, 02 Oct 2013 21:38:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-10-02-yi-ci-ru-qin-jian-cha/</guid>
+      <description>&lt;p&gt;#10.1放假期间的一次入侵处理#&lt;/p&gt;
+
+&lt;p&gt;今天一个网站的朋友给我电话，说网站无法访问了。我尝试访问了下，提示数据库不存在。开始以为数据库出现问题了，尝试访问子域名无问题。ssh上去看到数据库正常。
+检查文件的时候，发现mysql_config.php是早上6点多修改过的。比较奇怪了。&lt;/p&gt;
+
+&lt;p&gt;打开mysql_config.php发现已经被清空了。于是赶紧处理下，让网站恢复了正常。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>nginx支持thinkphp的pathinfo模式</title>
+      <link>https://xinlogs.com/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/</link>
+      <pubDate>Thu, 25 Apr 2013 15:06:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/</guid>
+      <description>最近帮助一个朋友迁移系统。原有系统是www.pinphp.com开发的一套淘宝客程序，跑在Win03服务器上。因为ddos攻击、性能问题等原因，找我迁移到Linux系统下。
+首先我推荐的组合当然是现在流行的Ningx+php-fpm模式。便于优化而且效率很高。
+部署的过程中遇到的问题就是伪静态无法生效。一些带中文的url无法正常处理等。
+后来看代码发现pinphp这套代码是基于thinkphp框架开发。而thinkphp框架采用一种pathinfo的伪静态模式。而nginx本身是不支持pathinfo模式的，要是通过修改fastcgi 参数来支持，可以实现但是会有安全隐患。
+什么是pathinfo呢？
+因为thinkphp框架要求所有请求都要通过入口文件来转发，所以任何请求都是到index.php后才转发的。为了url好看和便于seo。就产生了pathinfo了，就是我们比如想访问index.php?s=book这样的url，可以直接访问index.php/book. 其实也可以看做是一种特殊的伪静态。index.php后面的url部分作为参数传递给index.php来处理。
+nginx要如何处理
+index.php/book 这种类型url nginx无法很好处理，而且非要通过pathinfo处理可以，但是会有安全隐患问题。
+thinkphp文档里的解决办法是采用伪静态，把全部url转发给index.php?s=来处理。 下面就是我在nginx里的转发规则
+if (!-e $request_filename) { rewrite ^(.*)$ /index.php?s=$1 last; break; }  这样/目录后面的url部分就当作index.php?s的参数来处理了。可以完美解决pathinfo问题。而且这样处理后，中文url也可以正常执行了。</description>
+    </item>
+    
+    <item>
+      <title>批量部署系统方案</title>
+      <link>https://xinlogs.com/post/2013-01-22-installation-server/</link>
+      <pubDate>Tue, 22 Jan 2013 19:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-01-22-installation-server/</guid>
+      <description>最近单位一直弄刀片服务器，7个笼子，112片。安装系统是个麻烦的事情，如果单机安装，太痛苦了。 所以就尝试了批量部署系统。 主要是分Linux和Windows两种方案
+我这里Linux是CentOS。 采用了cobbler来做批量部署。
+Windows采用的是win 2008的部署服务，就是WDS来做批量部署。
+这样Linux做一台分发服务器，Windows做一台WDS服务器，需要部署那种系统就开那台服务器就可以了。
+所有刀片全部采用pxe来引导就可以了。 具体方法就先不写了，以后再补上吧 </description>
+    </item>
+    
+    <item>
+      <title>nginx通过轮询避免php-fpm引起的502错误</title>
+      <link>https://xinlogs.com/post/2012-08-01-solve-nginx-502-mistakes/</link>
+      <pubDate>Wed, 01 Aug 2012 13:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2012-08-01-solve-nginx-502-mistakes/</guid>
+      <description>##问题背景##
+最近客户的一个网站总是偶尔出现502错误
+网站架构采用的就是nginx 1.0.10+php 5.3.8+php-fpm模式
+##问题分析##
+首先要检查下php-fpm的进程数使用情况
+netstat -napo |grep &amp;quot;php-fpm&amp;quot; | wc -l  如果这个查询出来的数量接近了你在php-fpm.conf里设置的数量，说明是进程数量不过用了。果断增加
+而我这次碰到的不是这个。继续分析
+会不会是php程序执行时间过长造成超时？
+这个可以通过我的另外一篇文章来查看[php-fpm查找php慢速代码]
+如果是这个问题，我们可以通过修改nginx.conf和php-fpm.conf里面相关的超时设置来解决
+nginx.conf里面主要是如下
+fastcgi_connect_timeout 300; fastcgi_send_timeout 300; fastcgi_read_timeout 300;  php-fpm.conf里如要是如下
+request_terminate_timeout = 10s  很不幸，我碰到的也不是这个问题
+接着我开始分析是不是fastcgi缓存不够？
+主要是在nginx.conf配置里修改如下参数
+fastcgi_buffer_size 64k; fastcgi_buffers 4 64k; fastcgi_busy_buffers_size 128k  这个我还真不清楚要设置多大合适，网站说这个配置小了，有可能引发502.
+##终极解决办法##
+既然上面的常规办法不能解决，那我就想其他办法了。可以肯定的是502引起肯定是因为php-fpm引发的，也就是nginx将正确的客户端请求发给了后端的php-fpm进程，但是因为php-fpm进程的问题导致不能正确解析php代码。最终返回给了客户端502错误。
+我觉得nginx既然upstream可以支持多组后端服务器轮询实现简单的负责均衡，并且可以做简单的健康检查。那我就用这个办法开多组php-fpm服务来实现一个php-fpm池，让nginx在这个php-fpm资源里通过stream轮询。
+因为有了健康检查机制，这样就可以在错误到达客户端前换另外一个php-fpm进程重新解析了。
+###主要配置方法###
+先修改php-fpm.conf来开启多组php-fpm进程
+我这里开启了php-cgi_www1和php-cgi_www2两组
+[www1] listen = /tmp/php-cgi_www1.sock user = www group = www pm = dynamic pm.max_children = 128 pm.start_servers = 32 pm.</description>
+    </item>
+    
+    <item>
+      <title>Linux防御DDOS攻击</title>
+      <link>https://xinlogs.com/post/2012-03-21-linux-ddos-defender/</link>
+      <pubDate>Wed, 21 Mar 2012 19:33:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2012-03-21-linux-ddos-defender/</guid>
+      <description>这两天一个以前客户在万网购买的云主机一直被SYN Flood 攻击。
+其实SYN Flood到是只能拖慢系统，没到死机的地步。问题是万网发现了DDOS攻击后，直接给云主机断网24小时。
+这个处理太恶心了。不说想办法切断攻击的IP，而是直接断掉客户的网络。。。有点说不过去呀
+电话咨询了下，他们是系统自动处理的，发现了直接断网。 一般应付DDOS攻击主要是调整SYN相关的内核参数，这个可以从/etc/sysctl.conf入手调整。
+再有就是添加iptables规则，来限制syn和连接数量
+最后就是通过脚本检查netstat状态，自动将连接数多的ip封掉。
+一般linux系统能做到的就这些了，那些可以防ddos的硬防火墙老百姓搞不起。 调整syn相关参数和iptables网上资料很多，我就不说了。
+整段封IP的话，可以用
+iptables -I INPUT -s 192.0.0.0/8 -j DROP #来封掉192开头的全部ip   我是通过查看messages日志文件，发现了一些大量连接的IP。然后先手动封掉这些IP。下面是部分日志信息，当然这个是靠配置iptables来实现的日志
+Mar 20 21:51:21 uhz001737 kernel: HTTP_ATTACK:IN=eth1 OUT= MAC=00:16:3e:00:5d:d3:c0:62:6b:ac:ea:c1:08:00 SRC=157.55.16.56 DST=223.4.118.120 LEN=48 TOS=0x1C PREC=0x20 TTL=112 ID=16250 DF PROTO=TCP SPT=61923 DPT=80 WINDOW=8192 RES=0x00 SYN URGP=0 Mar 20 21:51:27 uhz001737 kernel: HTTP_ATTACK:IN=eth1 OUT= MAC=00:16:3e:00:5d:d3:c0:62:6b:ac:ea:c1:08:00 SRC=157.55.16.56 DST=223.4.118.120 LEN=48 TOS=0x1C PREC=0x20 TTL=112 ID=21741 DF PROTO=TCP SPT=61923 DPT=80 WINDOW=8192 RES=0x00 SYN URGP=0 Mar 20 21:51:29 uhz001737 kernel: HTTP_ATTACK:IN=eth1 OUT= MAC=00:16:3e:00:5d:d3:c0:62:6b:ac:ed:c1:08:00 SRC=157.</description>
+    </item>
+    
+    <item>
+      <title>monit监控linux服务</title>
+      <link>https://xinlogs.com/post/2012-02-02-monit-to-monitor-services/</link>
+      <pubDate>Thu, 02 Feb 2012 18:23:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2012-02-02-monit-to-monitor-services/</guid>
+      <description>最近负责的两台服务器需要监控nginx和memcached服务，防止网站访问异常。
+我用monit来解决这个需求。
+monit是一款linux下的开源软件，可以负责监控系统的服务、进程、文件等内容，并设置一定的条件下执行特定的action。
+我们可以通过配置，让monit来检查网站的状态和memcached的状态，发现异常的时候，自动重启服务并邮件通知我们。
+我配置了30s检查一次，出现问题发送邮件到我的gmail邮箱。我手机马上就能收到邮件提醒，非常效率。
+安装配置步骤：
+下载monit
+wget http://mmonit.com/monit/dist/monit-5.3.2.tar.gz  解压并安装
+tar zxvf monit-5.3.2.tar.gz cd monit-5.3.2 ./configure --prefix=/usr/local/monit make make install  配置
+先将默认的配置文件拷贝到/etc目录下，然后编辑monitrc文件
+cp monitrc /etc/  下面是我的一些配置：
+set daemon 30 #设置30s检查一次 set logfile /var/log/monit.log #设定日志文件 #设定邮件 set mailserver smtp.gmail.com PORT 587 USERNAME &amp;quot;yourname@gmail.com&amp;quot; PASSWORD &amp;quot;yourpassword&amp;quot; USING tlsv1 #设定邮件格式 set mail-format { from: monit@huaximall.com subject: monit alert -- $EVENT $SERVICE message: $EVENT Service $SERVICE Date: $DATE Action: $ACTION Host: xinlogs.</description>
+    </item>
+    
+    <item>
+      <title>centos 单独安装apachebench</title>
+      <link>https://xinlogs.com/post/2012-01-19-install-apachebench-on-centos-without-apache/</link>
+      <pubDate>Thu, 19 Jan 2012 08:50:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2012-01-19-install-apachebench-on-centos-without-apache/</guid>
+      <description>这两天在测试php性能优化方法。
+为了做压力测试可观察效果，就选择了ApacheBench来作为压力测试工具。其实就是大家常说的ab。
+但是这个工具是安装apache web server的时候自带的，现在我服务器上都是跑nginx。也不想为了用这个工具就再装个apache。所以在用下面方法单独安装ab工具，这里记录下步骤。 首先安装ab运行需要的软件包apr-util
+yum install apr-util  然后安装一个yum的工具包，为了可以单独弄出来ab。
+yum install yum-utils  上面两个安装好以后，我们开始单独安装ab，其实就是下载到apache的rpm包，然后解压后，cp出来ab工具。
+下载apache的rpm包就交给yumdownloader完成了，下载前我们建立一个临时目录用来存放。
+mkdir httpd cd httpd yumdownloader httpd  下载后，我们对rpm进行解包
+rpm2cpio httpd-2.2.3-43.el5.centos.3.i386.rpm | cpio -idmv  最后将我们用到的ab拷贝到系统的/usr/bin目录下就可以了。最后再删除临时目录就全部ok了。
+mv usr/bin/ab /usr/bin/ab cd .. rm -rf httpd  </description>
+    </item>
+    
+    <item>
+      <title>squid缓存php页面</title>
+      <link>https://xinlogs.com/post/2012-01-17-squid-cache-php-script/</link>
+      <pubDate>Tue, 17 Jan 2012 19:25:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2012-01-17-squid-cache-php-script/</guid>
+      <description>这两天在看squid反向代理加速web应用方面的内容。
+总体来看squid的cache都是缓存一些静态内容，例如图片、css、js等文件。而动态内容是不能缓存的。那有没有办法让squid缓存php文件呢？答案是肯定的。
+首先用squid反向代理后，我们访问一个test.html的静态页面。
+[root@localhost ~]# curl -I http://xinlogs.com:3128/test.html HTTP/1.0 200 OK Content-Type: text/html Content-Length: 77 Accept-Ranges: bytes Server: Tengine/1.2.1 Date: Tue, 17 Jan 2012 12:38:36 GMT Last-Modified: Tue, 17 Jan 2012 01:29:47 GMT X-Cache: HIT from squid.xinlogs.com Via: 1.1 squid.xinlogs.com:3128 (squid/2.7.STABLE9) Connection: close  可以看到X-Cache: HIT from squid.xinlogs.com，成功命中缓存。说明是被squid缓存的内容直接给我们了。 而访问一个动态页面呢？
+[root@localhost ~]# curl -I http://xinlogs.com:3128/test.php HTTP/1.0 200 OK Server: Tengine/1.2.1 Date: Tue, 17 Jan 2012 12:40:52 GMT Content-Type: text/html Vary: Accept-Encoding X-Powered-By: PHP/5.</description>
+    </item>
+    
+    <item>
+      <title>通过denyhosts保护ssh登陆</title>
+      <link>https://xinlogs.com/post/2011-12-25-ssh-login-protection-by-denyhosts/</link>
+      <pubDate>Sun, 25 Dec 2011 18:31:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-12-25-ssh-login-protection-by-denyhosts/</guid>
+      <description>今天查看服务器的/var/log/secure日志，发现很多类似下面的信息
+PAM 6 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=121.176.35.192 user=root
+说明经常有人通过ssh尝试登陆，并不断尝试猜测root的密码。
+这样总让人尝试我的密码也不是个事儿呀&amp;hellip;.于是通过denyhosts软件，开启了保护。
+通过denyhosts我们可以设置登陆失败几次，就禁止这个IP再次登陆。并可以设置多少分钟后，放开保护。
+denyhosts介绍
+DenyHosts是Python语言写的一个程序，用DenyHosts可以阻止试图猜测SSH登录口令，它会分析/var/log/secure等日志文件，当发现同一IP在进行多次SSH密码尝试时就会记录IP到/etc/hosts.deny文件，从而达到自动屏蔽该IP的目的。
+安装需求
+首要要求有python环境，并版本在2.3以上
+CentOS 默认安装了2.4.3版本，我们可以通过下面命令查看
+[root@localhost ~]# python -V Python 2.4.3  注意大小写。
+其次是sshd需要支持tcp_wrappers。这个一般都支持。可以用下面命令判断
+ldd /usr/sbin/sshd |grep wrap
+如果显示：libwrap.so.0 =&amp;gt; /lib/libwrap.so.0 (0x00db7000)表示支持
+安装
+当前最新的版本是2.6
+下载
+解压安装
+tar zxvf DenyHosts-2.6.tar.gz cd DenyHosts-2.6 python setup.py install  默认将程序安装在/usr/share/denyhosts
+库文件在/usr/lib/python2.4/site-packages/DenyHosts/
+denyhosts.py安装到/usr/bin
+设置启动脚本
+cd /usr/share/denyhosts/ cp daemon-control-dist daemon-control chown root daemon-control chmod 700 daemon-control grep -v &amp;quot;^#&amp;quot; denyhosts.</description>
+    </item>
+    
+    <item>
+      <title>linux网络连接数量监控</title>
+      <link>https://xinlogs.com/post/2011-12-22-monitor-network-connections-of-linux/</link>
+      <pubDate>Thu, 22 Dec 2011 19:44:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-12-22-monitor-network-connections-of-linux/</guid>
+      <description>今天早上一个客户的网站停止了响应，不能正常解析php内容。 重启php-fpm后正常，判断应该是php-fpm进程僵死。所以就先参考网上内容，写了一个监控nginx状态脚本 后来又想看看这个php-fpm进程挂掉和访问量是否有关系，于是打算记录下服务器每分钟的访问量。 其实就是用cron每分钟执行我写的这个脚本，而脚本的作用就是获取当前linux的连接数，并记录到日志文件中。 监控linux网络连接数的脚本如下
+#!/bin/sh #定义日志的时间格式，用来作为日志结尾的时间标记 logfile=`date +%Y%m%d` #定义个时间，用来写入日志用 logtime=`date` #获取当前系统的网路连接数，这里去掉了127.0.0.1的连接，因为我的php-fpm用的127.0.0.1:9000这个连接。 log=`netstat -ntu | awk &#39;{print $5}&#39; | cut -d: -f1 |grep [^127.0.0.1] |wc -l` #写日志内容到日志文件 echo &amp;quot;$logtime | $log &amp;quot; &amp;gt;&amp;gt; /data/logs/connect_$logfile.log  </description>
+    </item>
+    
+    <item>
+      <title>伪静态规则调试技巧</title>
+      <link>https://xinlogs.com/post/2011-12-01-howto-open-rewrite-log/</link>
+      <pubDate>Thu, 01 Dec 2011 21:46:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-12-01-howto-open-rewrite-log/</guid>
+      <description>最近在威客网上接了个任务，帮助调整伪静态规则。WEB服务是apache的，主要就是修改rewrite规则。
+伪静态规则写起来比较麻烦，关键是正则表达是写完总要测试，而我们不知道这个rewrite该怎么测试。我们需要准确知道服务器是怎么匹配我们的规则的，匹配后又发生了什么。这也就是我今天要写的调试技巧。
+目前我们采用的WEB Server主要是apache和nginx（Windows下的IIS我不用，只有基于Linux的）。
+其实所谓技巧就是通过打开rewrite的日志功能，然后每次访问后，我们查看rewrite日志来分析我们的规则是否正确。
+APACHE开启rewrite办法
+在httpd.conf文件里加入
+RewriteLog &amp;quot;/xampp/apache/logs/RewriteLog.txt&amp;quot; RewriteLogLevel 9  我这里没用Linux下的apache，直接在我windows下的xampp环境里测试的
+访问后的rewrite日志文件如下
+127.0.0.1 - - [01/Dec/2011:15:38:38 +0800] [localhost/sid#775148][rid#6ba00d8/initial] (3) [perdir C:/xampp/htdocs/] strip per-dir prefix: C:/xampp/htdocs/q-123.html -&amp;gt; q-123.html 127.0.0.1 - - [01/Dec/2011:15:38:38 +0800] [localhost/sid#775148][rid#6ba00d8/initial] (3) [perdir C:/xampp/htdocs/] applying pattern &#39;^.*$&#39; to uri &#39;q-123.html&#39; 127.0.0.1 - - [01/Dec/2011:15:38:38 +0800] [localhost/sid#775148][rid#6ba00d8/initial] (4) [perdir C:/xampp/htdocs/] RewriteCond: input=&#39;C:/xampp/htdocs/q-123.html&#39; pattern=&#39;!-f&#39; =&amp;gt; matched 127.0.0.1 - - [01/Dec/2011:15:38:38 +0800] [localhost/sid#775148][rid#6ba00d8/initial] (4) [perdir C:/xampp/htdocs/] RewriteCond: input=&#39;C:/xampp/htdocs/q-123.html&#39; pattern=&#39;!-d&#39; =&amp;gt; matched 127.</description>
+    </item>
+    
+    <item>
+      <title>nginx通过301统一入口域名</title>
+      <link>https://xinlogs.com/post/2011-11-13-nginx-301-rewrite/</link>
+      <pubDate>Sun, 13 Nov 2011 16:34:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-11-13-nginx-301-rewrite/</guid>
+      <description>我们知道网站的入口域名一般都是www.domain.com或者domain.com。有的网站选择带www而有的网站选择不带www。 但是搜索引擎会将www.domian.com和domian.com 认为是两个地址从而分散我们的权重。所以通过nginx的301转向来统计入口域名，有利于我们的网站提高权重。 以我的博客为例，服务器采用的就是nginx+fastcgi配合php模式。我的nginx关于博客的配置如下
+server { listen 80; server_name xinlogs.com www.xinlogs.com;  这样通过xinlogs.com或者www.xinlogs.com都可以访问到我的博客，但是这样做相当于我的博客首页有了两个地址，不利于搜索引擎收录和分配权重。 所以我采用nginx提供的rewrite来实现301转向，通过301转向的域名地址搜索引擎会将权重或者PR也一起转向过去。这样就不损失网站的PR和权重了。也就是把通过www或者不带www访问的这些流量和查询或者外链的权重整合到了一起。 下面是我的配置，我希望通过xinlogs.com作为我博客的统一入口域名，而带www的访问全部转向到xinlogs.com域名。
+server { listen 80; server_name xinlogs.com www.xinlogs.com; if ($host != &amp;quot;xinlogs.com&amp;quot;) { rewrite ^/(.*)$ http://xinlogs.com/$1 permanent; }  经过上面的的配置，也就是那句if条件语句，将不是xinlogs.com的域名，全部转移到了xinlogs.com下。 下面我们测试下效果，因为只有明确的看到了转向信息，才证明我的配置成功了。所以采用curl命令测试。 测试www.xinlogs.com是否被转向
+-bash-3.2# curl -i www.xinlogs.com HTTP/1.1 301 Moved Permanently Server: nginx/1.0.8 Date: Sun, 13 Nov 2011 05:03:22 GMT Content-Type: text/html Content-Length: 184 Connection: keep-alive Location: http://xinlogs.com/    301 Moved Permanently 301 Moved Permanently nginx/1.</description>
+    </item>
+    
+    <item>
+      <title>Centos Linux 远程终端ssh乱码问题</title>
+      <link>https://xinlogs.com/post/2011-11-10-centos-linux-sshclient-unreadable-code/</link>
+      <pubDate>Thu, 10 Nov 2011 15:23:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-11-10-centos-linux-sshclient-unreadable-code/</guid>
+      <description>我们经常碰到linux乱码问题。尤其是碰到网页上传个中文文件名的文件，ssh登陆到linux一看全乱码想删除都不行。很郁闷的。如下图所示中文文件名全都是显示问号了（这个乱码由于你的编码设置不同，显示的也不太一样）
+还有一个就是vim的乱码
+解决办法：
+首先需要给linux安装中文支持。这里以centos为例，所以采用yum安装
+yum groupinstall chinese-support
+然后再设置linux系统的i18n文件，位置在/etc/sysconfig/i18n
+LANG=&amp;quot;zh_CN.GB18030&amp;quot; SUPPORTED=&amp;quot;zh_CN.UTF-8:zh_CN.GBK:zh_CN.GB18030:zh_CN:zh:en_US.UTF-8:en_US:en&amp;quot; SYSFONT=&amp;quot;latarcyrheb-sun16&amp;quot;  接着设置LC_ALL环境变量，在/etc/profile文件里加入
+export LC_ALL=zh_CN.GB18030
+全部设置好后，重启系统。再次登陆后，用如下命令查看
+-bash-3.2# locale LANG=zh_CN.GB18030 LC_CTYPE=&amp;quot;zh_CN.GB18030&amp;quot; LC_NUMERIC=&amp;quot;zh_CN.GB18030&amp;quot; LC_TIME=&amp;quot;zh_CN.GB18030&amp;quot; LC_COLLATE=&amp;quot;zh_CN.GB18030&amp;quot; LC_MONETARY=&amp;quot;zh_CN.GB18030&amp;quot; LC_MESSAGES=&amp;quot;zh_CN.GB18030&amp;quot; LC_PAPER=&amp;quot;zh_CN.GB18030&amp;quot; LC_NAME=&amp;quot;zh_CN.GB18030&amp;quot; LC_ADDRESS=&amp;quot;zh_CN.GB18030&amp;quot; LC_TELEPHONE=&amp;quot;zh_CN.GB18030&amp;quot; LC_MEASUREMENT=&amp;quot;zh_CN.GB18030&amp;quot; LC_IDENTIFICATION=&amp;quot;zh_CN.GB18030&amp;quot; LC_ALL=zh_CN.GB18030  完成以上操作，应该就可以正常显示中文文件名字了。不过这个只是linux没有问题了，我们的ssh客户端还需要支持才可以。我一般使用Putty来当做ssh客户端，下面就以putty为例子进行设置。 先设置使用的字体，选择windows-&amp;gt;Appearance，弹出的字体界面里选择“新宋体”，字符集选择“CHINESE_GB2312”
+再设置编码
+以上设置完成后，就可以正常显示了。效果如下图所示：
+在命令行输入中文文件名也可以正常使用了。
+到目前为止，ssh下操作中文文件名的问题就彻底解决了。可以正常输入中文文件名来操作了。
+下面是vim显示乱码问题，vim一般都是因为文件编码和显示编码的问题引起的乱码。
+我们打开文件发现乱码后，采用如下命令
+set encoding=utf-8 termencoding=gbk
+这样以后，vim也可以正常操作中文了。效果图
+注意:
+网上看到一些资料说是将i18n的LANG设置为zh_CN.UTF-8，然后LC_ALL也是设置为zh_CN.UTF-8
+但是我试验了下，效果并不好（也将putty调整为了utf-8）.但是文件名显示还是乱码。需要用ls &amp;ndash;show-control-chars来正常显示，输入中文文件名也不正常。
+以上只是在putty下使用，也许配合其他ssh客户端效果不太一样。稍后我再添加一些其他客户端效果。</description>
+    </item>
+    
+    <item>
+      <title>一个关于debian系统管理的站点</title>
+      <link>https://xinlogs.com/post/2011-10-25-debian-administration-site/</link>
+      <pubDate>Tue, 25 Oct 2011 14:55:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-10-25-debian-administration-site/</guid>
+      <description>这个站点有很多关于debian系统管理的信息和经验。 不过这个站点对于IE支持不好，页面会出现错位。建议还是采用firefox或者chrome这类的浏览器吧。 网址：http://www.debian-administration.org/ 简介如下，照搬的原文： Debian Administration This site was created as a simple weblog designed to contain interesting and useful information related to the System Administration of Debian GNU/Linux systems. Whilst there are several sites where users can post questions and have answers contributed by other users there are no other sites on the web which are specifically targeted at distributing articles of interest to Debian administrators. This site is designed to fill that void, with content accepted from users.</description>
+    </item>
+    
+    <item>
+      <title>centos 源码安装ruby和rubygems</title>
+      <link>https://xinlogs.com/post/2011-10-20-centos-install-ruby-rubygems/</link>
+      <pubDate>Thu, 20 Oct 2011 23:10:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2011-10-20-centos-install-ruby-rubygems/</guid>
+      <description>获得ruby源代码
+wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz  解压并编译ruby
+tar zxvf ruby-1.9.2-p290.tar.gz cd ruby-1.9.2-p290 ./configure --prefix=/usr/local/ruby192 make make install  在/etc/profile最后添加
+export PATH=/usr/local/ruby192/bin:$PATH
+保存后，执行 source /etc/profile
+查看下ruby版本 ruby -v
+下载rubygems1.8.10
+wget http://production.cf.rubygems.org/rubygems/rubygems-1.8.10.tgz  解压并安装rubygems
+tar zxvf rubygems-1.8.10.tgz &amp;lt;br&amp;gt; cd rubygems-1.8.10 ruby setup.rb  安装后用gem -v 可以查看下版本</description>
+    </item>
+    
+    <item>
+      <title>监控tomcat内存占用</title>
+      <link>https://xinlogs.com/post/2010-11-26-tomcat-memory-check/</link>
+      <pubDate>Fri, 26 Nov 2010 19:47:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-11-26-tomcat-memory-check/</guid>
+      <description>最近单位给客户部署的一台服务器，主要跑的JAVA应用，一个物业OA系统。经常因为Tomcat内存占用过高而停止响应。
+观察了一下，每次停止响应时候，Tomcat进程占用内存超过1.2G
+初步怀疑是程序不够完善有内存泄露的地方，但是一时半会也找不到具体代码哪里有问题。
+我就写了一个shell不断监控Tomcat进程内存占用，当发现内存占用大于800M，我就自动重启一次Tomcat。
+ #!/bin/sh MEM=`ps aux|grep tomcat|grep startup|awk &#39;{print $6}&#39;` #echo $MEM if [ $MEM -gt 800000 ]; then echo &amp;quot;tomcat mem too large,restart tomcat!&amp;quot; service tomcat restart fi  注意：如果service tomcat restart不能正常重启Tomcat，可以参考我前面写的[CentOS下的Tomcat停止脚本]</description>
+    </item>
+    
+    <item>
+      <title>CentOS下的Tomcat停止脚本</title>
+      <link>https://xinlogs.com/post/2010-11-04-stop-tomcat-shell/</link>
+      <pubDate>Thu, 04 Nov 2010 19:23:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-11-04-stop-tomcat-shell/</guid>
+      <description>我在CentOS 5.3 64bit上安装的Tomcat有个小问题，就是不能通过service tomcat stop停止或者server tomcat restart重启。
+我看了下/etc/init.d/tomcat的文件，和以前没有什么不一样，但就是不能正常停止。
+后来我自己修改了/etc/init.d/tomcat文件，改为直接kill进程。目前已经可以正常通过service关闭或者重启tomcat了。
+下面是我/etc/init.d/tomcat文件内容，贴出来留着以后查看。呵呵
+ #!/bin/bash # # Startup script for the tomcat # # chkconfig: 345 80 15 # description: Tomcat is a Servlet+JSP Engine. # Source function library. . /etc/rc.d/init.d/functions export JAVA_HOME=/usr/local/jdk1.6.0_16 export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar export PATH=$PATH:$JAVA_HOME/bin export CATALINA_BASE=/usr/local/tomcat export CATALINA_HOME=/usr/local/tomcat export CATALINA_TMPDIR=/usr/local/tomcat/temp export JRE_HOME=/usr/local/jdk1.6.0_16 start(){ if [ -z $(/sbin/pidof java) ]; then echo &amp;quot;Starting tomcat&amp;quot; /usr/local/tomcat/bin/startup.sh touch /var/lock/subsys/tomcat else echo &amp;quot;tomcat allready running&amp;quot; fi } stop(){ if [ !</description>
+    </item>
+    
+    <item>
+      <title>通过VPN获取eMule的HighID</title>
+      <link>https://xinlogs.com/post/2010-10-27-emule-vpn-highid/</link>
+      <pubDate>Wed, 27 Oct 2010 20:46:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-10-27-emule-vpn-highid/</guid>
+      <description>一般单位里，我们都是通过单位网关上网。这种情况下打开eMule肯定获取到的是LowID（低ID）。那么既然我们可以通过VPN来翻墙，有没有办法通过VPN来获取到eMule的HighID（高ID）呢？
+答案是肯定的：可以。
+只要我们将VPN服务器的外网IP上的对应端口映射到我们VPN客户端获取到的IP端口上就可以。
+我的VPN服务器，就是跑在我这台博客服务器上的openvpn server。笔记本采用openvpn gui客户端连接。
+我笔记本分到的ip 10.8.0.2  vpn server的外网ip：204.74.212.217 vpn server的tap0 ip地址：10.8.0.1  下面是我的iptables配置：
+加入如下两条规则
+ iptables -t nat -A PREROUTING -p tcp -d 204.74.212.217 --dport 13242 -j DNAT --to 10.8.0.2:13242 iptables -t nat -A PREROUTING -p udp -d 204.74.212.217 --dport 11324 -j DNAT --to 10.8.0.2:11324  其中13242和11324端口，要和自己安装的emule端口对应。这个可以在emule的选项-》连接界面查看。
+以上配置后，还不能获取高ID的话，基本都是windows防火墙原因了。
+修改win7 防火墙
+在“高级安全Windows防火墙”中的“入站规则”和“出站规则”中，都允许eMule的通过。
+然后断开eMule连接，重新连接一次。就可以获取高ID了。</description>
+    </item>
+    
+    <item>
+      <title>CENTOS下安装MUDOS跑侠客行</title>
+      <link>https://xinlogs.com/post/2010-08-26-centos-install-mudos/</link>
+      <pubDate>Thu, 26 Aug 2010 15:05:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-08-26-centos-install-mudos/</guid>
+      <description>最近在放假，我又玩了玩很久以前的网络游戏北美侠客行。一个纯文字的MUD游戏。而且自己在CentOS下也架设了一个，下面就说说我的安装过程，给自己做个记录，怕以后忘记。
+要架设一个MUD游戏，需要MUDOS和MUDLIB两部分。这里简单解释一下，其实我也刚接触，有不对的地方还望见谅。
+MUDOS我理解就是一个跑MUD游戏的平台或者理解为模拟器，只要符合MUDOS要求的MUDLIB都可以通过MUDOS驱动起来。
+MUDLIB才是具体游戏的代码，各种MUD游戏其实就是MUDLIB不同，而底层平台基本都是MUDOS。
+当然现在除了MUDOS还可以采用FluffOS作为运行平台。
+下面贴个我架设的侠客行MUD截图（采用XKX早期代码修改来的，和北美侠客行最接近） 下载MUDOS 我采用的是MudOSv22pre11 For Linux 从北大侠客行官方网站下载的。
+下载MUDLIB
+至于mudlib才是能不能玩的重点，网上可以找到很多版本。我主要下载了如下几种
+金庸梦（个人感觉很完整的一套代码，基本是基于98年xkx修改而来）
+xkx2001（这个版本是早期一个xkx版本，和北美xkx比较接近）
+xkx6dao（和早期xkx最接近的一个版本）
+以上三个版本都可以在windows下正常运行，我们要做的就是选择一款移植到linux下。
+我是基于xkx6到的mudlib，将xkx2001和金庸梦的部分代码加入过来。这样基本实现了北美侠客行的大部分任务系统，包括斧头帮、镖局、门派任务等
+安装mudos
+1、将我们下载的MudOSv22pre11 For Linux解压缩，然后进入到解压后的目录。
+2、运行 ./build.MudOS
+提示如下
+Preparing to build standard MudOS driver ... Trying out some stuff to see what works; ignore errors ... gmake: Nothing to be done for `nothing&#39;. ./build.MudOS: line 170: xlc: command not found mkdir: ÎÞ·¨´´½¨Ä¿Â¼¡®tmp¡¯: ÎÄ¼þÒÑ´æÔÚ install£ºÎÞÐ§Ñ¡Ïî -- f Çë³¢ÊÔÖ´ÐÐ¡®install --help¡¯À´»ñÈ¡¸ü¶àÐÅÏ¢¡£ rm: ÎÞ·¨É¾³ý¡®tmp/insttest¡¯: Ã»ÓÐÄÇ¸öÎÄ¼þ»òÄ¿Â¼ mkdir: ÎÞ·¨´´½¨Ä¿Â¼¡®obj¡¯: ÎÄ¼þÒÑ´æÔÚ ***************** Configuration completed ************** Installing MudOS on Linux Using install -c to install binaries in .</description>
+    </item>
+    
+    <item>
+      <title>一款Linux下同步备份文件的好软件DROPBOX</title>
+      <link>https://xinlogs.com/post/2010-04-05-vps-dropbox-install/</link>
+      <pubDate>Mon, 05 Apr 2010 16:03:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-04-05-vps-dropbox-install/</guid>
+      <description>原来一直用tar、sync等软件实现备份。需要些脚本还要找一台其他服务器进行同步。现在有了DROPBOX这个网站提供的服务，一切都变容易了。
+DROPBOX网站： http://www.dropbox.com/ DROP功能： 偷懒直接把官方介绍帖过来了。主要就是免费提供2G的同步空间，可以自动同步文件并保留文件的历史版本
+Dropbox Features File Sync Dropbox allows you to sync your files online and across your computers automatically. 2GB of online storage for free, with up to 100GB available to paying customers. Sync files of any size or type. Sync Windows, Mac and Linux computers. Automatically syncs when new files or changes are detected. Work on files in your Dropbox even if you&amp;rsquo;re offline. Your changes sync once your computer has an Internet connection again.</description>
+    </item>
+    
+    <item>
+      <title>CentOS 5.3下OpenVPN安装和Win7下OpenVPN GUI安装</title>
+      <link>https://xinlogs.com/post/2010-03-15-openvpn-install/</link>
+      <pubDate>Mon, 15 Mar 2010 14:28:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-03-15-openvpn-install/</guid>
+      <description>本来我是在美国的VPS服务器上安装的pptp vpn，这个vpn可以用windows自带的拨号连接，配置也很方便。刚配置好的时候很好用，可以开youtube也可以访问一些被封闭的站点。但是后来家里的歌华有线好像调整了一些路由配置，导致我在家里就不能连接vpn了。单位也不能连接。我用老婆家里的adsl尝试连接正常，用联通3G连接也正常。。。。这个既然是网络的问题，估计个人也解决不了了
+最近单位也开始搞起来封锁了，开心、verycd等都被封。。。又不能用pptpd vpn了。。。看来该想想其他办法了。代理尝试了，不管用，看来不是基于域名的限制。 于是就开始尝试采用openvpn了。
+参考了
+http://www.throx.net/2008/04/13/openvpn-and-centos-5-installation-and-configuration-guide/
+http://www.xiaohui.com/dev/server/20070514-install-openvpn.htm
+2010年10月14日更新
+加入官方CentOS下,iptables规则修改.保证顺利nat上网
+整体方案
+采用位于美国的CentOS 5.3 Linux服务器搭建openvpn服务器，并通过iptables的nat功能使openvpn服务器当做客户端网关。
+客户端安装OpenVPN GUI程序连接服务器
+服务器
+服务器采用位于美国的vps,系统CentOS 5.3
+安装openvpn作为vpn服务器软件
+OpenVPN服务器安装
+kernel 需要支持 tun 设备, 需要加载 iptables 模块.
+检查 tun 是否安装:
+modinfo tun 或者 find / -name tun.o -print  安装需要的相关软件
+ yum install rpm-build yum install autoconf.noarch yum install zlib-devel yum install pam-devel yum install openssl-devel  安装环境准备好后，我们下载需要安装的软件。一共需要下载两个软件openvpn 2.0.9和lzo-1.08-4
+wget http://openvpn.net/release/openvpn-2.0.9.tar.gz wget http://openvpn.net/release/lzo-1.08-4.rf.src.rpm  安装lzo
+rpmbuild --rebuild lzo-1.08-4.rf.src.rpm rpm -Uvh /usr/src/redhat/RPMS/i386/lzo-*.</description>
+    </item>
+    
+    <item>
+      <title>CentOS 5.4 基于HP Proliant DL380 G5服务器配置Modular Smart Array 1000存储</title>
+      <link>https://xinlogs.com/post/2010-03-12-hp-msa1000-dl380g5-centos5/</link>
+      <pubDate>Fri, 12 Mar 2010 14:36:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-03-12-hp-msa1000-dl380g5-centos5/</guid>
+      <description>原来单位的存储一直是分两个800G的区，挂在到Windows下。Windows的系统总要担心病毒，所以打算迁移到CentOS Linux下。
+参考了http://blog.s135.com/post/415/这篇文章，但是他的文章里是单控制器，并且没有用到光纤。所以配置上有些不同
+硬件配置
+ 一台HP MSA 1000存储设备（包含两个Modular Smart Array 1000控制器） 一台HP Storage SAN 4/8光纤交换机 一台HP Proliant DL380 G5 2U服务器 七块SCSI 300G硬盘 一块HP StorageWorks FC1142SR 4GB PCI-E 光纤卡  从两个Modular Smart Array 1000的控制器后面连接光纤到光纤交换机。然后将光纤卡安装到服务器上，用光纤连接光纤卡到光纤交换机。
+软件配置
+先对各种硬件的fireware进行下更新。
+从惠普网站下载update fireware光盘，下载的文件为firmware-8.60-0.zip，大小463M左右，然后解压刻成光盘
+下载地址ftp://ftp.hp.com/pub/softlib2/software1/cd/p1040529012/v53483/firmware-8.60-0.zip
+用光盘启动服务器，然后安装提示做就可以。它会更新网卡、服务器等设备的fireware。都是自动检测并更新的，很简单
+确保各种fireware都更新后，下面需要用到smartstart光盘来对存储进行配置了
+从惠普网站下载smartstart光盘，下载的文件smartstart-8.30-0-x86.zip，大小576M左右，也是解压刻录光盘
+下载地址ftp://ftp.hp.com/pub/softlib2/software1/cd/p1040463476/v49882/smartstart-8.30-0-x86.zip
+然后用光盘启动服务器，按照提示进入后，选择第2项配置存储卡，第一项是用来安装操作系统的，我发现没有Linux的操作系统。。。都是Windows系列。
+可以发现服务器自己的raid卡 HP Smart Array E200和MSA 1000存储。
+我是先将服务器的3块硬盘组成一个Raid 5，然后再配置MSA 1000的存储，也是将7块盘组成Raid 5。我看了下资料，说raid 6比raid5要损失8%-15%的性能，但是可以保证同时坏2块盘不丢失数据。不过我觉得raid5够用了。
+因为是双控制器，我这里的fireware是4.48所以采用的是active/standby模式。如果打算用active/active模式，需要更新fireware到7.0版本
+用smartstart光盘做好raid后，就可以给服务器安装系统了。
+安装CentOS 5.4 64bit
+安装CentOS 5.4 64bit版本前，先将连接到服务器的光纤拔掉，要不系统总是提示/dev/sda不可读取，这里的sda就是我们存储。 一切安装正常安装就可以。
+正常安装后，连接好光纤，再启动服务器。
+这个时候因为没有安装驱动，服务器在启动过程中会报很多end_request: error
+而且我还发现如果不安装驱动，我们可以通过fdisk -l查找到存储设备，但是每次重启或者存储关机再开，存储的设备名都会变，有时候是/dev/sda有时候是/dev/sdb。所以很难在/etc/fstab里写入mount的配置。
+安装HBA卡驱动
+到HP网站下载驱动 http://h20000.</description>
+    </item>
+    
+    <item>
+      <title>postfix&#43;extmail的附件大小显示和限制问题解决办法</title>
+      <link>https://xinlogs.com/post/2010-01-24-postfix-extmail-attachment-bug/</link>
+      <pubDate>Sun, 24 Jan 2010 21:06:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-01-24-postfix-extmail-attachment-bug/</guid>
+      <description>最近在给一个公司部署了postfix+extmail的邮件系统后，遇到了附件大小限制问题。
+extmail默认设置是5M，但是由于extmail的统计大小方法问题，一般附件限制比设置的小了1/3。也就是你设置了5M，也就能到3M多。
+这里先说下大小限制的配置。
+一、修改extmail的webmail.cf文件
+SYS_MESSAGE_SIZE_LIMIT = 5242880 注意：以位为单位为5M字节。 SYS_MESSAGE_SIZE_LIMIT = xxx  二、修改/etc/postfix/main.cf文件，
+message_size_limit = xxx  三、重启postfix即可，service postfix restrart 和重启apache，service httpd restart
+如何解决附件限制大小和系统文件大小相差1/3呢？
+首先是修改/var/www/extsuite/extmail/libs/Ext/App目录下的Compose.pm文件
+sub is_oversize { my $self = shift; my $sys = $self-&amp;gt;{sysconfig}; my $maxsize = $sys-&amp;gt;{SYS_MESSAGE_SIZE_LIMIT}; my $tsize = shift; return 0 unless defined $maxsize and $maxsize &amp;gt; 0; return 0 unless defined $tsize and $tsize &amp;gt; 0; if ($tsize &amp;gt;= $maxsize) { return $maxsize; } 0; }  注意到上面的if ($tsize &amp;gt;= $maxsize)了吧，修改为if ($tsize &amp;gt;= 1.</description>
+    </item>
+    
+    <item>
+      <title>extman后台登陆问题解决方法</title>
+      <link>https://xinlogs.com/post/2010-01-19-extman/</link>
+      <pubDate>Tue, 19 Jan 2010 19:08:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-01-19-extman/</guid>
+      <description>前一阵子给一个公司架设了postfix+mysql+extmail的邮件系统。
+用了一段时间后，发现后台管理的extman不能登录了，提示如下
+Can&#39;t open /tmp/extman//sid_26da75f9aec35f2cbc6b4fa425ab525e, No such file or directory  后来发现是/tmp目录下的extman目录被系统清除了。。
+然后再网络上找了一些解决办法，说是Linux系统在启动的时候，会清理/tmp目录。建议将这个目录设置在/var/tmp目录下。
+结果用了一段时间后，发现一样是被清理。。。。
+我的系统是CentOS 5.3 64bit
+最后我通过修改，/var/www/extsuite/extman/webmail.cf文件里面的配置
+#sys_sess_dir, the session dir SYS_SESS_DIR = /tmp/extman/  将SYS_SESS_DIR指定到了/data/extman下面了。估计这次系统不会清除这个目录了吧
+还有一种常见错误就是提示
+Can&#39;t open /tmp/extman//sid_89b33ec5ce0b5903f24035aa4ad76d15, Permission denied  这个是因为extman 那个临时目录的权限不对。
+可以设置为777就ok了</description>
+    </item>
+    
+    <item>
+      <title>drupal在nginx 0.8.15下的简洁URL配置</title>
+      <link>https://xinlogs.com/post/2010-01-01-druapl-url-nginx-rewrite/</link>
+      <pubDate>Fri, 01 Jan 2010 18:06:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-01-01-druapl-url-nginx-rewrite/</guid>
+      <description>最近在学习drupal，发现这个程序比xoops、joomla都灵活，对应的学习曲线也高。反正安装后，根本不知道真没设置。呵呵
+下面先在nginx上配置了rewrite规则，让drupal支持简洁的URL
+server { listen 80; server_name drupal.xinlogs.com; index index.html index.htm index.php; root /data0/htdocs/drupal; #limit_conn crawler 20; location = / { index index.php; } location / { index index.php index.html; if (!-f $request_filename) { rewrite ^(.*)$ /index.php?q=$1 last; break; } if (!-d $request_filename) { rewrite ^(.*)$ /index.php?q=$1 last; break; } } location ~ .*.(php|php5)?$ { fastcgi_pass unix:/tmp/php-cgi.sock; #fastcgi_pass 127.0.0.1:9000; fastcgi_index index.php; include fcgi.conf; } location ~ .*.(gif|jpg|jpeg|png|bmp|swf)$ { expires 30d; } location ~ .</description>
+    </item>
+    
+    <item>
+      <title>apache下多虚拟主机的配置与管理</title>
+      <link>https://xinlogs.com/post/2009-12-30-apache-virtualhost-configure/</link>
+      <pubDate>Wed, 30 Dec 2009 16:08:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-30-apache-virtualhost-configure/</guid>
+      <description>当一台服务器想给多个域名提供web服务的时候，我们可以使用apache虚拟主机配置。
+apache的配置文件在centos系统下，默认放在/etc/httpd/conf目录下的httpd.conf文件里。
+虚拟主机的配置如下
+#############TEST VirtualHost &amp;lt;VirtualHost *:80&amp;gt; ServerAdmin babodx@gmail.com DocumentRoot &amp;quot;/home/babo&amp;quot; ServerName www.xinlogs.com DirectoryIndex index.html ErrorLog logs/www.xinlogs.com_error_log CustomLog logs/www.xinlogs.com-access_log common &amp;lt;/VirtualHost&amp;gt;  如果我们apache给10个或更多的域名提供web服务，这样的话，我们的httpd.conf就会有很多这样的配置段落，看起来很长，管理起来也很麻烦。而且一个apache同时给几十个web域名提供虚拟主机，完全没有问题。那该如何写配置文件便于我们管理呢？
+##解决办法##
+为了管理方便，配置文件的结构清晰。
+我们完全可以将每个虚拟主机的配置文件放在独立文件中，这样apache的主要配置文件httpd.conf看上去很简洁。
+只要在最后加入
+Include conf/vhost_*.conf   然后再conf目录里，每个虚拟主机的文件只要以vhost_开头，后面可以用自己的域名加.conf后缀。比如有个test.com的域名要做web。
+我们就可以直接在conf目录创建一个vhost_test.com.conf文件，文件里写入虚拟主机配置，比如
+#############TEST VirtualHost &amp;lt;VirtualHost *:80&amp;gt; ServerAdmin babodx@gmail.com DocumentRoot &amp;quot;/home/test.com&amp;quot; ServerName test.com DirectoryIndex index.html ErrorLog logs/test.com_error_log CustomLog logs/test.com-access_log common &amp;lt;/VirtualHost&amp;gt;  通过这种配置结构，我们管理再多的虚拟主机也不用怕。只要修改conf目录下对应虚拟主机的配置文件即可。</description>
+    </item>
+    
+    <item>
+      <title>解决Linux下Tomcat不能重启和停止问题</title>
+      <link>https://xinlogs.com/post/2009-12-28-tomcat-reboot-problems/</link>
+      <pubDate>Mon, 28 Dec 2009 15:33:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-28-tomcat-reboot-problems/</guid>
+      <description>我的Tomcat 5.5.28安装在CentOS 5.3 64bit系统上
+每次重启都停住，只要要等5-10分钟才可以。
+系统reboot或者shutdown也都卡在关闭tomcat的过程中
+后来发现直接用/usr/local/tomcat/bin/shutdown.sh一样存在问题，但是如果Tomcat什么项目都不加载，却正常。
+我怀疑是tomcat加载的lib或者jar文件一多，重启和关闭就会慢的巨慢。。。甚至10分钟以上。
+为了解决这个问题，我修改了/etc/init.d/目录下的tomcat文件，让关闭或者重启的时候，直接通过kill命令杀掉tomcat进程。
+下面是我/etc/init.d/tomcat文件
+#!/bin/bash # # Startup script for the tomcat # # chkconfig: 345 80 15 # description: Tomcat is a Servlet+JSP Engine. # Source function library. . /etc/rc.d/init.d/functions export JAVA_HOME=/usr/local/jdk1.6.0_16 export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar export PATH=$PATH:$JAVA_HOME/bin export CATALINA_BASE=/usr/local/tomcat export CATALINA_HOME=/usr/local/tomcat export CATALINA_TMPDIR=/usr/local/tomcat/temp export JRE_HOME=/usr/local/jdk1.6.0_16 start(){ if [ -z $(/sbin/pidof java) ]; then echo &amp;quot;Starting tomcat&amp;quot; /usr/local/tomcat/bin/startup.sh touch /var/lock/subsys/tomcat else echo &amp;quot;tomcat allready running&amp;quot; fi } stop(){ if [ !</description>
+    </item>
+    
+    <item>
+      <title>nginx采用epoll的事件模型，为何效率高。</title>
+      <link>https://xinlogs.com/post/2009-12-24-nginx-epool-events/</link>
+      <pubDate>Thu, 24 Dec 2009 16:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-24-nginx-epool-events/</guid>
+      <description>以前就知道在linux下nginx采用epoll事件模型，处理效率高。但是一直不知道具体为什么，今天查看了下文档，了解了原因。
+首先nginx支持一下这些事件模型（才考nginx的wiki）
+Nginx支持如下处理连接的方法（I/O复用方法），这些方法可以通过use指令指定。
+ select - 标准方法。 如果当前平台没有更有效的方法，它是编译时默认的方法。你可以使用配置参数 &amp;ndash;with-select_module 和 &amp;ndash;without-select_module 来启用或禁用这个模块。 poll - 标准方法。 如果当前平台没有更有效的方法，它是编译时默认的方法。你可以使用配置参数 &amp;ndash;with-poll_module 和 &amp;ndash;without-poll_module 来启用或禁用这个模块。 kqueue - 高效的方法，使用于 FreeBSD 4.1+, OpenBSD 2.9+, NetBSD 2.0 和 MacOS X. 使用双处理器的MacOS X系统使用kqueue可能会造成内核崩溃。 epoll - 高效的方法，使用于Linux内核2.6版本及以后的系统。在某些发行版本中，如SuSE 8.2, 有让2.4版本的内核支持epoll的补丁。 rtsig - 可执行的实时信号，使用于Linux内核版本2.2.19以后的系统。默认情况下整个系统中不能出现大于1024个POSIX实时(排队)信号。这种情况对于高负载的服务器来说是低效的；所以有必要通过调节内核参数 /proc/sys/kernel/rtsig-max 来增加队列的大小。可是从Linux内核版本2.6.6-mm2开始， 这个参数就不再使用了，并且对于每个进程有一个独立的信号队列，这个队列的大小可以用 RLIMIT_SIGPENDING 参数调节。当这个队列过于拥塞，nginx就放弃它并且开始使用 poll 方法来处理连接直到恢复正常。 /dev/poll - 高效的方法，使用于 Solaris 7 11&amp;frasl;99+, HP/UX 11.22+ (eventport), IRIX 6.5.15+ 和 Tru64 UNIX 5.1A+. eventport - 高效的方法，使用于 Solaris 10. 为了防止出现内核崩溃的问题， 有必要安装 这个 安全补丁。  在linux下面，只有epoll是高效的方法。</description>
+    </item>
+    
+    <item>
+      <title>CentOS 5.3 64bit安装在HP 380G5服务器</title>
+      <link>https://xinlogs.com/post/2009-12-21-centos-5-3-64bit-install-on-hp-380-g5/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-centos-5-3-64bit-install-on-hp-380-g5/</guid>
+      <description>今天安装了一台CentOS 5.3 64bit服务器。
+服务器硬件HP 380G5，4U高
+ CPU 4核处理器 2颗 内存 4G 硬盘 147G*3  安装很顺利，采用server模式，去掉了不用的软件，加入虚拟化。
+安装后启动，占用内存在230M左右，感觉比CentOS 4.7高了很多呀。。。我在一台HP 140的1U服务器安装的CentOS 4.7 启动后，只占用29M内存。
+内存占用问题，还需要看看具体是什么原因。
+测试下性能，我比较喜欢用unixbench测试。
+http://www.hermit.org/Linux/Benchmarking/
+我这次下载的5.0版本，因为5.1以后支持2D,3D我没有装X11，运行不了。
+结果5.0也是运行了一半就出问题了。奇怪呀。
+我的一台CentOS 4.4 装在一个双核 Intel&amp;reg; Xeon&amp;trade; CPU 2.66GHz，1G内存的机器上。用4.1.0-wht测试，得分只有145.不过是跑着java、tomcat、apache、mysql和vmserver的时候测试的。内存使用400M左右的时候。
+我看到网上很多128M的VPS居然也可以得到160多分，真是奇怪呀。而我这台双4核处理器xeon e7320,4G内存，装CentOS的机器，也只有下面的数据
+[root@moodle unixbench-4.1.0-wht-2]# ./Run make all make[1]: Entering directory `/root/unixbench-4.1.0-wht-2&#39; Checking distribution of files ./pgms exists ./src exists ./testdir exists ./tmp exists ./results exists make[1]: Leaving directory `/root/unixbench-4.1.0-wht-2&#39; # # # # # # # ##### ###### # # #### # #&amp;lt;br&amp;gt; # # ## # # # # # # # ## # # # # #&amp;lt;br&amp;gt; # # # # # # ## ##### ##### # # # # ######&amp;lt;br&amp;gt; # # # # # # ## # # # # # # # # #&amp;lt;br&amp;gt; # # # ## # # # # # # # ## # # # #&amp;lt;br&amp;gt; #### # # # # # ##### ###### # # #### # # 4 1 Based on the Byte Magazine Unix Benchmark 44 11 v v 4 4 1 v v 44444 1 v4.</description>
+    </item>
+    
+    <item>
+      <title>CentOS 5.3架设VPN和619错误排除</title>
+      <link>https://xinlogs.com/post/2009-12-21-centos-vpn-howto/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-centos-vpn-howto/</guid>
+      <description>我买这个VPS的主机，一个目的是用来做Blog空间，另外一个就是用来跑vpn。
+先按照http://rashost.com/blog/centos5-pptpd-vpn这里的文章安装vpn服务。
+内核支持
+pptpd VPN需要内核支持mppe，我们的VPS自带的内核已经把mppe编译进去了，没有把mppe另外当作内核的模块。
+软件安装
+要安装pptpd VPN，ppp和iptables这两个软件是必须安装的，安装命令：yum install -y ppp iptables
+然后到http://www.poptop.org/下载pptpd的rpm包并安装，下载的时候要注意下面几点：
+ 好像只有1.3.3版本有rpm包，其他版本只有源代码 没有el5或者centos5的rpm包，用rh4的rpm包可以安装在centos 5上 64位的系统要下载64位的rpm包，32位的系统要下载32位的rpm包，别搞错了  64位系统安装命令：rpm -ivh pptpd-1.3.3-1.rhel4.x86_64.rpm 32位系统安装命令：&amp;lt;pre&amp;gt;rpm -ivh pptpd-1.3.3-1.rhel4.i386.rpm
+编辑配置文件 /etc/ppp/options.pptpd
+内容如下：
+name pptpd refuse-pap refuse-chap refuse-mschap require-mschap-v2 require-mppe-128 proxyarp lock nobsdcomp novj novjccomp nologfd ms-dns 208.67.222.222 ms-dns 208.67.220.220  编辑配置文件 /etc/pptpd.conf 内容如下：
+option /etc/ppp/options.pptpd logwtmp localip 192.168.92.1 remoteip 192.168.92.11-15  编辑配置文件 /etc/ppp/chap-secrets,配置用户名为johndoe，密码为password，内容如下：
+johndoe pptpd password *  修改配置文件/etc/sysctl.conf中的相应内容如下：
+net.ipv4.ip_forward = 1  配置iptables:</description>
+    </item>
+    
+    <item>
+      <title>ubuntu 8.04升级到8.10</title>
+      <link>https://xinlogs.com/post/2009-12-21-ubuntu-804-update-to-810/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-ubuntu-804-update-to-810/</guid>
+      <description>#升级#
+昨天开始作的升级。
+早上到单位，就开始Alt+F2
+在弹出的命令行窗口输入 update-manager -d
+然后就进入了漫长的等待，单位网络那个垃圾。。。。。告诉我42天。。。。。
+一直到下班，下载了900多个文件，一共要下载1300多
+晚上到家继续update-manager -d 发现居然可以接着下载，还以为要重新来呢。家里好点，告诉我3个小时,后来就睡觉了。
+今天早上起来，发现已经下载完成了，开始到安装更新这一步了，弹出个窗口等我确认。
+我点上开始，就洗漱去了。一直到要上班也没有安装完成。（TMD，居然忘记今天星期五，不能开车。还是老婆提醒我，才想起来。）这次我可不敢关机了，怕升级一半，下次进不来系统。直接把本本和上盖子放包里了，下楼打车上班。
+在出租车里，完成了全部更新。关机。
+启动
+到了单位，发现系统总卡在进度条进不去。
+按Alt+F1然后 Alt+F8查看下文字模式的启动信息，发现一直卡在*Configuring network interfaces&amp;hellip;
+这个第一次启动，没有办法（希望有好办法的，告诉下。）我就一直死等呀。。。感觉过了20分钟？？？
+进入系统了，3D显卡驱动不行。运行uname -a查看，内核还在用8.04的2.6.24-21.
+先修改网络吧 sudo gedit /etc/network/interfaces
+将里面的
+auto eth0 iface eth0 inet dhcp auto lo auto wlan0  都注释掉，变成下面样子
+#auto lo iface lo inet loopback #iface eth0 inet dhcp address 10.11.10.164 netmask 255.255.255.0 gateway 10.11.10.254 #nameserver 202.106.0.20 #auto eth0 iface wlan0 inet dhcp wpa-psk 7640768b3d6b31f834b63abc8d2d667ae10f8bc3c41a8e4e87ec2c104d963a1e wpa-driver wext wpa-key-mgmt WPA-PSK wpa-proto WPA wpa-ssid babohome #auto wlan0  接着修改/etc/NetworkManager/nm-system-settings.</description>
+    </item>
+    
+    <item>
+      <title>ubuntu 8.10下同步wm6.1手机</title>
+      <link>https://xinlogs.com/post/2009-12-21-winphone-syncewithubuntu/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-winphone-syncewithubuntu/</guid>
+      <description>参考了
+ http://www.synce.org/moin/SynceWithUbuntu http://hi.baidu.com/john_zhy/blog/item/50e39f317240141febc4af5a.html  我的本本 IBM R61
+系统 ubuntu 8.10从 8.04升级上来的。
+手机 eten X800 wm6.1英文系统
+原来一直不能在ubuntu下面同步手机资料，昨天参考了上面两个帖子，最后成功了。
+1、首先添加源
+sudo gedit /etc/apt/sources.list  在末尾添加
+deb &amp;lt;a href=&amp;quot;http://ppa.launchpad.net/synce/ubuntu&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;http://ppa.launchpad.net/synce/ubuntu&amp;lt;/a&amp;gt; hardy main deb-src &amp;lt;a href=&amp;quot;http://ppa.launchpad.net/synce/ubuntu&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;gt;http://ppa.launchpad.net/synce/ubuntu&amp;lt;/a&amp;gt; hardy main  保存，关闭
+sudo apt-get update  我没有更新源，但是也成功。可能是8.10的缘故
+2、更新usb驱动（仅内核在2.6.24-19之前的，如果比这个新请跳过本步骤）
+sudo rmmod rndis_host cdc_ether usbnet sudo rm /lib/modules/`uname -r`/kernel/drivers/net/usb/{rndis_host,cdc_ether,usbnet}.ko sudo apt-get install usb-rndis-source cdbs sudo module-assistant auto-install usb-rndis sudo apt-get install synce-hal librra0-tools librapi2-tools  因为我的内核是2.6.27-7的，所以跳过了这步。但是我安装了后面的软件包
+sudo apt-get install synce-hal librra0-tools librapi2-tools  3、安装SynCE-GNOME</description>
+    </item>
+    
+    <item>
+      <title>ubuntu 9.04 server 安装VMware Tools解决share folders问题</title>
+      <link>https://xinlogs.com/post/2009-12-21-ubuntu-904-install-vmware-tools/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-ubuntu-904-install-vmware-tools/</guid>
+      <description>我的主系统是Winxp在vmware 6.5.2 build-156735下安装的ubuntu server 9.04
+因为安装vmware tools后，可以使用vmware 提供的share folders让winxp的主系统可以将某个目录映射到虚拟的ubuntu系统里。
+我就开始在vmware里面安装vmware tools工具。下面是过程，包括不能用vmhgfs的解决办法
+**安装VMware tools
+安装前，先安装需要的软件包
+apt-get install autoconf automake binutils make cpp gcc linux-headers-$(uname -r)  安装后，在vmware上面选择VM-》Install Vmware Tools
+然后切换到ubuntu server 9.04里，运行mount命令，将Vmware tools的光盘挂载 sudo mount /dev/cdrom /mnt
+拷贝安装VMware Tools需要的安装文件到/tmp目录 sudo cp /mnt/VMwareTools-7.8.5-156735.tar.gz /tmp
+卸载/mnt目录，因为安装的时候，需要在/mnt目录下创建hgfs目录，如果这时候挂载着CDROM，就会导致创建hgfs目录失败。sudo /mnt
+解压安装文件并修改会出现问题的page.c文件
+cd /tmp tar zxvf VMwareTools-7.8.5-156735.tar.gz cd /tmp/vmware-tools-distrib/lib/modules/source&amp;lt;/span&amp;gt; sudo cp ./vmhgfs.tar /tmp/&amp;lt;/span&amp;gt; tar xvf vmhgfs.tar &amp;lt;/span&amp;gt; cd vmhgfs-only/ sudo vi page.c  修改page.c里面867行的一个错误函数，
+page = __grab_cache_page(mapping, index);  将这个函数修改为</description>
+    </item>
+    
+    <item>
+      <title>ubuntu server 9.04 终端乱码问题</title>
+      <link>https://xinlogs.com/post/2009-12-21-ubuntu-console-unread-chinese/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-ubuntu-console-unread-chinese/</guid>
+      <description>安装了ubuntu server 9.04，安装的时候选择了中文环境。
+因为server是没有桌面的，发现终端里面显示提示信息，出错信息都变成乱码了。
+解决办法 修改/etc/default/locale文件
+将zh_CN修改为en_US</description>
+    </item>
+    
+    <item>
+      <title>ubuntu server 9.04显示中文文件</title>
+      <link>https://xinlogs.com/post/2009-12-21-ubuntu-904-show-chinese-filename/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-ubuntu-904-show-chinese-filename/</guid>
+      <description>前面提到了用VMware的share folder功能，可以将主机系统的一个目录，自动共享到ubuntu /mnt/hgfs目录下。
+但是winxp的中文目录，到了ubuntu server下面就显示乱码了。
+解决办法
+安装相关软件包
+sudo apt-get install language-pack-zh  配置中文环境
+修改/etc/environment
+sudo vim /etc/environment  将LANG和LANGUAGE内容修改为下面的
+LANG=zh_CN.UTF8&amp;lt;br&amp;gt; LANGUAGE=&amp;quot;zh_CN:zh:en_US:en  修改/etc/default/locale
+sudo vim /etc/default/locale  修改内容如下
+LANG=&amp;quot;zh_CN.UTF-8&amp;quot;&amp;lt;br&amp;gt; LANGUAGE=&amp;quot;zh_CN:zh&amp;quot;  保存后，重启系统。
+现在用putty登陆，还是发现看中文乱码。我们还要继续设置putty才可以。
+设置putty使用utf-8
+putty的Windows-&amp;gt;Translation-&amp;gt;Received data assumed to be in which character set:选择UTF-8
+这样设置后，就可以正确在putty里显示中文了。
+以上这些就可以正常在putty里显示中文了。但是如果你用键盘鼠标从本地登陆ubuntu server，会发现，ubuntu server还是乱码。
+这个问题我查了一些文档，还是没有解决。有的说是console下的字体问题。但是/usr/share/consolefonts里的字体好像没有支持中文的。
+还有说console fonts最多支持256这个字符。。。
+反正最终这个问题没有解决掉。现在在linux自己的控制台里，显示还是乱码
+建议大家如果不是特别需要，其实服务器没有必要采用中文编码的。可以正常显示中文就好了。
+建议默认还是用en_US:UTF-8的好。</description>
+    </item>
+    
+    <item>
+      <title>ubuntu下arp攻击防御和反击！</title>
+      <link>https://xinlogs.com/post/2009-12-21-defense-arp-attack-on-ubuntu/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-defense-arp-attack-on-ubuntu/</guid>
+      <description>今天在单位，发现有人在用聚生网管和p2p终结者
+在windows下面，可以安装arp防火墙，还可以通过安装同类软件，进行检测。可是我已经转到ubuntu上了，总不能一旦被攻击，就回windows吧。于是上网找了一些关于linux下防止arp攻击的方法。
+第一种方法
+用静态arp.
+这种方法就是通过在 /etc/ethers 建立ip和mac地址对应记录。然后用arp -f来读取记录。这样将网关的mac地址和ip都建立在静态arp文件里。就不容易被arp欺骗了。
+还可以配合关闭arp解析，用ifconfig eth0 -arp
+第二中方法
+采用arping
+babo@babo-laptop:~$ arping Usage: arping [-fqbDUAV] [-c count] [-w timeout] [-I device] [-s source] destination -f : quit on first reply -q : be quiet -b : keep broadcasting, don&#39;t go unicast -D : duplicate address detection mode -U : Unsolicited ARP mode, update your neighbours -A : ARP answer mode, update your neighbours -V : print version and exit -c count : how many packets to send -w timeout : how long to wait for a reply -I device : which ethernet device to use (eth0) -s source : source ip address destination : ask for what ip address 用法举例：比如我的ip 192.</description>
+    </item>
+    
+    <item>
+      <title>如何快速统计服务器访问量</title>
+      <link>https://xinlogs.com/post/2009-12-21-quick-stats-server-visits/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-quick-stats-server-visits/</guid>
+      <description>最近看了javaeye上面robbin的一篇文章，学习到了很多知识。
+http://robbin.javaeye.com/blog/97287 如何快速统计RoR网站的访问量
+我的服务器是Apache+tomcat的配置，上面跑了几个网站。都是基于apache 虚拟主机配置的。
+apache配置如下
+Include conf/vhost_*.conf  然后每个虚拟主机对应一个配置文件
+例如下面的(一些信息用???代替了，都是域名和姓名等个人信息)
+&amp;lt;VirtualHost *:80&amp;gt; ServerAdmin ???&amp;lt;a href=&amp;quot;mailto:???@???.cn&amp;quot;&amp;gt;@???.cn&amp;lt;/a&amp;gt; DocumentRoot /home/???/www ServerName &amp;lt;a href=&amp;quot;http://www./???.org&amp;quot;&amp;gt;www.???.org&amp;lt;/a&amp;gt; DirectoryIndex index.jsp index.htm ErrorLog logs/abc-error_log CustomLog &amp;quot;| /usr/sbin/rotatelogs /var/log/httpd/abc-access_%Y%m%d.log 86400&amp;quot; common &amp;lt;Location &amp;quot;/*.jsp&amp;quot;&amp;gt; JkUriSet worker ajp13:localhost:8009 &amp;lt;/Location&amp;gt; &amp;lt;/VirtualHost&amp;gt;  这样配置后，就会在/var/log/httpd下面按照虚拟主机名字和日期，每天生成一个访问日志文件
+统计每日动态请求处理总数
+cat /var/log/httpd/abc-access_20081116.log |grep &amp;quot;200 &amp;quot;|wc -l  统计URL的访问频度
+cat /var/log/httpd/abc-access_20081116.log |grep &amp;quot;200 &amp;quot;|awk &#39;{print $7}&#39;|sort|uniq -c  统计时间访问频度
+cat /var/log/httpd/abc-access_20081116.log |grep &amp;quot;200 &amp;quot;|awk &#39;{print $4}&#39;|awk -F : &#39;{print $2}&#39;|sort|uniq -c  以上这些是基于CentOS+apache+tomcat实现的</description>
+    </item>
+    
+    <item>
+      <title>第一次安装LFS</title>
+      <link>https://xinlogs.com/post/2009-12-21-first-lfs/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-first-lfs/</guid>
+      <description>在经过了大约40小时左右，我的LFS终于顺利启动了。从内核到系统每一个软件都是自己从源代码编译的，感觉很爽。
+本次安装采用LiveCD 6.3作为宿主系统，在VMware上的一个8G scsi盘上安装。
+首先碰到的问题就是GCC编译出现问题。后来发现是因为我用的liveCD是64位的问题。
+换了liveCD 32位的。问题解决
+第二个问题就是glibc总编译不过去，后来发现是我的Linux-2.6.22.5 API Headers从网上下的版本不对
+我一直是看着LFS BOOK 6.2的中文手册安装的，而用的LiveCD和软件包都是6.3
+6.3里面的这个Linux-2.6.22.5 API Headers需要从Linux-2.6.22.5.tar.bz2里面获取
+建议还是看liveCD启动后/usr/share/LFS-BOOK-6.3目录下的文档，这个文档和liveCD带的软件包配套的。
+或者参考中文的
+手把手教你如何建立自己的Linux系统 第二版 作者：孙海勇
+其他就没有碰到什么大问题了。也就是忘记安装个软件包、或者关机重启后，如何从liveCD恢复到工作状态。
+通过这次安装，让我觉得LFS真的是学习Linux的捷径。而且发现了一个牛人的博客，就是上面的孙海勇 网名 冲天飞豹 http://youbest.cublog.cn/
+博客里面有大量关于构建linux系统的技术文章，而且都是原创。
+而且这次通过安装LFS，也找到了Linux 如何在控制台显示UTF-8中文的办法。原来是要给内核打补丁才可以。
+具体的办法可以看
+内核补丁：字符终端下显示UTF-8字符
+总结 安装是顺利完成了，后面要学习的内容还有很多。比如安装时候的每一个包都包含的什么内容、每一条配置的用途。这些安装手册配置容易，如果没有手册自己弄起来就难了。所以后面的时间，就是自己看文档，消化这些知识了。至少顺利迈出第一步！</description>
+    </item>
+    
+    <item>
+      <title>试用ubuntu 8.04和LVM动态增加分区</title>
+      <link>https://xinlogs.com/post/2009-12-21-ubuntu-dynamic-resize-lvm/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-ubuntu-dynamic-resize-lvm/</guid>
+      <description>我在虚拟机VMware里面安装了ubuntu 8.04.
+安装的时候，只是选择了openssh这个服务。安装后感觉系统很干净
+磁盘占用
+/dev/mapper/ubuntu-root 5.6G 321M 5.3G 6% /  系统就用了不到400M
+内存
+ total used free shared buffers cached Mem: 249 39 209 0 3 16  减掉buffers和cached的内容，还有我ssh远程连接的占用。实际系统启动后内存也就需要17M
+LVM
+安装系统的时候，我就选择了整个磁盘启用LVM，采用ubuntu默认分区的方式。
+ubuntu默认分了2个区/sda1和/sda5。sda1用来做/boot，sda5用来做LVM。文件系统都是默认的ext3。
+然后在LVM里面默认建立了2个LV( Logical volume)，一个/dev/ubuntu/root用来做/ ，一个/dev/ubuntu/swap_1用来做swap交换分区。我又手动修改了文件系统，采用reiserfs。
+动态添加/分区大小
+我先添加了一个硬盘，系统识别为sdb
+对这个盘创建分区（LVM可以不用分区的，但是需要动态添加到/分区，所以需要有文件系统，不能添加后格式化/分区吧）
+sudo fdisk /dev/sdb n --&amp;gt;创建分区 t --&amp;gt;修改分区类型为8e w --&amp;gt;保存结果  现在系统可以识别/dev/sdb1这个设备了。
+创建PV(Physical volume)
+sudo pvcreate /dev/sdb1  创建VG(Volume group)
+sudo vgextend ubuntu /dev/sdb1  扩展LV(Logical volume)
+sudo lvextend -L +2G /dev/ubuntu/root&amp;lt;br&amp;gt;  这样就给/dev/ubuntu/root这个设备大小增加了2G。可以通过sudo lvdisply查看 但是这个时候df -h还是没有变化的，需要调整文件系统。</description>
+    </item>
+    
+    <item>
+      <title>ubuntu8.04 玩魔兽世界 2.4.3(8606)</title>
+      <link>https://xinlogs.com/post/2009-12-21-wow-on-ubuntu-linux/</link>
+      <pubDate>Mon, 21 Dec 2009 10:05:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-wow-on-ubuntu-linux/</guid>
+      <description>最近一直在用ubuntu 8.04当桌面系统。已经很少用windows了。随着采用ubuntu也就一直没有玩魔兽世界了。
+今天将Windows下的WOW目录直接拷贝到了ubuntu下面。我的wine是用sudo apt-get install默认安装的，没有特殊设置。
+将wow目录拷贝到了用户目录的 .wine/drive_c/Program Files目录下。然后直接双击wow.exe运行。
+这个时候会提示如下画面的错误。
+这个不要紧，我们在启动的时候加入-opengl 参数就可以解决。
+下面这个是成功启动的命令和截图
+wine .wine/drive_c/Program\ Files/World\ of\ Warcraft/Wow.exe -opengl -nosound
+已经成功启动了，感觉还不错。这个是在我IBM R61的笔记本上运行结果。
+下面进入游戏看看速度
+开始的时候，我的运行速度不行。只有可怜的35帧每秒。
+在我关闭了所有特效后，速度到了惊人的100帧每秒。。。这个速度完全可以正常游戏了。
+再看看我桌面右侧的状态cpu 53%占用 内存709.88MB 感觉还可以吧。
+虽然已经AFK了，但是ubuntu能玩魔兽世界，还是让我很开心的。</description>
+    </item>
+    
+  </channel>
+</rss>

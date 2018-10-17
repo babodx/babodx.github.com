@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>debian6.0.5(squeeze)安装配置xen-4.0虚拟化 | 鑫的方向</title>
+    <meta property="og:title" content="debian6.0.5(squeeze)安装配置xen-4.0虚拟化 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2012-08-06T17:50:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2012-08-06T17:50:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="debian6.0.5(squeeze)安装配置xen-4.0虚拟化">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2012-08-06-debian-xen-install/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">debian6.0.5(squeeze)安装配置xen-4.0虚拟化</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2012年8月6日
+                            17:50
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/virtualization">Virtualization</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>#系统安装#</p>
+
+<p>我是通过<a href="http://mirrors.163.com下载的">http://mirrors.163.com下载的</a>     debian-6.0.5-amd64-CD-1.iso
+最小安装有一张CD就可以了，安装的是debian6.0.5(squeeze) 64位版本</p>
+
+<p>安装没啥好说的，最小化安装，除了基本系统就多选择了一个ssh server。</p>
+
+<p>安装好系统后，进入系统首先设置网卡，不要用dhcp选择static模式
+编辑/etc/network/interfaces文件如下</p>
+
+<pre><code># The loopback network interfaceauto lo
+ 
+iface lo inet loopback
+ 
+# The primary network interface
+ 
+#allow-hotplug eth0
+ 
+auto eth0
+ 
+iface eth0 inet static
+ 
+  address 192.168.1.10
+ 
+  netmask 255.255.255.0
+ 
+  broadcast 192.168.1.255
+ 
+  network 192.168.1.0
+ 
+  gateway 192.168.1.1
+</code></pre>
+
+<p>我这里只有一个eth0网卡，采用192.168.1.10的IP地址</p>
+
+<p>接下来修改apt的源，采用mirrors.163.com提供的服务器，这样速度比较快
+修改/etc/apt/sources.list
+内容如下</p>
+
+<pre><code>deb http://mirrors.163.com/debian/ squeeze main non-free contrib
+deb http://mirrors.163.com/debian/ squeeze-proposed-updates main non-free contrib
+deb-src http://mirrors.163.com/debian/ squeeze main non-free contrib 
+deb-src http://mirrors.163.com/debian/ squeeze-proposed-updates main non-free contrib
+</code></pre>
+
+<p>执行apt-get update更新源</p>
+
+<p>经过这些设置，系统基本就是一个干净的最小系统。并且采用163的服务器作为软件源。</p>
+
+<p>##安装XEN-4.0##</p>
+
+<p>下面开始安装xen-4.0的相关软件包和配置</p>
+
+<pre><code>apt-get install xen-hypervisor-4.0-amd64 xen-linux-system-2.6.32-5-xen-amd64 xen-utils* xenwatch xen-tools
+</code></pre>
+
+<p>需要下66.2M的软件包</p>
+
+<p>安装后，再次启动选择带XEN 4.0 amd64的内核启动项</p>
+
+<p>注意：（默认的启动项虽然带xen但是不带4.0选项，启动后不能正确启动xend）
+也可以修改/etc/default/grub里面的选项，默认从这个内核启动</p>
+
+<p>修改GRBU_DEFAULT=4</p>
+
+<p>###配置xen的网络###
+修改/etc/xen/xend-config.sxp文件</p>
+
+<p>打开<code>(network-script network-bridge)</code></p>
+
+<p>采用桥接方式</p>
+
+<p>重启后，系统会将物理网卡修改为peth0，而eth0为桥接的网卡</p>
+
+<p>brctl show 显示如下</p>
+
+<pre><code>root@node1:~# brctl show
+bridge name     bridge id                    STP enabled     interfaces
+eth0                 8000.001c42d8fe43     no                    peth0
+</code></pre>
+
+<p>###通过xen-create-image安装debian虚拟系统###</p>
+
+<pre><code>xen-create-image --hostname=vm01 --size=2G --swap=128M --ide \ 
+
+--ip=192.168.1.21 --netmask=255.255.255.0 --gateway=192.168.1.1 \
+
+--force --dir=/vm --memory=128M -arch=i386 \
+
+--kernel=/boot/vmlinuz-2.6.32-5-xen-amd64 \
+
+--dist=squeeze --mirror=http://mirrors.163.com/debian/ --passwd \
+
+--install-method=debootstrap
+</code></pre>
+
+<p>安装以后，需要调整vm01.cfg文件，否则无法启动
+首先调整磁盘的相关配置</p>
+
+<pre><code>root        = '/dev/xvda2 ro'
+disk        = [
+                  'file:/vm/domains/vm01/disk.img,xvda2,w',
+                  'file:/vm/domains/vm01/swap.img,xvda1,w',
+              ]
+</code></pre>
+
+<p>将原来的hda2修改为xvda2</p>
+
+<p>然后是调整网卡的相关配置</p>
+
+<pre><code>vif         = [ 'ip=192.168.1.21,mac=00:16:3E:9B:1A:90,bridge=eth0' ]
+</code></pre>
+
+<p>主要是加上bridge=eth0</p>
+
+<p>这样就可以通过xm create vm01.cfg启动虚拟系统了</p>
+
+<pre><code>root@node1:~# xm list
+Name                                        ID   Mem VCPUs      State   Time(s)
+Domain-0                                   0   879     1               r-----     26.6
+vm01                                         1   128     1                -b----      1.7
+
+root@node1:~#  
+</code></pre>
+
+<p>启动后，dom0下面会出现一个vif的虚拟网卡</p>
+
+<pre><code>root@node1:~# brctl show
+bridge name     bridge id                      STP enabled     interfaces
+eth0                 8000.001c42d8fe43         no                      peth0
+</code></pre>
+
+<pre><code>                                                                                            vif1.0 
+</code></pre>
+
+<p>如果在guest系统只能ping到dom0的eth0，而不能ping到外网
+可以检查下</p>
+
+<pre><code>root@node1:~# sysctl net.ipv4.ip_forward
+
+net.ipv4.ip_forward = 0
+</code></pre>
+
+<p>只要打开这个ip_forward就可以了</p>
+
+<p>修改/etc/sysctl.conf里面的net.ipv4.ip_forward=1
+或者
+<code>echo 1&gt;/proc/sys/net/ipv4/ip_forward</code></p>
+
+<p>也可以用命令临时生效
+<code>sysctl -w net.ipv4.ip_forward=1</code></p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2012-08-01-solve-nginx-502-mistakes/">nginx通过轮询避免php-fpm引起的502错误</a></li>
+        
+        <li><a href="/post/2012-07-29-accelerate-app-store-download/">快速提升app store下载速度</a></li>
+        
+        <li><a href="/post/2012-07-23-macbook-air-use-e1750-3g-mobilecard/">2012 macbook Air 使用华为E1750 3g上网卡</a></li>
+        
+        <li><a href="/post/2012-07-22-config-esmtp-via-gmail-sendmail/">配置ecshop通过本地esmtp发信</a></li>
+        
+        <li><a href="/post/2012-07-13-config-winxp-remote-desktop/">winxp的远程桌面设置</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

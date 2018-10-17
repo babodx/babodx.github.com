@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>bbsxp 6.0数据导入phpwind 8.7方法 | 鑫的方向</title>
+    <meta property="og:title" content="bbsxp 6.0数据导入phpwind 8.7方法 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2011-12-14T23:12:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2011-12-14T23:12:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="bbsxp 6.0数据导入phpwind 8.7方法">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2011-12-14-bbsxp6-to-phpwind8/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">bbsxp 6.0数据导入phpwind 8.7方法</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2011年12月14日
+                            23:12
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/php">PHP</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>今天帮助猪八戒网上的一个客户将原来的bbsxp 6.0的论坛数据迁移到phpwind 8.7下。这里主要记录下思路</p>
+
+<p>phpwind官方论坛有各种的迁移程序，但是继续bbsxp的最早版本是2008. 而我这个客户的是bbsxp 6的access库。</p>
+
+<p>完成这个任务，我顺利升级到猪三戒！呵呵</p>
+
+<p>没有现成的，只能自己分析了。</p>
+
+<p>为了导入方便，我先将需要用到的数据从access的库导入mysql里。</p>
+
+<p>这样bbsxp的表和新安装的phpwind表都在一个库了。</p>
+
+<p><strong>数据分析</strong></p>
+
+<p>这个步骤主要分析用户数据、论坛的板块数据、帖子、回帖等数据的格式。找到两个表的数据关系，为后面导入数据打下基础。</p>
+
+<p><strong>数据迁移</strong></p>
+
+<p>用户数据</p>
+
+<pre><code>INSERT INTO pw_members(uid,username,password,email,icon,gender,regdate,signature,site,bday) SELECT ID,UserName,lower(UserPass),UserMail,UserFace,UserSex,UNIX_TIMESTAMP(UserRegTime),UserSign,UserHome,Birthday From bbsxp_users;
+</code></pre>
+
+<pre><code>INSERT INTO pw_memberdata(uid,postnum,rvrc,money) SELECT ID,PostTopic,PostRevert,UserMoney From bbsxp_users;
+</code></pre>
+
+<p>帖子数据</p>
+
+<pre><code>INSERT INTO pw_threads(tid,fid,author,subject,ifcheck,postdate,lastpost,lastposter,hits,replies) SELECT ID,ForumID,UserName,Topic,1,UNIX_TIMESTAMP(PostTime),UNIX_TIMESTAMP(LastTime),LastName,Views,Replies From bbsxp_threads;
+</code></pre>
+
+<pre><code>INSERT INTO pw_tmsgs(tid,content) SELECT ThreadID,Content From bbsxp_posts2 where IsTopic=1;
+</code></pre>
+
+<pre><code>update pw_threads set authorid = (SELECT uid from pw_members WHERE username=pw_threads.author);
+</code></pre>
+
+<p>回帖数据</p>
+
+<pre><code>INSERT INTO pw_posts(pid,tid,author,postdate,subject,ifcheck,content) SELECT ID,ThreadID,UserName,UNIX_TIMESTAMP(PostTime),Subject,1,Content From bbsxp_posts2 where IsTopic=0;
+</code></pre>
+
+<pre><code>update pw_posts set authorid = (SELECT uid from pw_members WHERE username=pw_posts.author);
+</code></pre>
+
+<p><strong>最后注意：</strong></p>
+
+<p>导入数据后，论坛进入板块后没有分页。这个需要进入后台，数据-》全部缓存-》更新各种统计数据。</p>
+
+<p>还有就是需要看下bbsxp做没做分表处理，有可能将bbsxp_posts分表为bbsxp_posts1、bbsxp_posts2等表</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2011-12-09-check-slow-php-script/">如何找到执行慢的php程序</a></li>
+        
+        <li><a href="/post/2011-12-01-howto-open-rewrite-log/">伪静态规则调试技巧</a></li>
+        
+        <li><a href="/post/2011-11-25-linux-source-install-multiple-versions-of-mysql/">Linux源码安装MySQL多版本共存</a></li>
+        
+        <li><a href="/post/2011-11-20-emlog-alipay-pulgin/">emlog支付插件发布</a></li>
+        
+        <li><a href="/post/2011-11-17-emlog-optimize-via-minify/">emlog访问速度优化之minify整合css与js文件</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

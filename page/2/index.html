@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>鑫的方向 | 嗜欲深着，天机浅！</title>
+    <meta property="og:title" content="鑫的方向 | 嗜欲深着，天机浅！">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="专注于金融科技，包括但不限于linux、python、Go语言(golang)、项目管理、运维、软件架构等">
+    <meta property="og:url" content="https://xinlogs.com/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://xinlogs.com">
+                            鑫的方向
+                        </a>
+                    </h1>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-10-03-nginx-reverse-proxy-websockets/">nginx反向代理websockets</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年10月3日
+                                11:42
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>有些情况下，部署的服务器是只开80端口的，这个时候如果我们想要ssh怎么弄？</p>
+
+<p><strong>就是本地开其他端口的web ssh client，然后通过nginx的80端口反向代理。这个一般都需要走webscokets的，下面我就把我折腾的东西记录下。</strong></p>
+
+<p>##web client的选择##</p>
+
+<p>我是用了一个基于python技术，html5，websockets实现的web界 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-10-03-nginx-reverse-proxy-websockets/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-10-02-iterm2gei-sshchuang-kou-shang-se/">iterm2给ssh窗口上色</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年10月2日
+                                21:58
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#给iterm2的ssh窗口上颜色#</p>
+
+<p>经常开ssh登陆远程服务器，有时自己都分不清那个是远程那个是本地了。</p>
+
+<p>今天看到一个技巧，可以让iterm2 给ssh到远程的窗口上个颜色。这样一看颜色就知道不是本地了。</p>
+
+<p>首先就是编辑~.zshrc文件,在末尾加入</p>
+
+<pre><code>source iterm2.zsh
+
+</code></pre>
+
+<p>然后在用户目录创建一个iterm2.zsh文件， …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-10-02-iterm2gei-sshchuang-kou-shang-se/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-10-02-yi-ci-ru-qin-jian-cha/">一次入侵检查</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年10月2日
+                                21:38
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#10.1放假期间的一次入侵处理#</p>
+
+<p>今天一个网站的朋友给我电话，说网站无法访问了。我尝试访问了下，提示数据库不存在。开始以为数据库出现问题了，尝试访问子域名无问题。ssh上去看到数据库正常。
+检查文件的时候，发现mysql_config.php是早上6点多修改过的。比较奇怪了。</p>
+
+<p>打开mysql_config.php发现已经被清空了。于是赶紧处理下，让网站 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-10-02-yi-ci-ru-qin-jian-cha/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-09-30-update-git/">update git</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年9月30日
+                                10:01
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/git">git</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#问题#</p>
+
+<p>朋友架设了一个gitlab，很适合内部使用。但是当我从服务器上想把salt的配置push上去的时候，一直失败。测试了下，clone也是失败的。</p>
+
+<p>提示如下</p>
+
+<pre><code>error: The requested URL returned error: 401 Unauthorized while accessing http://x.x.x.x
+
+</code></pre>
+
+<p>##解 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-09-30-update-git/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-08-12-ruby-with-activerecord-access-mysql/">Ruby采用ActiveRecord方式访问Mysql</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年8月12日
+                                11:03
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/ruby">Ruby</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>前段时间一个朋友的DZ论坛因为误操作导致部分帖子被删除，因为发现的比较晚，所以再删除后已经有很多新帖子被发布了。所以就无法简单的还原到帖子被删除的某个时间点，因为这样就会造成数据库回档，很多新的帖子将消失。</p>
+
+<p>我想到的处理办法就是采用一个删除点前的备份恢复到一个新表中，然后用程序判断被删除的帖子导入到现在的数据库中。而最近一直比较迷恋ruby的我，理所当然就 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-08-12-ruby-with-activerecord-access-mysql/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-05-06-securecrt-for-mac-store-password/">mac下的secureCRT如何保存密码？</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年5月6日
+                                11:03
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>mac下面的secureCRT默认保存不上密码，我们选择了保存密码后，下次登录还是提示密码错误。</p>
+
+<p>解决办法：
+因为secureCRT默认采用mac的keychain来处理密码，所以会出现这个问题。我们只需要去掉这个选项即可正常。</p>
+
+<p>打开secureCRT后，按&rdquo;command+,&rdquo; 在&rdquo;advanced&rdquo;里面 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-05-06-securecrt-for-mac-store-password/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-04-29-digitalocean-vps/">digitalocean-vps</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年4月29日
+                                10:55
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/host">Host</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>##Digitalocean debian6 vps测试##</p>
+
+<p>最近又折腾了一次VPS。 原来一直使用的是vpsee.com提供的最低配置VPS。</p>
+
+<p><strong>配置</strong></p>
+
+<ul>
+<li>1 core CPU</li>
+<li>256 MB 内存</li>
+<li>256 MB 交换</li>
+<li>10 GB 硬盘</li>
+<li>160 GB 流量</li>
+<li>1 IP</li>
+<li>5 机房可选</li>
+</ul>
+
+<p>费用 $10/月</p>
+
+<p>再来看看我最近选择的digitalocean的vps …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-04-29-digitalocean-vps/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/">nginx支持thinkphp的pathinfo模式</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年4月25日
+                                15:06
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近帮助一个朋友迁移系统。原有系统是www.pinphp.com开发的一套淘宝客程序，跑在Win03服务器上。因为ddos攻击、性能问题等原因，找我迁移到Linux系统下。</p>
+
+<p>首先我推荐的组合当然是现在流行的Ningx+php-fpm模式。便于优化而且效率很高。</p>
+
+<p>部署的过程中遇到的问题就是伪静态无法生效。一些带中文的url无法正常处理等。</p>
+
+<p>后来看代码发 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/">centos5.5安装rails环境</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年4月2日
+                                13:10
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近招生需要写一个考试结果查询程序，就用rails来写了。以前一直java、php的，发现rails的高效开发以后，就打算尝试下。
+程序写好后，就开始考虑服务器的问题了。我手边就只有centos的系统，也直到ubuntu和debian对于rails来说有好点。但是现实总是残酷的。。。</p>
+
+<p>##安装EPEL
+因为系统为centos 5.5 所以很多现在流行的软件 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-2/">rails-best-practices-2</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年3月16日
+                                10:23
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#SCOPE IT OUT</p>
+
+<p>和前面一样，让我们先来看一段“SAD CODE”。</p>
+
+<p>/app/controllers/tweets_controller.rb</p>
+
+<pre><code class="language-ruby">def index
+  @tweets = Tweet.find(
+              :all,
+              :conditions =&gt; {:user_id …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-2/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/">1</a>
+    </li>
+    
+    <li class="current">
+        <a href="/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/page/5/">5</a>
+    </li>
+    
+    <li>
+        <a href="/page/6/">6</a>
+    </li>
+    
+    <li>
+        <a href="/page/7/">7</a>
+    </li>
+    
+    <li>
+        <a href="/page/8/">8</a>
+    </li>
+    
+    <li>
+        <a href="/page/9/">9</a>
+    </li>
+    
+    <li>
+        <a href="/page/10/">10</a>
+    </li>
+    
+    <li>
+        <a href="/page/11/">11</a>
+    </li>
+    
+    <li>
+        <a href="/page/12/">12</a>
+    </li>
+    
+    <li>
+        <a href="/page/13/">13</a>
+    </li>
+    
+    <li>
+        <a href="/page/14/">14</a>
+    </li>
+    
+    <li>
+        <a href="/page/15/">15</a>
+    </li>
+    
+    <li>
+        <a href="/page/16/">16</a>
+    </li>
+    
+    <li>
+        <a href="/page/17/">17</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/page/3/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

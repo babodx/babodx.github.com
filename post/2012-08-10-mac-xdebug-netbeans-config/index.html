@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>mac下配置php调试环境 | 鑫的方向</title>
+    <meta property="og:title" content="mac下配置php调试环境 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2012-08-10T16:00:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2012-08-10T16:00:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="mac下配置php调试环境">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2012-08-10-mac-xdebug-netbeans-config/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">mac下配置php调试环境</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2012年8月10日
+                            16:00
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/mac">Mac</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>已经用了mac有2个月了，基本网络管理和开发工作都在mac下面了。</p>
+
+<p>下面说下如何配置mac下面的php调试环境</p>
+
+<p><strong>我的环境：</strong></p>
+
+<ul>
+<li>macbook air 2012款<br /></li>
+<li>Mac OS X 10.8 系统</li>
+<li>php环境：XAMPP 1.7.3</li>
+<li>开发工具：一般用sublime text 2，调试或者项目开发用netbeans</li>
+</ul>
+
+<p>下面说说如何安装调试环境，主要就是xdebug的安装和配置</p>
+
+<p>这里需要提下mac下面的安装包管理工具homebrew</p>
+
+<p>我就是用brew来安装xdebug的。homebrew是一个用ruby开发的，类似macport的工具。可以在线安装软件，就像linux下的apt-get或者yum一样。</p>
+
+<p><strong>安装homebrew</strong></p>
+
+<p>需要系统可以支持ruby，通过ruby -v命令可以查看ruby版本。mac os 自带ruby</p>
+
+<p>直接在终端里输入</p>
+
+<pre><code>ruby &lt;(curl -fsSk https://raw.github.com/mxcl/homebrew/go)
+</code></pre>
+
+<p>上面命令执行完，brew命令就可以执行了。</p>
+
+<p>先运行brew doctor测试下环境是否完整，如果需要，还要添加Command Line Tools。</p>
+
+<p>添加Command Line Tools</p>
+
+<p>打开Xcode，在preferences-&gt;downloads里面下载并安装Command Line Tools</p>
+
+<p><img src="http://farm9.staticflickr.com/8088/8515461958_4e96f751a7_z.jpg" alt="xcode" /></p>
+
+<p>一切正确的话，执行brew doctor显示如下</p>
+
+<pre><code>babomatoMacBook-Air:~ babo$ brew doctor
+
+Your system is raring to brew.
+</code></pre>
+
+<p>安装好brew后，先执行brew update更新下软件包的源，然后再加载两个formula的资源</p>
+
+<pre><code>brew update
+
+brew tap josegonzalez/homebrew-php
+
+brew tap homebrew/dupes
+</code></pre>
+
+<p>完成后，就可以通过brew search和brew install来查找并安装软件了</p>
+
+<pre><code>brew install php53-xdebug
+</code></pre>
+
+<p>安装好xdebug后，还需要配置php.ini才可以正常使用。</p>
+
+<p>先用brew info查看xdebug相关信息</p>
+
+<pre><code>babomatoMacBook-Air:~ babo$ brew info php53-xdebug
+php53-xdebug: stable 2.2.1, HEAD
+http://xdebug.org
+Depends on: autoconf
+/usr/local/Cellar/php53-xdebug/2.2.1 (4 files, 360K) *
+https://github.com/josegonzalez/homebrew-php/commits/master/Formula/php53-xdebug.rb
+==&gt; Options
+--without-config-file
+    Do not add ext-xdebug.ini to /usr/local/etc/php/5.3/conf.d
+==&gt; Caveats
+To finish installing xdebug for PHP 5.3:
+  * /usr/local/etc/php/5.3/conf.d/ext-xdebug.ini was created,
+    do not forget to remove it upon extension removal.
+  * Restart your webserver.
+  * Write a PHP page that calls &quot;phpinfo();&quot;
+  * Load it in a browser and look for the info on the xdebug module.
+  * If you see it, you have been successful!
+</code></pre>
+
+<p>通过信息我们知道xdebug版本是 stable 2.2.1</p>
+
+<p>配置文件在/usr/local/etc/php/5.3/conf.d/ext-xdebug.ini</p>
+
+<p>我们xampp的配置文件在/Applications/XAMPP/xamppfiles/etc/php.ini</p>
+
+<p>将xdebug的配置加入到/Applications/XAMPP/xamppfiles/etc/php.ini</p>
+
+<p>在文件最下面加入如下信息</p>
+
+<pre><code>[xdebug]
+zend_extension=&quot;/usr/local/Cellar/php53-xdebug/2.2.1/xdebug.so&quot;
+        xdebug.remote_enable=1
+        xdebug.remote_host=localhost
+        xdebug.remote_port=9000
+        xdebug.remote_handler=dbgp
+</code></pre>
+
+<p>重启xampp的apache，然后访问phpinfo查看是否成功加载xdebug</p>
+
+<p><img src="http://farm9.staticflickr.com/8381/8515464954_5cd7f4b8be.jpg" alt="xdebug" /></p>
+
+<p><strong>配置netbeans可以调用xdebug</strong></p>
+
+<p>首先将netbeans的偏好设置里的php5解释器设置为xampp的php。不要用系统自带的</p>
+
+<p><img src="http://farm9.staticflickr.com/8518/8515466796_97a1191c23.jpg" alt="xampp_php" /></p>
+
+<p>再设置调试的端口</p>
+
+<p><img src="http://farm9.staticflickr.com/8239/8514355437_689a0d90c0.jpg" alt="netbeans设置xdebug端口" /></p>
+
+<p>这些都设置好，就可以调试php代码了</p>
+
+<p>最后放一张我调试的截图</p>
+
+<p><img src="http://farm9.staticflickr.com/8246/8514357603_58e49f882b_z.jpg" alt="php调试截图" /></p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2012-08-08-update-115disk-urls/">批量更换115网盘链接</a></li>
+        
+        <li><a href="/post/2012-08-06-debian-xen-install/">debian6.0.5(squeeze)安装配置xen-4.0虚拟化</a></li>
+        
+        <li><a href="/post/2012-08-01-solve-nginx-502-mistakes/">nginx通过轮询避免php-fpm引起的502错误</a></li>
+        
+        <li><a href="/post/2012-07-29-accelerate-app-store-download/">快速提升app store下载速度</a></li>
+        
+        <li><a href="/post/2012-07-23-macbook-air-use-e1750-3g-mobilecard/">2012 macbook Air 使用华为E1750 3g上网卡</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

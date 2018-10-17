@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>试用ubuntu 8.04和LVM动态增加分区 | 鑫的方向</title>
+    <meta property="og:title" content="试用ubuntu 8.04和LVM动态增加分区 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="试用ubuntu 8.04和LVM动态增加分区">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2009-12-21-ubuntu-dynamic-resize-lvm/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">试用ubuntu 8.04和LVM动态增加分区</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2009年12月21日
+                            18:00
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>我在虚拟机VMware里面安装了ubuntu 8.04.</p>
+
+<p>安装的时候，只是选择了openssh这个服务。安装后感觉系统很干净</p>
+
+<p><strong>磁盘占用</strong></p>
+
+<pre><code>/dev/mapper/ubuntu-root                      5.6G 321M 5.3G   6% /
+</code></pre>
+
+<p>系统就用了不到400M</p>
+
+<p><strong>内存</strong></p>
+
+<pre><code>                   total       used       free     shared    buffers     cached
+Mem:           249         39        209          0          3         16
+</code></pre>
+
+<p>减掉buffers和cached的内容，还有我ssh远程连接的占用。实际系统启动后内存也就需要17M</p>
+
+<p><strong>LVM</strong></p>
+
+<p>安装系统的时候，我就选择了整个磁盘启用LVM，采用ubuntu默认分区的方式。</p>
+
+<p>ubuntu默认分了2个区/sda1和/sda5。sda1用来做/boot，sda5用来做LVM。文件系统都是默认的ext3。</p>
+
+<p>然后在LVM里面默认建立了2个LV( Logical volume)，一个/dev/ubuntu/root用来做/ ，一个/dev/ubuntu/swap_1用来做swap交换分区。我又手动修改了文件系统，采用reiserfs。</p>
+
+<p><strong>动态添加/分区大小</strong></p>
+
+<p>我先添加了一个硬盘，系统识别为sdb</p>
+
+<p>对这个盘<strong>创建分区</strong>（LVM可以不用分区的，但是需要动态添加到/分区，所以需要有文件系统，不能添加后格式化/分区吧）</p>
+
+<pre><code>sudo fdisk /dev/sdb
+n --&gt;创建分区
+t --&gt;修改分区类型为8e
+w --&gt;保存结果
+</code></pre>
+
+<p>现在系统可以识别/dev/sdb1这个设备了。</p>
+
+<p><strong>创建PV(Physical volume)</strong></p>
+
+<pre><code>sudo pvcreate /dev/sdb1
+</code></pre>
+
+<p><strong>创建VG(Volume group)</strong></p>
+
+<pre><code>sudo vgextend ubuntu /dev/sdb1
+</code></pre>
+
+<p><strong>扩展LV(Logical volume)</strong></p>
+
+<pre><code>sudo lvextend -L +2G /dev/ubuntu/root&lt;br&gt;
+</code></pre>
+
+<p>这样就给/dev/ubuntu/root这个设备大小增加了2G。可以通过sudo lvdisply查看
+但是这个时候df -h还是没有变化的，需要调整文件系统。</p>
+
+<pre><code>sudo resize_reiserfs -s +2G /dev/ubuntu/root&lt;br&gt;
+</code></pre>
+
+<p>这样就完成了全部动态扩展分区。而且是服务器一直在线状态，不用关机。</p>
+
+<p>调整Swap</p>
+
+<p>还是和上面一样的情景，只要VG里面还有剩余空间就可以用来扩展swap用。</p>
+
+<pre><code>sudo swapoff -a
+</code></pre>
+
+<p>关闭正在用的swap分区</p>
+
+<p>然后</p>
+
+<pre><code>sudo lvextend -L +200M /dev/ubuntu/swap_1
+</code></pre>
+
+<p>给/dev/ubuntu/swap_1扩展了200M容量</p>
+
+<pre><code>sudo mkswap /dev/ubuntu/swap_1
+</code></pre>
+
+<p>建立swap的文件系统</p>
+
+<p>最后</p>
+
+<pre><code>sudo swapon -a
+</code></pre>
+
+<p>启用新的swap系统。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2009-12-21-rails-graphical-verification-code/">rails实现图片验证码</a></li>
+        
+        <li><a href="/post/2009-12-21-ubuntu-904-install-xen/">ubuntu 9.04安装xen</a></li>
+        
+        <li><a href="/post/2009-12-21-centos-5-3-64bit-install-on-hp-380-g5/">CentOS 5.3 64bit安装在HP 380G5服务器</a></li>
+        
+        <li><a href="/post/2009-12-21-wow-plugin-teamqueue/">修改了一个大战场团排插件 TeamQueue 1.35</a></li>
+        
+        <li><a href="/post/2009-12-21-mage/">我冲高督的心得</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

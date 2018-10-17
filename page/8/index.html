@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>鑫的方向 | 嗜欲深着，天机浅！</title>
+    <meta property="og:title" content="鑫的方向 | 嗜欲深着，天机浅！">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="专注于金融科技，包括但不限于linux、python、Go语言(golang)、项目管理、运维、软件架构等">
+    <meta property="og:url" content="https://xinlogs.com/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://xinlogs.com">
+                            鑫的方向
+                        </a>
+                    </h1>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-03-14-mysqldump-encoding/">mysqldump解决中文乱码问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年3月14日
+                                14:32
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/database">Database</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我的数据库采用编码如下：</p>
+
+<pre><code>mysql&gt; show variables like 'coll%';
++----------------------+-------------------+
+| Variable_name        | Value             | …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-03-14-mysqldump-encoding/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-01-13-mysql-tablename-lowercase/">Mysql设置不区分表名大小写</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年1月13日
+                                16:02
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/database">Database</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天遇到个问题，有个程序从Windows导入到Linux的时候，表格全部小写了。但程序里很多DAO全是大写调用。</p>
+
+<p>Linux默认安装的Mysql是表名区分大小写的。</p>
+
+<p>这个设置主要是在/etc/my.cnf里面的[mysqld]段，加入如下设置项</p>
+
+<pre><code>lower_case_table_names = 1
+</code></pre>
+
+<p> 
+如果设置为0，就是区分大小写。设置为1就是不区 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-01-13-mysql-tablename-lowercase/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-11-28-anti-virus-test-file/">病毒测试样本</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年11月28日
+                                10:04
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/website">Website</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                我们在安装好杀毒软件后，如何测试下效果呢？
+下面的网站给我们提供了病毒测试样本：
+<a href="http://www.eicar.org/anti_virus_test_file.htm">http://www.eicar.org/anti_virus_test_file.htm</a>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-11-28-anti-virus-test-file/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-11-26-tomcat-memory-check/">监控tomcat内存占用</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年11月26日
+                                19:47
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近单位给客户部署的一台服务器，主要跑的JAVA应用，一个物业OA系统。经常因为Tomcat内存占用过高而停止响应。</p>
+
+<p>观察了一下，每次停止响应时候，Tomcat进程占用内存超过1.2G</p>
+
+<p>初步怀疑是程序不够完善有内存泄露的地方，但是一时半会也找不到具体代码哪里有问题。</p>
+
+<p>我就写了一个shell不断监控Tomcat进程内存占用，当发现内存占用大于800M，我 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-11-26-tomcat-memory-check/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-11-25-heidisql/">HeidiSQL一款开源的MySQL图形管理软件</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年11月25日
+                                20:32
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/database">Database</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>以前一直使用Navicat客户端，功能确实强大。不过这个客户端是收费的商业软件。
+最近发现有一款HeidiSQL的开源软件，也可以很好的管理MySQL。使用后，发现很不错。这里推荐下
+官方介绍：
+<h2>What&rsquo;s this?</h2>
+<strong>HeidiSQL</strong> is an easy-to-use interface and a …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-11-25-heidisql/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-11-04-stop-tomcat-shell/">CentOS下的Tomcat停止脚本</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年11月4日
+                                19:23
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我在CentOS 5.3 64bit上安装的Tomcat有个小问题，就是不能通过service tomcat stop停止或者server tomcat restart重启。</p>
+
+<p>我看了下/etc/init.d/tomcat的文件，和以前没有什么不一样，但就是不能正常停止。</p>
+
+<p>后来我自己修改了/etc/init.d/tomcat文件，改为直接kill进程。目前 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-11-04-stop-tomcat-shell/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-10-27-emule-vpn-highid/">通过VPN获取eMule的HighID</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年10月27日
+                                20:46
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>一般单位里，我们都是通过单位网关上网。这种情况下打开eMule肯定获取到的是LowID（低ID）。那么既然我们可以通过VPN来翻墙，有没有办法通过VPN来获取到eMule的HighID（高ID）呢？</p>
+
+<p>答案是肯定的：可以。</p>
+
+<p>只要我们将VPN服务器的外网IP上的对应端口映射到我们VPN客户端获取到的IP端口上就可以。</p>
+
+<p>我的VPN服务器，就是跑在我这台博客服 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-10-27-emule-vpn-highid/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-10-11-rashost-vps/">瑞豪开源(RASHOST)VPS10个月使用感受</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年10月11日
+                                16:18
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/website">Website</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                从2009年12月算来，我使用<strong>瑞豪开源(RASHOST)</strong>提供的VPS已经10个月了，下面说说我的感受。
+我选择的是128M Linux VPS，系统采用的CentOS 5
+选择理由：因为我就是跑自己的blog，还有开openvpn用来访问一些被墙的站点，所以不需要太多内存。当然这也归功于<strong>瑞豪开源(RASHOST)</strong>他们的技术实力优秀。他们提供的VPS 系统都是 …
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-10-11-rashost-vps/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-08-26-lingtu-on-hero-android21/">Hero G3 android 2.1下好用的导航软件</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年8月26日
+                                15:08
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mobile">Mobile</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>Hero G3在升级到Android 2.1后就没有什么好用的导航软件了。google map需要流量，这个等于导航的时候随时收费，偶尔用用还可以，不适合长期使用。</p>
+
+<p>凯立德在anroid 2.1有可用版本，但是操作体验比较差，经常按个按钮，半天没有反映需要反复按。而且我还遇到过不能定位的问题，后来重启了手机才解决。</p>
+
+<p>不过现在天行者10终于可以运行 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-08-26-lingtu-on-hero-android21/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-08-26-centos-install-mudos/">CENTOS下安装MUDOS跑侠客行</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年8月26日
+                                15:05
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在放假，我又玩了玩很久以前的网络游戏北美侠客行。一个纯文字的MUD游戏。而且自己在CentOS下也架设了一个，下面就说说我的安装过程，给自己做个记录，怕以后忘记。</p>
+
+<p>要架设一个MUD游戏，需要MUDOS和MUDLIB两部分。这里简单解释一下，其实我也刚接触，有不对的地方还望见谅。</p>
+
+<p>MUDOS我理解就是一个跑MUD游戏的平台或者理解为模拟器，只要符 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-08-26-centos-install-mudos/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/page/7/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/">1</a>
+    </li>
+    
+    <li>
+        <a href="/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/page/5/">5</a>
+    </li>
+    
+    <li>
+        <a href="/page/6/">6</a>
+    </li>
+    
+    <li>
+        <a href="/page/7/">7</a>
+    </li>
+    
+    <li class="current">
+        <a href="/page/8/">8</a>
+    </li>
+    
+    <li>
+        <a href="/page/9/">9</a>
+    </li>
+    
+    <li>
+        <a href="/page/10/">10</a>
+    </li>
+    
+    <li>
+        <a href="/page/11/">11</a>
+    </li>
+    
+    <li>
+        <a href="/page/12/">12</a>
+    </li>
+    
+    <li>
+        <a href="/page/13/">13</a>
+    </li>
+    
+    <li>
+        <a href="/page/14/">14</a>
+    </li>
+    
+    <li>
+        <a href="/page/15/">15</a>
+    </li>
+    
+    <li>
+        <a href="/page/16/">16</a>
+    </li>
+    
+    <li>
+        <a href="/page/17/">17</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/page/9/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

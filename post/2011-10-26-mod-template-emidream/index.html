@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>修改EMiDream模板 | 鑫的方向</title>
+    <meta property="og:title" content="修改EMiDream模板 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2011-10-26T19:40:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2011-10-26T19:40:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="修改EMiDream模板">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2011-10-26-mod-template-emidream/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">修改EMiDream模板</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2011年10月26日
+                            19:40
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/php">PHP</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>今天修改了EMiDream模板。这个模板是给wordpress制作的，应用在<a href="http://www.templatesnext.org/">http://www.templatesnext.org/</a>网站
+我是在emlog论坛找到了“通信民工”修改的过来的版本。
+我所做的修改如下：
+1、首页每条博客下面变为了中文的 评论 和 浏览
+这个修改主要是在log_list.php文件中，将28、29行改为如下内容</p>
+
+<pre><code>    &lt;span class=&quot;postcomments&quot;&gt;&lt;a href=&quot;&lt;?php echo $value['log_url']; ?&gt;#comments&quot; title=&quot;查询评论&quot;&gt;评论：&lt;?php echo $value['comnum']; ?&gt;&lt;/a&gt;&lt;/span&gt;
+    &lt;span class=&quot;postmore&quot;&gt;浏览：&lt;?php echo $value['views']; ?&gt;&lt;/span&gt;
+</code></pre>
+
+<p>2、友情链接只在首页的时候显示，这个有利于SEO。
+主要是通过修改module.php实现。找到文件中关于友情链接段代码，然后在代码前后加入判断是否为首页的代码。
+具体代码如下：</p>
+
+<pre><code>&lt;?php
+  //判断是否是首页，不是首页，不显示友情链接
+  if(&quot;http://&quot;.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] == BLOG_URL):?&gt;
+&lt;?php
+//widget：链接
+function widget_link($title){
+    global $CACHE; 
+    $link_cache = $CACHE-&gt;readCache('link');
+    ?&gt;
+    &lt;div class=&quot;widget-cat&quot;&gt;
+    &lt;h4&gt;&lt;?php echo $title; ?&gt;&lt;/h4&gt;
+    &lt;ul id=&quot;link&quot;&gt;
+    &lt;?php foreach($link_cache as $value): ?&gt;
+    &lt;li&gt;&lt;a href=&quot;&lt;?php echo $value['url']; ?&gt;&quot; title=&quot;&lt;?php echo $value['des']; ?&gt;&quot; target=&quot;_blank&quot;&gt;&lt;?php echo $value['link']; ?&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;?php endforeach; ?&gt;
+    &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;?php }?&gt;
+&lt;?php endif;?&gt;
+</code></pre>
+
+<p> 
+3、修改了下module.php的blog_comments函数。让这个函数和default模板保持一致。<br>
+具体代码如下：</p>
+
+<pre><code>&lt;?php
+//blog：博客评论列表
+      function blog_comments($comments){
+        //var_dump($comments);
+    extract($comments);
+    if($commentStacks): ?&gt;
+    &lt;a name=&quot;comments&quot;&gt;&lt;/a&gt;
+    &lt;p class=&quot;comment-header&quot;&gt;&lt;b&gt;评论：&lt;/b&gt;&lt;/p&gt;
+    &lt;?php endif; ?&gt;
+    &lt;?php
+    $isGravatar = Option::get('isgravatar');
+    foreach($commentStacks as $cid):
+    $comment = $comments[$cid];
+    $comment['poster'] = $comment['url'] ? '&lt;a href=&quot;'.$comment['url'].'&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;'.$comment['poster'].'&lt;/a&gt;' : $comment['poster'];
+    ?&gt;
+    &lt;div class=&quot;comment&quot; id=&quot;comment-&lt;?php echo $comment['cid']; ?&gt;&quot;&gt;
+        &lt;a name=&quot;&lt;?php echo $comment['cid']; ?&gt;&quot;&gt;&lt;/a&gt;
+        &lt;?php if($isGravatar == 'y'): ?&gt;&lt;div class=&quot;avatar&quot;&gt;&lt;img src=&quot;&lt;?php echo getGravatar($comment['mail']); ?&gt;&quot; /&gt;&lt;/div&gt;&lt;?php endif; ?&gt;
+        &lt;div class=&quot;comment-info&quot;&gt;
+            &lt;b&gt;&lt;?php echo $comment['poster']; ?&gt; &lt;/b&gt;&lt;br /&gt;&lt;span class=&quot;comment-time&quot;&gt;&lt;?php echo $comment['date']; ?&gt;&lt;/span&gt;
+            &lt;div class=&quot;comment-content&quot;&gt;&lt;?php echo $comment['content']; ?&gt;&lt;/div&gt;
+            &lt;div class=&quot;comment-reply&quot;&gt;&lt;a href=&quot;#comment-&lt;?php echo $comment['cid']; ?&gt;&quot; onclick=&quot;commentReply(&lt;?php echo $comment['cid']; ?&gt;,this)&quot;&gt;回复&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;?php blog_comments_children($comments, $comment['children']); ?&gt;
+    &lt;/div&gt;
+    &lt;?php endforeach; ?&gt;
+    &lt;div id=&quot;pagenavi&quot;&gt;
+        &lt;?php echo $commentPageUrl;?&gt;
+    &lt;/div&gt;
+&lt;?php }?&gt;
+</code></pre>
+
+<p> 
+4、修复了置顶博客，不能正常显示“小星星”图标问题。
+主要是将images目录下，放入import.gif文件
+5、将评论里的对外链接加入了nofollow属性。这样有利于SEO，而且也不用担心垃圾评论来混外链了。
+主要是修改module.php文件中blog_comments函数里面关于评论作者的那句。
+具体代码如下</p>
+
+<pre><code>$comment['poster'] = $comment['url'] ? '&lt;a href=&quot;'.$comment['url'].'&quot; target=&quot;_blank&quot; rel=&quot;nofollow&quot;&gt;'.$comment['poster'].'&lt;/a&gt;' : $comment['poster'];
+</code></pre>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2011-10-25-bo-blog-to-emlog/">微博从bo-blog迁移到了emlog。</a></li>
+        
+        <li><a href="/post/2011-10-25-write-blog-offline/">离线博客工具-菊子曰</a></li>
+        
+        <li><a href="/post/2011-10-25-debian-administration-site/">一个关于debian系统管理的站点</a></li>
+        
+        <li><a href="/post/2011-10-21-htc-g3-hero-bast-rom/">推荐个htc G3 hero比较不错的ROM</a></li>
+        
+        <li><a href="/post/2011-10-20-centos-install-ruby-rubygems/">centos 源码安装ruby和rubygems</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

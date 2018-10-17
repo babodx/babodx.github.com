@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>rails下上传文件并且解决乱码问题 | 鑫的方向</title>
+    <meta property="og:title" content="rails下上传文件并且解决乱码问题 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="rails下上传文件并且解决乱码问题">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2009-12-21-rails-upload-unread/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">rails下上传文件并且解决乱码问题</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2009年12月21日
+                            18:00
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/rails">Rails</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>这个问题是我在<a href="http://www.javaeye.com/">www.javaeye.com</a>论坛上提出的，并且由mathsfan给出了解决办法</p>
+
+<p>首先创建一个项目，叫<strong>test</strong></p>
+
+<p>在app目录下的controllers目录下，找到<strong>test_controller.rb</strong>文件</p>
+
+<p>添加一个upload的action</p>
+
+<pre><code>def upload
+
+end
+</code></pre>
+
+<p>然后在view目录下的test目录下，创建一个<strong>upload.rhtml</strong>文件</p>
+
+<pre><code>&lt;%=form_tag({:action=&gt;'save'},:multipart=&gt;true)%&gt;
+&lt;br/&gt;upload your file:&lt;%=file_field(&quot;file&quot;,&quot;file&quot;)%&gt;
+&lt;br/&gt;
+&lt;%=submit_tag(&quot;upload&quot;)%&gt;
+&lt;%=end_form_tag%&gt;
+</code></pre>
+
+<p>现在访问<a href="http://localhost:3000/test/upload">http://localhost:3000/test/upload</a>，应该可以看到一个上传的界面了。</p>
+
+<p>不过还没有处理上传后的方法呢，所以还不能实现上传。因为上面的表单是提交给save这个action 的，现在还没有写呢。</p>
+
+<p>在写save之前，先要完成一些相关的方法</p>
+
+<p>在<strong>application.rb</strong>文件里，加入</p>
+
+<pre><code>def uploadFile(file) #处理上传后的文件保存
+       if !file.original_filename.empty? 
+          #生成一个随机的文件名
+          @filename=getFileName(file.original_filename) 
+          #向dir目录写入文件 
+          File.open(&quot;#{RAILS_ROOT}/public/images/#{@filename}&quot;, &quot;wb&quot;) do |f|
+           f.write(file.read) 
+          end 
+          #返回文件名称
+          return @filename 
+        end 
+end 
+</code></pre>
+
+<pre><code>def getFileName(filename) 
+#获取文件名
+  if !filename.nil? 
+     return filename 
+  end 
+end 
+</code></pre>
+
+<p>现在在<strong>test_controller.rb</strong>里写出save的action</p>
+
+<pre><code>def save 
+  unless request.get? 
+    if filename=uploadFile(params[:file]['file']) #调用application.rb&lt;/strong&gt;里写的uploadFile对文件保存
+       render :text=&gt;filename 
+    end 
+  end 
+end 
+</code></pre>
+
+<p>文件可以正确上传到public/images下
+但是中文文件名变为了乱码,但是render :text=&gt;filename返回的名字,并不是乱码.</p>
+
+<p>###解决办法###</p>
+
+<p>在ApplicationController加上：</p>
+
+<pre><code>before_filter:set_charset 
+
+def set_charset 
+     @headers[&quot;Content-Type&quot;]=&quot;text/html;charset=gb2312&quot; 
+end 
+</code></pre>
+
+<p>我试验了一下，用utf8也可以正常处理,比如按照如下写法</p>
+
+<pre><code>def set_charset
+  @headers[&quot;Content-Type&quot;]=&quot;text/html;charset=utf8&quot; 
+end 
+</code></pre>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2009-12-21-mysql-import/">如何向万网的Mysql数据库导入数据</a></li>
+        
+        <li><a href="/post/2009-12-21-cheat-engine/">一个内存所搜的好用具--Cheat Engine</a></li>
+        
+        <li><a href="/post/2009-12-21-opensource-im/">一个很好的开源企业内部IM解决方案</a></li>
+        
+        <li><a href="/post/2009-12-21-centos-install-xen/">CentOS 5.3下成功安装了Xen虚拟化服务。</a></li>
+        
+        <li><a href="/post/2009-12-21-navicat/">一个在windows下很好用的MySQL工具Navicat</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

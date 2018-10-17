@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>rails配合fckeditor实现文本编辑工具条 | 鑫的方向</title>
+    <meta property="og:title" content="rails配合fckeditor实现文本编辑工具条 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="rails配合fckeditor实现文本编辑工具条">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2009-12-21-rails-fckeditor/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">rails配合fckeditor实现文本编辑工具条</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2009年12月21日
+                            18:00
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/rails">Rails</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>主要参考了</p>
+
+<p><a href="http://blog.caronsoftware.com/articles/2006/08/07/fckeditor-plugin-for-rails">http://blog.caronsoftware.com/articles/2006/08/07/fckeditor-plugin-for-rails</a></p>
+
+<p><a href="http://www.blogjava.net/rocky/archive/2006/11/04/rails-fckeditor-integration.html">http://www.blogjava.net/rocky/archive/2006/11/04/rails-fckeditor-integration.html</a></p>
+
+<p><strong>安装</strong></p>
+
+<p>下载<a href="http://rubyforge.org/projects/fckeditorp/">http://rubyforge.org/projects/fckeditorp/</a>项目的 FCKEditor Plugin for Rails，将下载的文件加压缩后，保存到fckeditor文件夹中</p>
+
+<p>将fckeditor文件夹拷贝到自己项目的vendor/plugins目录下</p>
+
+<p>运行rack fckeditor:install</p>
+
+<p>然后在需要用到这个插件的页面，输入<code>&lt;%= javascript_include_tag &quot;fckeditor/fckeditor&quot; %&gt;</code>或者将这句话添加到app/view/layouts/下的对应文件中</p>
+
+<p><strong>使用</strong></p>
+
+<p>需要使用这个工具条的地方，输入</p>
+
+<p><code>&lt;%=fckeditor_textarea(&quot;post&quot;, &quot;body&quot;, :toolbarSet =&gt; 'Simple', :width =&gt; '100%', :height =&gt; '500px' )%&gt;</code></p>
+
+<p>注意fckeditor_textarea的一个参数post必须是action传过来的一个实体类，如果action没有传过来，就会提示出错</p>
+
+<p>比如我这里用到了post,我的action如下</p>
+
+<pre><code>def new&lt;br&gt;
+      @post = Post.new&lt;br&gt;
+    end
+</code></pre>
+
+<p>第二个参数，body对应表单里的字段</p>
+
+<p>第三个参数toolbarSet=&gt;&ldquo;Simple&rdquo;为工具条风格，这个风格可以在public/javascripts/fckcustom.js文件里面定义（修改后，要关闭浏览器再开才起作用）</p>
+
+<p>第四、五个参数，代表文本区域的大小</p>
+
+<p><strong>图片上传</strong></p>
+
+<p>默认安装后，图片上传不能用，需要修改vendor/plugins/fckeditor/app/controllers/fckeditor_controller.rb文件的upload_file action如下</p>
+
+<pre><code>def upload_file
+      @new_file = params[:NewFile]
+      @url = upload_directory_path
+      begin
+        ftype = @new_file.content_type.strip
+        if ! MIME_TYPES.include?(ftype)
+          @errorNumber = 202
+          puts &quot;#{ftype} is invalid MIME type&quot;
+          raise &quot;#{ftype} is invalid MIME type&quot;
+        else
+          path = current_directory_path + &quot;/&quot; + @new_file.original_filename
+          File.open(path,&quot;wb&quot;,0664) do |fp|
+            FileUtils.copy_stream(@new_file, fp)
+          end
+          @errorNumber = 0
+        end
+      rescue =&gt; e
+        @errorNumber = 110 if @errorNumber.nil?
+      end
+    
+      # Fix provided by Nicola Piccinini -- &lt;a href=&quot;http://superfluo.org/&quot;&gt;http://superfluo.org&lt;/a&gt;
+      render :text =&gt; %Q'&lt;script&gt;window.parent.OnUploadCompleted(&lt;a href=&quot;mailto:#%7B@errorNumber%7D,%20%22#%7BUPLOADED+%22/%22+params%5B:Type%5D+%22/%22+@new_file.original_filename%7D%20%22);&lt;/script&gt;%20&quot;&gt;#{@errorNumber},\&quot;#{UPLOADED+&quot;/&quot;+params[:Type]+&quot;/&quot;+@new_file.original_filename}\&quot;);&lt;/script&gt;'&lt;/a&gt;
+    
+    end
+</code></pre>
+
+<p>关于工具条具体某个工具怎么显示，提供那些功能，可以在public/javascripts/fckeditor/fckconfig.js文件里面定义</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2009-12-21-mysql-import/">如何向万网的Mysql数据库导入数据</a></li>
+        
+        <li><a href="/post/2009-12-21-quick-stats-server-visits/">如何快速统计服务器访问量</a></li>
+        
+        <li><a href="/post/2009-12-21-centos-xen-memory-problem/">CentOS 5.3 安装虚拟化后的内存识别问题.</a></li>
+        
+        <li><a href="/post/2009-12-21-rails-use-sqlite3/">rails下使用sqlite3</a></li>
+        
+        <li><a href="/post/2009-12-21-centos-vpn-howto/">CentOS 5.3架设VPN和619错误排除</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

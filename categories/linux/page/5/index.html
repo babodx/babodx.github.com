@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Linux | 鑫的方向</title>
+    <meta property="og:title" content="Linux - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Linux">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/categories/linux/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/categories/linux/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">linux</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-ubuntu-console-unread-chinese/">ubuntu server 9.04 终端乱码问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>安装了ubuntu server 9.04，安装的时候选择了中文环境。</p>
+
+<p>因为server是没有桌面的，发现终端里面显示提示信息，出错信息都变成乱码了。</p>
+
+<p><strong>解决办法</strong>
+修改/etc/default/locale文件</p>
+
+<p>将zh_CN修改为en_US</p>
+
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-ubuntu-console-unread-chinese/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-ubuntu-904-show-chinese-filename/">ubuntu server 9.04显示中文文件</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>前面提到了用VMware的share folder功能，可以将主机系统的一个目录，自动共享到ubuntu /mnt/hgfs目录下。</p>
+
+<p>但是winxp的中文目录，到了ubuntu server下面就显示乱码了。</p>
+
+<p><strong>解决办法</strong></p>
+
+<p>安装相关软件包</p>
+
+<pre><code>sudo apt-get install language-pack-zh
+</code></pre>
+
+<p><strong>配置中文环境</strong></p>
+
+<p>修 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-ubuntu-904-show-chinese-filename/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-defense-arp-attack-on-ubuntu/">ubuntu下arp攻击防御和反击！</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天在单位，发现有人在用聚生网管和p2p终结者</p>
+
+<p>在windows下面，可以安装arp防火墙，还可以通过安装同类软件，进行检测。可是我已经转到ubuntu上了，总不能一旦被攻击，就回windows吧。于是上网找了一些关于linux下防止arp攻击的方法。</p>
+
+<p><strong>第一种方法</strong></p>
+
+<p>用静态arp.</p>
+
+<p>这种方法就是通过在 /etc/ethers 建立ip和mac地址对应记 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-defense-arp-attack-on-ubuntu/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-quick-stats-server-visits/">如何快速统计服务器访问量</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近看了javaeye上面<strong>robbin</strong>的一篇文章，学习到了很多知识。</p>
+
+<p><a href="http://robbin.javaeye.com/blog/97287">http://robbin.javaeye.com/blog/97287</a> 如何快速统计RoR网站的访问量</p>
+
+<p>我的服务器是Apache+tomcat的配置，上面跑了几个网站。都是基于apache 虚拟主机配置的。</p>
+
+<p>apache配置如下</p>
+
+<pre><code>Include conf/vhost_*.conf …</code></pre>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-quick-stats-server-visits/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-first-lfs/">第一次安装LFS</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>在经过了大约40小时左右，我的LFS终于顺利启动了。从内核到系统每一个软件都是自己从源代码编译的，感觉很爽。</p>
+
+<p>本次安装采用LiveCD 6.3作为宿主系统，在VMware上的一个8G scsi盘上安装。</p>
+
+<p>首先碰到的问题就是GCC编译出现问题。后来发现是因为我用的liveCD是64位的问题。</p>
+
+<p>换了liveCD 32位的。问题解决</p>
+
+<p>第二个问题就 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-first-lfs/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-ubuntu-dynamic-resize-lvm/">试用ubuntu 8.04和LVM动态增加分区</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我在虚拟机VMware里面安装了ubuntu 8.04.</p>
+
+<p>安装的时候，只是选择了openssh这个服务。安装后感觉系统很干净</p>
+
+<p><strong>磁盘占用</strong></p>
+
+<pre><code>/dev/mapper/ubuntu-root                      5.6G 321M 5.3G   6% /
+</code></pre>
+
+<p>系统就用了不到400M …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-ubuntu-dynamic-resize-lvm/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-wow-on-ubuntu-linux/">ubuntu8.04 玩魔兽世界 2.4.3(8606)</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                10:05
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近一直在用ubuntu 8.04当桌面系统。已经很少用windows了。随着采用ubuntu也就一直没有玩魔兽世界了。</p>
+
+<p>今天将Windows下的WOW目录直接拷贝到了ubuntu下面。我的wine是用sudo apt-get install默认安装的，没有特殊设置。</p>
+
+<p>将wow目录拷贝到了用户目录的 .wine/drive_c/Program Files …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-wow-on-ubuntu-linux/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/categories/linux/page/4/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/categories/linux/">1</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/4/">4</a>
+    </li>
+    
+    <li class="current">
+        <a href="/categories/linux/page/5/">5</a>
+    </li>
+    
+
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

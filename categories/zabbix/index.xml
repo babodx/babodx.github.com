@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zabbix on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/zabbix/</link>
+    <description>Recent content in Zabbix on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 08 Apr 2014 08:59:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/zabbix/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>zabbix介绍</title>
+      <link>https://xinlogs.com/post/2014-04-08-zabbix-introduction/</link>
+      <pubDate>Tue, 08 Apr 2014 08:59:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2014-04-08-zabbix-introduction/</guid>
+      <description>&lt;p&gt;Zabbix是一套企业级开源分布式监控软件。可以用来监控网络和服务器的可用性和性能。Zabbix可以根据事件灵活配置邮件和短信报警。Zabbix将监控数据采集到数据库,通过web界面进行展示。&lt;/p&gt;
+
+&lt;p&gt;Zabbix支持被动(polling)和主动（trapping）两种方式获取数据。Zabbix的参数配置、报表、数据展示全部通过web界面完成。&lt;/p&gt;
+
+&lt;p&gt;Zabbix是免费软件，基于GPL v2协议发布。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://farm3.staticflickr.com/2822/13770962555_01b2f89e34_z.jpg&#34; alt=&#34;zabbix&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

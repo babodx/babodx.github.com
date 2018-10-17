@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>鑫的方向 | 嗜欲深着，天机浅！</title>
+    <meta property="og:title" content="鑫的方向 | 嗜欲深着，天机浅！">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="专注于金融科技，包括但不限于linux、python、Go语言(golang)、项目管理、运维、软件架构等">
+    <meta property="og:url" content="https://xinlogs.com/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://xinlogs.com">
+                            鑫的方向
+                        </a>
+                    </h1>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-1/">rails-best-practices-1</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年3月16日
+                                09:43
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#FAT MODEL,SKINNY CONTROLLER#</p>
+
+<p>最近看了codeschool的教程，打算把里面讲解的rails best practices总结下。</p>
+
+<p>视频里的第一部分就是讲解的Fat model，skinny controller。我理解的就是要尽量把业务代码写到model中，而controller要尽量的简单。</p>
+
+<p>第一个例子 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-1/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-03-14-railszhong-wen-wen-ti/">rails中文问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年3月14日
+                                10:56
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>##rails controller中的中文问题</p>
+
+<p>在ruby 1.9环境中，如果controller里出现中文，就会报错。报错如下</p>
+
+<pre><code>invalid multibyte char (US-ASCII)
+</code></pre>
+
+<p><strong>解决办法：</strong></p>
+
+<p>在这个controller的文件开头加入如下语句</p>
+
+<pre><code>#encoding: utf-8
+</code></pre>
+
+<p>##rails validates …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-03-14-railszhong-wen-wen-ti/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-03-03-kuai-su-pei-zhi-vimhe-macvim/">快速配置vim和macvim</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年3月3日
+                                14:41
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/vim">Vim</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>vim以为需要安装各种插件和配置好vimrc才能适合我们开发使用。如果默认只安装vim不用任何插件，并不好用。</p>
+
+<p>以前写过一篇<a href="http://babodx.github.com/blog/2011/10/31/gvim-vimrc-file/">配置gvim</a>，那个时候还是手动安装各种差距和写vimrc</p>
+
+<p>现在已经开始采用vundle来管理vim插件了。而且平台也换mac了。</p>
+
+<p>mac下面自带了vim 7.3 但是我们在mac的图形界面下面还是原因使用macvim。所以要先安装 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-03-03-kuai-su-pei-zhi-vimhe-macvim/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-02-28-emlogqian-yi-dao-octopress/">emlog迁移到octopress</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年2月28日
+                                17:05
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/octopress">Octopress</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>用emlog的博客系统已经有2年了，本着活着就要折腾的原则。最近开始尝试使用octopress，这个博客还真的很适合技术人员。通过github版本控制，采用自己最喜欢的编辑器本地写博客，<code>rake deploy</code>发布。</p>
+
+<p>目前我原来的博客100多篇都迁移到octopress里了，不过因为原来的图片都存放在本地，这次打算全部存放到flickr.com了。这部分只能 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-02-28-emlogqian-yi-dao-octopress/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-02-24-git-first-on-ubuntu/">git-first-on-ubuntu</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年2月24日
+                                08:29
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/git">git</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#ubuntu 12.10下初次使用git
+前些时候在mac下面使用了git，感觉很棒。今天在单位安装了一台ubuntu 12.10的桌面系统，也开始尝试用git的方式来写blog。</p>
+
+<p>##安装
+ubuntu下面安装git非常容易。
+    sudo apt-get install git-core</p>
+
+<p>然后对git进行全局设置
+    git config …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-02-24-git-first-on-ubuntu/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-02-20-wo-2013nian-xue-xi-lie-biao/">我2013年学习列表</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年2月20日
+                                13:55
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/plan">Plan</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#2013学习计划</p>
+
+<p>2012年开始了，这一年打算好好学习下ruby、python两种语言和rails框架。
+
+##学习内容列表
+###ruby###
+打算通过阅读图书和在线学习两种方式来学习ruby。</p>
+
+<p>图书主要就是一本手边的<strong>Programming ruby 2nd</strong></p>
+
+<p>在线学习倒是有不少好的资源</p>
+
+<ul>
+<li><a href="http://rubymonk.com">rubymonk</a></li>
+<li><a href="http://www.codeschool.com">codeschool …</a></li></ul>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-02-20-wo-2013nian-xue-xi-lie-biao/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-02-13-kai-shi-shi-yong-octopress/">开始使用octopress</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年2月13日
+                                14:54
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/octopress">Octopress</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#概述#
+最近在看<a href="http://ruby-china.org">ruby-china.org</a>和<a href="http://happycasts.net">happycasts.net</a>的视频。开始尝试使用git来做版本控制。原来都是使用svn，所以最近一直在折腾和学习。看到很多编程人员都开始采用octopress来代替wordpress写blog了。我也开始尝试使用这个octopress的blog系统。</p>
+
+<p>octopress是一套基于ruby构建的blog管理系 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-02-13-kai-shi-shi-yong-octopress/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-02-02-cloudstack-on-vmware/">cloudstack on vmware</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年2月2日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/cloudstack">Cloudstack</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>很久没写博客了，总是犯懒。。。。</p>
+
+<p>最近在玩cloudstack和python、django啥的。</p>
+
+<p>上周参加了北京举行的cloudstack技术沙龙，收获很大。这两天在自己笔记本上开始折腾cloudstack玩，写下自己的方法和大家分享下。</p>
+
+<p>我主要是分享下如何通过vmware的嵌套虚拟化，在一台自己的笔记本上跑起来cloudstack。这样手边没有服务器 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-02-02-cloudstack-on-vmware/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-01-22-installation-server/">批量部署系统方案</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年1月22日
+                                19:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近单位一直弄刀片服务器，7个笼子，112片。安装系统是个麻烦的事情，如果单机安装，太痛苦了。
+所以就尝试了批量部署系统。
+ 
+主要是分Linux和Windows两种方案</p>
+
+<p>我这里Linux是CentOS。 采用了cobbler来做批量部署。</p>
+
+<p>Windows采用的是win 2008的部署服务，就是WDS来做批量部署。</p>
+
+<p>这样Linux做一台分发服务 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2013-01-22-installation-server/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-08-10-mac-xdebug-netbeans-config/">mac下配置php调试环境</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年8月10日
+                                16:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>已经用了mac有2个月了，基本网络管理和开发工作都在mac下面了。</p>
+
+<p>下面说下如何配置mac下面的php调试环境</p>
+
+<p><strong>我的环境：</strong></p>
+
+<ul>
+<li>macbook air 2012款<br /></li>
+<li>Mac OS X 10.8 系统</li>
+<li>php环境：XAMPP 1.7.3</li>
+<li>开发工具：一般用sublime text 2，调试或者项目开发用netbeans</li>
+</ul>
+
+<p>下面说说如何安装调试环境，主要就 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-08-10-mac-xdebug-netbeans-config/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/page/2/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/">1</a>
+    </li>
+    
+    <li>
+        <a href="/page/2/">2</a>
+    </li>
+    
+    <li class="current">
+        <a href="/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/page/5/">5</a>
+    </li>
+    
+    <li>
+        <a href="/page/6/">6</a>
+    </li>
+    
+    <li>
+        <a href="/page/7/">7</a>
+    </li>
+    
+    <li>
+        <a href="/page/8/">8</a>
+    </li>
+    
+    <li>
+        <a href="/page/9/">9</a>
+    </li>
+    
+    <li>
+        <a href="/page/10/">10</a>
+    </li>
+    
+    <li>
+        <a href="/page/11/">11</a>
+    </li>
+    
+    <li>
+        <a href="/page/12/">12</a>
+    </li>
+    
+    <li>
+        <a href="/page/13/">13</a>
+    </li>
+    
+    <li>
+        <a href="/page/14/">14</a>
+    </li>
+    
+    <li>
+        <a href="/page/15/">15</a>
+    </li>
+    
+    <li>
+        <a href="/page/16/">16</a>
+    </li>
+    
+    <li>
+        <a href="/page/17/">17</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/page/4/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>鑫的方向 | 嗜欲深着，天机浅！</title>
+    <meta property="og:title" content="鑫的方向 | 嗜欲深着，天机浅！">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="专注于金融科技，包括但不限于linux、python、Go语言(golang)、项目管理、运维、软件架构等">
+    <meta property="og:url" content="https://xinlogs.com/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://xinlogs.com">
+                            鑫的方向
+                        </a>
+                    </h1>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-08-08-update-115disk-urls/">批量更换115网盘链接</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年8月10日
+                                14:31
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天115网盘关闭了对外分享链接的功能。我的客户有人是用115网盘作为服务器资源存储用的，网站上下载资源都是采用115网盘地址来发布的。这样直接造成全部资源都无法下载了，我临时写了个php脚本来更新全部的115网盘链接到本地服务器地址。
+ 
+<strong>主要思路：</strong></p>
+
+<p>首先将网盘里的资源全部下载到服务器，然后导出一个网盘地址和文件实际名字的列表</p>
+
+<p>如下所示： …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-08-08-update-115disk-urls/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-08-06-debian-xen-install/">debian6.0.5(squeeze)安装配置xen-4.0虚拟化</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年8月6日
+                                17:50
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/virtualization">Virtualization</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#系统安装#</p>
+
+<p>我是通过<a href="http://mirrors.163.com下载的">http://mirrors.163.com下载的</a>     debian-6.0.5-amd64-CD-1.iso
+最小安装有一张CD就可以了，安装的是debian6.0.5(squeeze) 64位版本</p>
+
+<p>安装没啥好说的，最小化安装，除了基本系统就多选择了一个ssh server。</p>
+
+<p>安装好系统后，进入系统首先设置网卡，不要 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-08-06-debian-xen-install/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-08-01-solve-nginx-502-mistakes/">nginx通过轮询避免php-fpm引起的502错误</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年8月1日
+                                13:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>##问题背景##</p>
+
+<p>最近客户的一个网站总是偶尔出现502错误</p>
+
+<p>网站架构采用的就是nginx 1.0.10+php 5.3.8+php-fpm模式</p>
+
+<p>##问题分析##</p>
+
+<p>首先要检查下php-fpm的进程数使用情况</p>
+
+<pre><code>netstat -napo |grep &quot;php-fpm&quot; | wc -l
+</code></pre>
+
+<p>如果这个查询出来的数量接近了你 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-08-01-solve-nginx-502-mistakes/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-29-accelerate-app-store-download/">快速提升app store下载速度</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月29日
+                                10:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>前两天开始更新MAC OS Mountain Lion。</p>
+
+<p>为了下载这个4.5G的内容，可是郁闷坏了。计算出来的剩余时间7天。</p>
+
+<p>于是开始找加速下载的办法，看来一些帖子以后基本知道了下载速度主要取决与dns将你的请求解析到哪台服务器。</p>
+
+<p>网上一般是都是基于自己找到一台快速的下载服务器IP，然后手动修改/etc/hosts文件的办法。
+ 
+但是其实看原来就知 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-07-29-accelerate-app-store-download/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-23-macbook-air-use-e1750-3g-mobilecard/">2012 macbook Air 使用华为E1750 3g上网卡</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月23日
+                                14:35
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/hardware">Hardware</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近一直在摸索macbook air的使用方法，目前大部分工作都已经可以放弃windows了。</p>
+
+<p>今天又将华为的E1750上网卡在macbook air上正确安装了。</p>
+
+<p>我的3g上网卡如下</p>
+
+<p><img src="http://farm9.staticflickr.com/8390/8515414834_9758e77ab7_m.jpg" alt="e1750图" /></p>
+
+<p>这个上网卡是09年的，现在直接插入usb后，macbook air没有任何反应。</p>
+
+<p><strong>安装方法：</strong></p>
+
+<p>1、首先要在Windows机器上更新固件</p>
+
+<p>先在windows机器 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-07-23-macbook-air-use-e1750-3g-mobilecard/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-22-config-esmtp-via-gmail-sendmail/">配置ecshop通过本地esmtp发信</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月22日
+                                22:12
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#问题：#</p>
+
+<p>最近有个客户的ecshop总是卡在下订单的地方。查询了下日志。发现如下</p>
+
+<pre><code>script_filename = /public_html/quick_buy.php
+[0x0a29511c] fgets() /public_html/includes/cls_smtp.php:314
+[0x0a295074] get_data() …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-07-22-config-esmtp-via-gmail-sendmail/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-13-config-winxp-remote-desktop/">winxp的远程桌面设置</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月13日
+                                22:32
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/windows">Windows</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近换了mac的笔记本，由于一些程序需要跑在winxp上面，比如zmud等。。。</p>
+
+<p>于是就在服务器上安装了xen，开了个winxp的虚拟机。本来xen支持vnc远程访问的，但是vnc感觉真心不给里，比windows自带的远程桌面慢了很多。</p>
+
+<p>于是开始考虑使用远程桌面，可是winxp不是服务器版本，所以远程桌面有一些限制。</p>
+
+<p>一个是解决多用户登陆问题</p>
+
+<p>下面是 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-07-13-config-winxp-remote-desktop/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-13-mac-vnc-rdp-over-ssh/">mac下用ssh转发端口</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月13日
+                                19:50
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/mac">Mac</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>起因是这样的，我在服务器上安装了个虚拟winxp。但是想要在外网远程控制却不行，因为这个虚拟系统没有公网IP。</p>
+
+<p>我的服务器是有公网IP的，例如：210.1.1.1</p>
+
+<p>服务器所在内网全部是10.0.1.x 网段，外网IP是通过路由器映射给服务器的，也就是说服务器上查看IP，只有10.0.1.1这个
+ 
+虚拟机我是用的xen，然后采用nat方式将一 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-07-13-mac-vnc-rdp-over-ssh/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-13-buy-macbook-air/">2012 macbook Air 使用感受</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月13日
+                                17:55
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/hardware">Hardware</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>6月底，我购买了一台2012新款macbook air笔记本。将近一个月的使用，记录下心得。</p>
+
+<p>以前从来没有用过mac os系统，不过对于linux还是很熟悉的。</p>
+
+<p>早就打算买一台玩玩，一个是没钱，一个是总觉得单位配的也够用。后来又打算学习下ios开发，就下决心购买一台了。</p>
+
+<p>正好赶上6月新款发布，北京正规零售店都没有上市呢，于是在macx.cn上面看到大家 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-07-13-buy-macbook-air/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-03-21-linux-ddos-defender/">Linux防御DDOS攻击</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年3月21日
+                                19:33
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>这两天一个以前客户在万网购买的云主机一直被SYN Flood 攻击。</p>
+
+<p>其实SYN Flood到是只能拖慢系统，没到死机的地步。问题是万网发现了DDOS攻击后，直接给云主机断网24小时。</p>
+
+<p>这个处理太恶心了。不说想办法切断攻击的IP，而是直接断掉客户的网络。。。有点说不过去呀</p>
+
+<p>电话咨询了下，他们是系统自动处理的，发现了直接断网。
+ 
+一般应付DDOS攻击主 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-03-21-linux-ddos-defender/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/page/3/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/">1</a>
+    </li>
+    
+    <li>
+        <a href="/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/page/3/">3</a>
+    </li>
+    
+    <li class="current">
+        <a href="/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/page/5/">5</a>
+    </li>
+    
+    <li>
+        <a href="/page/6/">6</a>
+    </li>
+    
+    <li>
+        <a href="/page/7/">7</a>
+    </li>
+    
+    <li>
+        <a href="/page/8/">8</a>
+    </li>
+    
+    <li>
+        <a href="/page/9/">9</a>
+    </li>
+    
+    <li>
+        <a href="/page/10/">10</a>
+    </li>
+    
+    <li>
+        <a href="/page/11/">11</a>
+    </li>
+    
+    <li>
+        <a href="/page/12/">12</a>
+    </li>
+    
+    <li>
+        <a href="/page/13/">13</a>
+    </li>
+    
+    <li>
+        <a href="/page/14/">14</a>
+    </li>
+    
+    <li>
+        <a href="/page/15/">15</a>
+    </li>
+    
+    <li>
+        <a href="/page/16/">16</a>
+    </li>
+    
+    <li>
+        <a href="/page/17/">17</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/page/5/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

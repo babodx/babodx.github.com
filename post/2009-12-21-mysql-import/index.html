@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>如何向万网的Mysql数据库导入数据 | 鑫的方向</title>
+    <meta property="og:title" content="如何向万网的Mysql数据库导入数据 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="如何向万网的Mysql数据库导入数据">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2009-12-21-mysql-import/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">如何向万网的Mysql数据库导入数据</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2009年12月21日
+                            18:00
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/database">Database</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>昨天单位由一个网站，要放到万网的虚拟主机去。
+网站是jsp写的，程序好导。直接ftp过去就可以了。</p>
+
+<p>可是mysql的数据库怎么导呢？</p>
+
+<p>我先用</p>
+
+<pre><code>mysqldump database_name&gt;database_name.sql
+</code></pre>
+
+<p>然后把这个database_name.sql下载下来。</p>
+
+<p>再给虚拟主机空间上传一个phpmyadmin来做数据库管理用。这样就可以使用phpmyadmin导入数据了。</p>
+
+<p>如果网站数据小，这样就ok了。可是我的database_name.sql有60M</p>
+
+<p>万网空间上的phpmyadmin只能最大支持2M</p>
+
+<p>于是只能另外想办法。我先导入表格结构吧。</p>
+
+<pre><code>mysqldump –d database_name&gt;database_name.sql
+</code></pre>
+
+<p>在phpmyadmin里，选择好数据库后，用导入功能，将database_name.sql导入</p>
+
+<p><img src="http://farm9.staticflickr.com/8096/8510015688_bc8709cc96.jpg" alt="phpmyadmin图片" /></p>
+
+<p>现在有了表结构了，但是每个表都没有数据。我们再继续导入数据。</p>
+
+<p>我的表里面，除了一个news表格特别大，大约51M，其他都在2M一下。所以我每个表格生成一个txt文件，然后导入到万网的数据库。</p>
+
+<p>本地进入mysql&gt;提示符后，用以下命令将数据的表格数据导出。</p>
+
+<pre><code>select * from admin into outfile “/tmp/admin.txt” fields terminated by “|” lines terminated by “@”
+</code></pre>
+
+<p>上面命令将本地数据库的admin表，导出到/tmp/目录下的admin.txt文件。</p>
+
+<p>我们有几个表格，就用这个命令导出几个txt文件。</p>
+
+<p>然后将txt文件用gzip压缩，因为phpmyadmin支持gzip压缩格式的。</p>
+
+<pre><code>cd /tmp/
+gzip admin.txt
+</code></pre>
+
+<p>最后将压缩的admin.txt.gz下载到本地，用浏览器上传给phpmyadmin导入</p>
+
+<p>![](</p>
+
+<p><strong>解决news表格过大问题</strong></p>
+
+<p>我的news表格有51Ｍ，就算gzip压缩后，还有7M左右，还是不能用phpmyadmin导入。我们可以将news表格的数据切分为多个txt文件，然后保证每个文件gzip后，在2M以内就可以。这个切分就要根据具体表格来判断了。</p>
+
+<p>我先查询了news表格一共有多少条记录</p>
+
+<pre><code>select count(*) from news;
+</code></pre>
+
+<p>返回1477条，表格是51M。压缩后的表格是7M。</p>
+
+<p>7M/2M=3.5</p>
+
+<p><sup>1477</sup>&frasl;<sub>3</sub>.5=422条。</p>
+
+<p>根据上面的计算，只要按照422条一个文件来分割就可以了。为了保险，因为每条记录的大小并不是一样的平均分配，我按照每个文件200条记录来切分。</p>
+
+<pre><code>select * from news where newId&gt;0 limit 200 into outfile “/tmp/news0.txt” fields terminated by “|” lines terminated by “@”;
+
+然后用
+
+</code></pre>
+
+<p>select max(newId) from news where newId&gt;0 limit 200;
+```</p>
+
+<p>查看下200条记录后，是到了那条记录，下次分割就从那条开始
+这样分割出来的8个文件，一次压缩后，上传到phpmyadmin导入。就完成了全部表格的导入工作。</p>
+
+<p><strong>总结</strong></p>
+
+<p>其实如果数据本身不复杂，直接用navicat也可以远程连接导入的。但是navicat不支持定义 lines terminated。我的news表格里面存在的都是html代码，经常出现换行符，所以只能选择用phpmyadmin了。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2009-12-21-centos-install-xen/">CentOS 5.3下成功安装了Xen虚拟化服务。</a></li>
+        
+        <li><a href="/post/2009-12-21-cheat-engine/">一个内存所搜的好用具--Cheat Engine</a></li>
+        
+        <li><a href="/post/2009-12-21-defense-arp-attack-on-ubuntu/">ubuntu下arp攻击防御和反击！</a></li>
+        
+        <li><a href="/post/2009-12-21-ubuntu-804-update-to-810/">ubuntu 8.04升级到8.10</a></li>
+        
+        <li><a href="/post/2009-12-21-rails-request/">Rails下request.raw_post的一些问题</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

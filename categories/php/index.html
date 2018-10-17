@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Php | 鑫的方向</title>
+    <meta property="og:title" content="Php - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Php">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/categories/php/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/categories/php/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">php</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/">owncloud打包zip下载文件名乱码</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2014年4月15日
+                                21:15
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在单位部署了一套owncloud使用。感觉作为内部网盘使用，效果还是挺好的。
+不过今天同事发现，选择多个文件一起下载的时候，会出现乱码问题。
+多个文件下载会自动打包成一个zip文件进行下载，下载后的文件在windows机器打开就出现文件名乱码了。</p>
+
+<p>##解决办法##
+网站搜索了下解决办法，基本上是因为打包zip的时候，文件名编码处理问题造成的。</p>
+
+<p>打 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-08-08-update-115disk-urls/">批量更换115网盘链接</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年8月10日
+                                14:31
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天115网盘关闭了对外分享链接的功能。我的客户有人是用115网盘作为服务器资源存储用的，网站上下载资源都是采用115网盘地址来发布的。这样直接造成全部资源都无法下载了，我临时写了个php脚本来更新全部的115网盘链接到本地服务器地址。
+ 
+<strong>主要思路：</strong></p>
+
+<p>首先将网盘里的资源全部下载到服务器，然后导出一个网盘地址和文件实际名字的列表</p>
+
+<p>如下所示： …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2012-08-08-update-115disk-urls/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-07-22-config-esmtp-via-gmail-sendmail/">配置ecshop通过本地esmtp发信</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年7月22日
+                                22:12
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#问题：#</p>
+
+<p>最近有个客户的ecshop总是卡在下订单的地方。查询了下日志。发现如下</p>
+
+<pre><code>script_filename = /public_html/quick_buy.php
+[0x0a29511c] fgets() /public_html/includes/cls_smtp.php:314
+[0x0a295074] get_data() …</code></pre>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2012-07-22-config-esmtp-via-gmail-sendmail/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-01-19-php-eaccelerator-vs-fastcgi-cache/">php eaccelerator vs fastcgi_cache性能比较</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年1月19日
+                                10:15
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近放假一直在家里测试php如何优化性能。
+今天比较了下默认php、eaccelerator和fastcgi_cache的性能。</p>
+
+<p>先介绍下我的测试环境：
+这次是在我VPS上做的测试：cpu 为1颗Intel&reg; Core&trade; i7-2600 CPU @ 3.40GHz，内存256M
+系统为centos 5.6 32bit
+php …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2012-01-19-php-eaccelerator-vs-fastcgi-cache/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-30-php-performance-debugging-tools/">php性能调试工具</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月30日
+                                14:55
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在帮一些客户优化php性能。</p>
+
+<p>排除掉服务器环境、memcache这些办法后，剩下的就是找php代码有没有执行过慢的因素了。</p>
+
+<p>下面列出一些在php性能调试中可以用到的工具。</p>
+
+<p>1、xdebug
+     这个工具大家都很熟悉，开始php过程中，用来调试程序用的。</p>
+
+<p>2、webgrind
+     这个工具主要是配合xdebug来使用，用来监测php执行 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-12-30-php-performance-debugging-tools/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-29-find-php-slow-code/">php-fpm查找php慢速代码</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月29日
+                                21:45
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>前两天帮助一个客户优化ecshop。
+他的ecshop代码是找人修改过的，修改后速度已很很慢，大概打开一页需要9s吧。
+而默认的ecshop在同样服务器上速度就很快。
+开始走了很多弯路，因为只是速度慢，并无错误。就没有想到是代码的原因。
+对比两个ecshop，首先发现首页加载的request数量差距很大，慢的站点105次，快的46次。
+而且慢的站点1.66M …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-12-29-find-php-slow-code/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-14-bbsxp6-to-phpwind8/">bbsxp 6.0数据导入phpwind 8.7方法</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月14日
+                                23:12
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天帮助猪八戒网上的一个客户将原来的bbsxp 6.0的论坛数据迁移到phpwind 8.7下。这里主要记录下思路</p>
+
+<p>phpwind官方论坛有各种的迁移程序，但是继续bbsxp的最早版本是2008. 而我这个客户的是bbsxp 6的access库。</p>
+
+<p>完成这个任务，我顺利升级到猪三戒！呵呵</p>
+
+<p>没有现成的，只能自己分析了。</p>
+
+<p>为了导入方便，我先将需要用到的数据 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-12-14-bbsxp6-to-phpwind8/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-09-check-slow-php-script/">如何找到执行慢的php程序</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月9日
+                                19:56
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在帮助一个网站做性能优化。
+从原来的windows平台切换到了linux平台。php环境也已经变为主流的Nginx+php-fpm+eAccelerator+Zend Optimization组合
+打开了MySQL的慢连接，发现基本集中在论坛的表查询上，但是我们如何定位有哪些php程序在执行的时候过慢呢？</p>
+
+<p>通过查看php-fpm.conf配置，可以找到 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-12-09-check-slow-php-script/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-20-emlog-alipay-pulgin/">emlog支付插件发布</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月20日
+                                19:29
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天看到支付宝可以采用<a href="http://me.alipay.com/用户名的形式创建自己的收款页面。以前要想写支付宝的付款插件，需要先申请一个商家用户，拿到分配你的密钥才可以。现在可以通过创建收款主页来直接收款，对于程序开发方便了很多（不过这个方式只能简单的收款，并不能用于商品的订单，没有回调函数不能知道是否收款成功等内容）。">http://me.alipay.com/用户名的形式创建自己的收款页面。以前要想写支付宝的付款插件，需要先申请一个商家用户，拿到分配你的密钥才可以。现在可以通过创建收款主页来直接收款，对于程序开发方便了很多（不过这个方式只能简单的收款，并不能用于商品的订单，没有回调函数不能知道是否收款成功等内容）。</a>
+而且看到wordpress貌似已经 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-11-20-emlog-alipay-pulgin/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-17-emlog-optimize-via-minify/">emlog访问速度优化之minify整合css与js文件</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月17日
+                                20:56
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我们知道网站的访问速度和很多因素相关，但是今天这里只是优化我们能力范围内的首页文件加载数量与大小。</p>
+
+<p>如果首页文件很大，肯定加载慢。还有一个因素就是首页如果加载很多css和js文件，因为在加载过程中会建立很多次连接从而降低访问首页的速度。</p>
+
+<p>下面是我博客默认情况下的加载css和js文件的数量</p>
+
+<p><img src="http://farm9.staticflickr.com/8246/8515051510_535fdf1923_z.jpg" alt="请求数截图" /></p>
+
+<p><img src="http://farm9.staticflickr.com/8087/8513940611_b373e87aea_z.jpg" alt="文件数" /></p>
+
+<p>从图上可以看到加载了4个css文件和5个js文件。大小分 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2011-11-17-emlog-optimize-via-minify/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+
+    
+    <li class="current">
+        <a href="/categories/php/">1</a>
+    </li>
+    
+    <li>
+        <a href="/categories/php/page/2/">2</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/categories/php/page/2/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

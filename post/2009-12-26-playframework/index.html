@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>playframework--play！java on rails框架 | 鑫的方向</title>
+    <meta property="og:title" content="playframework--play！java on rails框架 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2009-12-26T18:41:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2009-12-26T18:41:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="playframework--play！java on rails框架">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2009-12-26-playframework/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">playframework--play！java on rails框架</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2009年12月26日
+                            18:41
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/java">Java</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>今天看程序员，发现了play！framework这个java web框架。</p>
+
+<p>以前也接触过SSH框架，struts+spring+hibernate。。。看着每一个部分那厚厚的参考书。。我就害怕。</p>
+
+<p>后来就看了一阵子ruby on rails。彻底喜欢上了那种简洁的风格，约定优先配置也很棒。</p>
+
+<p>直到发现play框架，才知道原来java也可以这样简洁。play框架扔掉了J2EE的各种规范。。。完全像rails一样简洁了</p>
+
+<p>**Play！的主要特性： **
+* 简单的开发周期。该框架可自动编译和重新装载已改变的源文件。
+* 智能绑定HTTP参数到Java方法参数。
+* 基于Apache Mina的快速HTTP服务器<a href="http://mina.apache.org">http://mina.apache.org/</a>
+* 一个基于Groovy的强大的模板引擎，可实现多层继承，定制用户标签等功能。
+* 优秀的错误报告功能：发生异常时，该框架会直接显示出错误的源代码，甚至是模板代码。</p>
+
+<p>目前playframework网站的资料也比较全。从安装入门到开发实例应有尽有。我打算有时间慢慢翻译过来，发布在我的博客上。也是对自己学习的一种激励。</p>
+
+<p><strong>官方网站</strong></p>
+
+<p><a href="http://www.playframework.org/">http://www.playframework.org/</a></p>
+
+<p>各种实例</p>
+
+<p><h2>Yet Another Blog Engine</h2>The final application from the <a href="http://www.playframework.org/documentation/1.0/guide1">play guide</a> tutorial.<img src="http://www.playframework.org/documentation/1.0/images/yabe" border="0" width="1050" height="612"><h2>Forum</h2>A simple forum application using JPA.<img src="http://www.playframework.org/documentation/1.0/images/forum" border="0" width="996" height="649"><h2>Jobboard</h2>A full faetured job board application that uses the CRUD module to automatically generate the administration area. <img src="http://www.playframework.org/documentation/1.0/images/jobboard" border="0" width="996" height="649"><h2>Chat</h2>An HTTP based chat application. We use the asynchronous request model to be able to handle a lot of simultaneous connected users without resources waste.<img src="http://www.playframework.org/documentation/1.0/images/chat" border="0" width="996" height="649"><h2>Stock watcher</h2>Based on the default GWT tutorial, it shows how to use GWT within a play application.<img src="http://www.playframework.org/documentation/1.0/images/stocks" border="0" width="996" height="649"><h2>My lists</h2>A clone of the the well known 37Signals TadaList application built using the Google App Engine support. It uses Siena as persistence engine.<img src="http://www.playframework.org/documentation/1.0/images/lists" border="0" width="996" height="649"></p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2009-12-24-nginx-epool-events/">nginx采用epoll的事件模型，为何效率高。</a></li>
+        
+        <li><a href="/post/2009-12-22-wow-1-70-express-upgrade/">国服3.13 德鲁伊带小号快速升级（1-70全程带）</a></li>
+        
+        <li><a href="/post/2009-12-21-wow-5v5/">5v5打到1600&#43;了，庆祝一下！</a></li>
+        
+        <li><a href="/post/2009-12-21-wow-robot-battlegroud/">TBC 2.3如何挂战场</a></li>
+        
+        <li><a href="/post/2009-12-21-wow-memory-tools/">魔兽世界内存分析，基于wow 2.4.2</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

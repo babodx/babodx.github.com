@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>rails-best-practices-1 | 鑫的方向</title>
+    <meta property="og:title" content="rails-best-practices-1 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2013-03-16T09:43:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2013-03-16T09:43:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="rails-best-practices-1">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2013-03-16-rails-best-practices-1/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">rails-best-practices-1</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2013年3月16日
+                            09:43
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/rails">Rails</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>#FAT MODEL,SKINNY CONTROLLER#</p>
+
+<p>最近看了codeschool的教程，打算把里面讲解的rails best practices总结下。</p>
+
+<p>视频里的第一部分就是讲解的Fat model，skinny controller。我理解的就是要尽量把业务代码写到model中，而controller要尽量的简单。</p>
+
+<p>第一个例子是tweets_controller.rb的代码</p>
+
+<pre><code class="language-ruby">class TweetsController &lt; ApplicationController
+  def retweet
+    tweet = Tweet.find(params[:id])
+
+    if tweet.user == current_user
+      flash[:notice] = &quot;Sorry, you can't retweet your own tweets&quot;
+    elsif tweet.retweets.where(:user_id =&gt; current_user.id).present?
+      flash[:notice] = &quot;You already retweeted!&quot;
+    else
+      t = Tweet.new
+      t.status = &quot;RT #{tweet.user.name}: #{tweet.status}&quot;
+      t.original_tweet = tweet
+      t.user = current_user
+      t.save
+      flash[:notice] = &quot;Succesfully retweeted&quot;
+    end
+
+    redirect_to tweet
+  end
+end
+</code></pre>
+
+<p>上面的代码就是所谓的“SAD CODE”，并不理想。最佳实践里好的代码，被codeschool称作“HAPPY CODE”,很有意思。</p>
+
+<p>下面我们看看上面的代码该如何实现“HAYYP CODE”，首先要把一部分代码转移到tweet model里，然后上面的代码变成如下样子
+</p>
+
+<pre><code class="language-ruby">class TweetsController &lt; ApplicationController
+  def retweet
+    tweet = Tweet.find(params[:id])
+    flash[:notice] = tweet.retweet_by(current_user)
+    redirect_to tweet
+  end
+end
+</code></pre>
+
+<p>可以看到上面tweets_controller.rb明显比之前简单多了，主要是将大部分代码转移到了tweet model的retweet_by方法中了。</p>
+
+<p>下面的/app/models/tweet.rb的部分代码</p>
+
+<pre><code class="language-ruby">
+class Tweet &lt; ActiveRecord::Base
+  def retweet_by(retweeter)
+    if self.user == retweeter
+      &quot;Sorry,you can't retweet your own tweets&quot;
+    elsif self.retweets.where(:user_id =&gt; retweeter.id).present?
+      &quot;You already retweeted!&quot;
+    else
+      ...
+      &quot;Succesfully retweeted&quot;
+    end
+  end
+end
+</code></pre>
+
+<p>##小结##
+其实这个fat model,skinny controller很好理解。就是我们要经常检查我们自己的controller，一旦发现过于复杂或者代码过多。就要开始考虑将一些重复的代码或者涉及到复杂的业务逻辑代码提取到model当中实现。上面例子当中就是将转发tweet的业务逻辑代码转移到了model中，在model中判断tweet转发的是不是自己和是否已经转发过了。而最初这些代码放在controller中就造成了controller过于复杂，涉及了业务逻辑。</p>
+
+<p>我们只要把controller定位为action转发，而把model定义为model层和service层。涉及到业务逻辑或者各种条件判断的代码全扔到model中实际就可以了。</p>
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2013-03-14-railszhong-wen-wen-ti/">rails中文问题</a></li>
+        
+        <li><a href="/post/2013-03-03-kuai-su-pei-zhi-vimhe-macvim/">快速配置vim和macvim</a></li>
+        
+        <li><a href="/post/2013-02-28-emlogqian-yi-dao-octopress/">emlog迁移到octopress</a></li>
+        
+        <li><a href="/post/2013-02-24-git-first-on-ubuntu/">git-first-on-ubuntu</a></li>
+        
+        <li><a href="/post/2013-02-20-wo-2013nian-xue-xi-lie-biao/">我2013年学习列表</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

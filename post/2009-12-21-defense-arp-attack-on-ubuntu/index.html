@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ubuntu下arp攻击防御和反击！ | 鑫的方向</title>
+    <meta property="og:title" content="ubuntu下arp攻击防御和反击！ - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="ubuntu下arp攻击防御和反击！">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2009-12-21-defense-arp-attack-on-ubuntu/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">ubuntu下arp攻击防御和反击！</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2009年12月21日
+                            18:00
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>今天在单位，发现有人在用聚生网管和p2p终结者</p>
+
+<p>在windows下面，可以安装arp防火墙，还可以通过安装同类软件，进行检测。可是我已经转到ubuntu上了，总不能一旦被攻击，就回windows吧。于是上网找了一些关于linux下防止arp攻击的方法。</p>
+
+<p><strong>第一种方法</strong></p>
+
+<p>用静态arp.</p>
+
+<p>这种方法就是通过在 /etc/ethers 建立ip和mac地址对应记录。然后用arp -f来读取记录。这样将网关的mac地址和ip都建立在静态arp文件里。就不容易被arp欺骗了。</p>
+
+<p>还可以配合关闭arp解析，用<code>ifconfig eth0 -arp</code></p>
+
+<p><strong>第二中方法</strong></p>
+
+<p>采用arping</p>
+
+<pre><code>babo@babo-laptop:~$ arping 
+Usage: arping [-fqbDUAV] [-c count] [-w timeout] [-I device] [-s source] destination
+-f : quit on first reply
+-q : be quiet
+-b : keep broadcasting, don't go unicast
+-D : duplicate address detection mode
+-U : Unsolicited ARP mode, update your neighbours
+-A : ARP answer mode, update your neighbours
+-V : print version and exit
+-c count : how many packets to send
+-w timeout : how long to wait for a reply
+-I device : which ethernet device to use (eth0)
+-s source : source ip address
+destination : ask for what ip address
+用法举例：比如我的ip 192.168.1.101 网关:192.168.1.1
+就用arping -U -I eth0 -s 192.168.1.101 192.168.1.1
+显示结果如下
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.999ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 9.571ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.245ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.227ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.390ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 4.526ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.294ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.245ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.239ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.266ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.259ms
+Unicast reply from 192.168.1.1 [00:21:29:94:62:47] 1.267ms
+Sent 12 probes (1 broadcast(s))
+Received 12 response(s)
+</code></pre>
+
+<p><strong>终极解决办法</strong></p>
+
+<p>采用arpoison来解决是最好的办法了，这个办法还是参考了《linux下arp攻击的解决方案［原］》的办法。</p>
+
+<p>arpoison需要libnet的库才能正确编译，所以要下载libnet和arpoison两个软件。</p>
+
+<p><a href="http://www.packetfactory.net/libnet">arpoison主页</a></p>
+
+<p><a href="http://www.packetfactory.net/libnet">libnet主页</a></p>
+
+<p><strong>安装</strong></p>
+
+<p>现安装libnet,因为是源代码编译，需要gcc等我就不说了。去查看具体ubuntu源代码安装需要的软件包吧</p>
+
+<pre><code>tar zxvf libnet.tar.gz
+cd libnet/
+sudo ./configure
+sudo make
+sudo make install
+</code></pre>
+
+<p>编译过程中，会提示也些警告，没有关系。反正安装后，有/usr/lib/libnet.a就可以了
+然后安装arpoison</p>
+
+<pre><code>tar zxvf arpoison-0.6.tar.gz 
+cd arpoison/
+sudo gcc arpoison.c /usr/lib/libnet.a -o arpoison
+sudo mv arpoison /usr/sbin/
+</code></pre>
+
+<p>用法举例：</p>
+
+<pre><code>babo@babo-laptop:~$ sudo arpoison
+Usage: -i &lt;device&gt; -d &lt;dest IP&gt; -s &lt;src IP&gt; -t &lt;target MAC&gt; -r &lt;src MAC&gt; [-a] [-w time between packets] [-n number to send]
+说明
+-i 指定发送arp包的网卡接口eth0
+-d 192.168.1.1 指定目的ip为192.168.1.1
+-s 192.168.1.101 指定源ip为192.168.1.101
+-t ff:ff:ff:ff:ff:ff 指定目的mac地址为ff:ff:ff:ff:ff:ff(arp广播地址)
+-r 00:1c:bf:03:9f:c7 指定源mac地址为00:1c:bf:03:9f:c7
+</code></pre>
+
+<p>比如我想防止arp攻击</p>
+
+<p><code>sudo arpoison -i eth0 -d 192.168.1.1 -s 192.168.1.101 -t ff:ff:ff:ff:ff:ff -r 00:1c:bf:03:9f:c7</code></p>
+
+<p>比如我想攻击192.168.1.50的机器不让他上网</p>
+
+<p><code>sudo arpoison -i eth0 -d 192.168.1.50 -s 192.168.1.1 -t ff:ff:ff:ff:ff:ff -r 00:1c:bf:03:9f:c7</code></p>
+
+<p><strong>一些猜想</strong></p>
+
+<p>如果在本机开始NAT服务</p>
+
+<p>然后通过arp欺骗把对方的网关地址欺骗到自己这里，因为自己这里开了NAT，对方应该也可以上网吧。然后在本地开wireshark抓包，对方就不知不觉的被监视了。这些想法没有测试，不知道这样欺骗的办法，NAT是否可以。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2009-12-21-rails-graphical-verification-code/">rails实现图片验证码</a></li>
+        
+        <li><a href="/post/2009-12-21-winphone-syncewithubuntu/">ubuntu 8.10下同步wm6.1手机</a></li>
+        
+        <li><a href="/post/2009-12-21-mysql-import/">如何向万网的Mysql数据库导入数据</a></li>
+        
+        <li><a href="/post/2009-12-21-quick-stats-server-visits/">如何快速统计服务器访问量</a></li>
+        
+        <li><a href="/post/2009-12-21-wow-plugin-teamqueue/">修改了一个大战场团排插件 TeamQueue 1.35</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

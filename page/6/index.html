@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>鑫的方向 | 嗜欲深着，天机浅！</title>
+    <meta property="og:title" content="鑫的方向 | 嗜欲深着，天机浅！">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="专注于金融科技，包括但不限于linux、python、Go语言(golang)、项目管理、运维、软件架构等">
+    <meta property="og:url" content="https://xinlogs.com/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://xinlogs.com">
+                            鑫的方向
+                        </a>
+                    </h1>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-09-check-slow-php-script/">如何找到执行慢的php程序</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月9日
+                                19:56
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在帮助一个网站做性能优化。
+从原来的windows平台切换到了linux平台。php环境也已经变为主流的Nginx+php-fpm+eAccelerator+Zend Optimization组合
+打开了MySQL的慢连接，发现基本集中在论坛的表查询上，但是我们如何定位有哪些php程序在执行的时候过慢呢？</p>
+
+<p>通过查看php-fpm.conf配置，可以找到 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-12-09-check-slow-php-script/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-01-howto-open-rewrite-log/">伪静态规则调试技巧</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月1日
+                                21:46
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在威客网上接了个任务，帮助调整伪静态规则。WEB服务是apache的，主要就是修改rewrite规则。</p>
+
+<p>伪静态规则写起来比较麻烦，关键是正则表达是写完总要测试，而我们不知道这个rewrite该怎么测试。我们需要准确知道服务器是怎么匹配我们的规则的，匹配后又发生了什么。这也就是我今天要写的调试技巧。</p>
+
+<p>目前我们采用的WEB Server主要是apache …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-12-01-howto-open-rewrite-log/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-25-linux-source-install-multiple-versions-of-mysql/">Linux源码安装MySQL多版本共存</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月25日
+                                18:48
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/database">Database</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>原来我的服务器上是MySQL 5.5.16。本来是用的挺稳定。但是当时编译的时候由于手误将DDEFAULT_COLLATION=utf8-general_ci \弄错啦。。。应该是utf8_general_ci。导致很多程序用的时候报错，或者需要修改。
+最近发现MySQL更新到了5.5.18了，就打算迁移到新数据库正好修正原来问题。
+为了不影响访问，就打算 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-11-25-linux-source-install-multiple-versions-of-mysql/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-20-emlog-alipay-pulgin/">emlog支付插件发布</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月20日
+                                19:29
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天看到支付宝可以采用<a href="http://me.alipay.com/用户名的形式创建自己的收款页面。以前要想写支付宝的付款插件，需要先申请一个商家用户，拿到分配你的密钥才可以。现在可以通过创建收款主页来直接收款，对于程序开发方便了很多（不过这个方式只能简单的收款，并不能用于商品的订单，没有回调函数不能知道是否收款成功等内容）。">http://me.alipay.com/用户名的形式创建自己的收款页面。以前要想写支付宝的付款插件，需要先申请一个商家用户，拿到分配你的密钥才可以。现在可以通过创建收款主页来直接收款，对于程序开发方便了很多（不过这个方式只能简单的收款，并不能用于商品的订单，没有回调函数不能知道是否收款成功等内容）。</a>
+而且看到wordpress貌似已经 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-11-20-emlog-alipay-pulgin/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-17-emlog-optimize-via-minify/">emlog访问速度优化之minify整合css与js文件</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月17日
+                                20:56
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我们知道网站的访问速度和很多因素相关，但是今天这里只是优化我们能力范围内的首页文件加载数量与大小。</p>
+
+<p>如果首页文件很大，肯定加载慢。还有一个因素就是首页如果加载很多css和js文件，因为在加载过程中会建立很多次连接从而降低访问首页的速度。</p>
+
+<p>下面是我博客默认情况下的加载css和js文件的数量</p>
+
+<p><img src="http://farm9.staticflickr.com/8246/8515051510_535fdf1923_z.jpg" alt="请求数截图" /></p>
+
+<p><img src="http://farm9.staticflickr.com/8087/8513940611_b373e87aea_z.jpg" alt="文件数" /></p>
+
+<p>从图上可以看到加载了4个css文件和5个js文件。大小分 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-11-17-emlog-optimize-via-minify/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-13-nginx-301-rewrite/">nginx通过301统一入口域名</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月13日
+                                16:34
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我们知道网站的入口域名一般都是www.domain.com或者domain.com。有的网站选择带www而有的网站选择不带www。
+但是搜索引擎会将www.domian.com和domian.com 认为是两个地址从而分散我们的权重。所以通过nginx的301转向来统计入口域名，有利于我们的网站提高权重。
+ 
+以我的博客为例，服务器采用的就 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-11-13-nginx-301-rewrite/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-10-centos-linux-sshclient-unreadable-code/">Centos Linux 远程终端ssh乱码问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月10日
+                                15:23
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我们经常碰到linux乱码问题。尤其是碰到网页上传个中文文件名的文件，ssh登陆到linux一看全乱码想删除都不行。很郁闷的。如下图所示中文文件名全都是显示问号了（这个乱码由于你的编码设置不同，显示的也不太一样）</p>
+
+<p><img src="http://farm9.staticflickr.com/8094/8513901709_166ee71c2c.jpg" alt="乱码截图" /></p>
+
+<p>还有一个就是vim的乱码</p>
+
+<p><img src="http://farm9.staticflickr.com/8235/8513903997_2edf6ef68a_m.jpg" alt="vim乱码" /></p>
+
+<p><strong>解决办法：</strong></p>
+
+<p>首先需要给linux安装中文支持。这里以centos为例，所以采用yum安装</p>
+
+<p><code>yum …</code></p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-11-10-centos-linux-sshclient-unreadable-code/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-11-06-godaddy-to-dnspod/">解决godaddy注册域名无法解析问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年11月6日
+                                18:25
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/host">Host</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>godaddy.com是全球知名的域名注册商。国内很多站长也是使用的这个注册商。</p>
+
+<p>但是出于各种原因，godaddy的域名服务器经常被国内封掉。导致我们注册的域名无法被解析。直接影响了网站的稳定性。</p>
+
+<p>解决办法无非两个：一、不用godaddy了，二、换域名服务器。</p>
+
+<p>如果不打算用godaddy了，我推荐name.com也不错，不过不支持支付宝了。需要 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-11-06-godaddy-to-dnspod/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-10-31-gvim-vimrc-file/">Gvim配置</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年10月31日
+                                10:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/vim">Vim</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>vim是在linux下面很有名的编辑工具。而今天说到的这个gvim呢，就是vim工具在windows下的版本。
+因为游戏、网银等种种原因，不是每个人都可以全部切换到linux下的，而linux的很多很棒的开源软件又特别好用。所以就尽量找这些软件的windows版本了。
+ 
+软件主页：<a href="http://www.vim.org/">http://www.vim.org/</a></p>
+
+<p>下载地址： …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-10-31-gvim-vimrc-file/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-10-26-mod-template-emidream/">修改EMiDream模板</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年10月26日
+                                19:40
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天修改了EMiDream模板。这个模板是给wordpress制作的，应用在<a href="http://www.templatesnext.org/">http://www.templatesnext.org/</a>网站
+我是在emlog论坛找到了“通信民工”修改的过来的版本。
+我所做的修改如下：
+1、首页每条博客下面变为了中文的 评论 和 浏览
+这个修改主要是在log_list.php文件中，将28、29 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-10-26-mod-template-emidream/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/page/5/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/">1</a>
+    </li>
+    
+    <li>
+        <a href="/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/page/5/">5</a>
+    </li>
+    
+    <li class="current">
+        <a href="/page/6/">6</a>
+    </li>
+    
+    <li>
+        <a href="/page/7/">7</a>
+    </li>
+    
+    <li>
+        <a href="/page/8/">8</a>
+    </li>
+    
+    <li>
+        <a href="/page/9/">9</a>
+    </li>
+    
+    <li>
+        <a href="/page/10/">10</a>
+    </li>
+    
+    <li>
+        <a href="/page/11/">11</a>
+    </li>
+    
+    <li>
+        <a href="/page/12/">12</a>
+    </li>
+    
+    <li>
+        <a href="/page/13/">13</a>
+    </li>
+    
+    <li>
+        <a href="/page/14/">14</a>
+    </li>
+    
+    <li>
+        <a href="/page/15/">15</a>
+    </li>
+    
+    <li>
+        <a href="/page/16/">16</a>
+    </li>
+    
+    <li>
+        <a href="/page/17/">17</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/page/7/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

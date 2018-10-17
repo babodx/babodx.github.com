@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>CentOS 5.4 基于HP Proliant DL380 G5服务器配置Modular Smart Array 1000存储 | 鑫的方向</title>
+    <meta property="og:title" content="CentOS 5.4 基于HP Proliant DL380 G5服务器配置Modular Smart Array 1000存储 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2010-03-12T14:36:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2010-03-12T14:36:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="CentOS 5.4 基于HP Proliant DL380 G5服务器配置Modular Smart Array 1000存储">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2010-03-12-hp-msa1000-dl380g5-centos5/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">CentOS 5.4 基于HP Proliant DL380 G5服务器配置Modular Smart Array 1000存储</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2010年3月12日
+                            14:36
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>原来单位的存储一直是分两个800G的区，挂在到Windows下。Windows的系统总要担心病毒，所以打算迁移到CentOS Linux下。</p>
+
+<p>参考了<a href="http://blog.s135.com/post/415/">http://blog.s135.com/post/415/</a>这篇文章，但是他的文章里是单控制器，并且没有用到光纤。所以配置上有些不同</p>
+
+<p><strong>硬件配置</strong></p>
+
+<ul>
+<li>一台HP MSA 1000存储设备（包含两个Modular Smart Array 1000控制器）</li>
+<li>一台HP Storage SAN 4/8光纤交换机</li>
+<li>一台HP Proliant DL380 G5 2U服务器</li>
+<li>七块SCSI 300G硬盘</li>
+<li>一块HP StorageWorks FC1142SR 4GB PCI-E 光纤卡</li>
+</ul>
+
+<p><img src="http://farm9.staticflickr.com/8085/8512593854_1e49c77451.jpg" alt="硬件图片MSA1000" /></p>
+
+<p>从两个Modular Smart Array 1000的控制器后面连接光纤到光纤交换机。然后将光纤卡安装到服务器上，用光纤连接光纤卡到光纤交换机。</p>
+
+<p><img src="http://farm9.staticflickr.com/8233/8511486023_2fd88da704.jpg" alt="hba" />
+<img src="http://farm9.staticflickr.com/8532/8511486191_d0cc8c932f.jpg" alt="hba2" /></p>
+
+<p><strong>软件配置</strong></p>
+
+<p>先对各种硬件的fireware进行下更新。</p>
+
+<p>从惠普网站下载update fireware光盘，下载的文件为firmware-8.60-0.zip，大小463M左右，然后解压刻成光盘</p>
+
+<p>下载地址<a href="ftp://ftp.hp.com/pub/softlib2/software1/cd/p1040529012/v53483/firmware-8.60-0.zip">ftp://ftp.hp.com/pub/softlib2/software1/cd/p1040529012/v53483/firmware-8.60-0.zip</a></p>
+
+<p>用光盘启动服务器，然后安装提示做就可以。它会更新网卡、服务器等设备的fireware。都是自动检测并更新的，很简单</p>
+
+<p>确保各种fireware都更新后，下面需要用到smartstart光盘来对存储进行配置了</p>
+
+<p>从惠普网站下载smartstart光盘，下载的文件smartstart-8.30-0-x86.zip，大小576M左右，也是解压刻录光盘</p>
+
+<p>下载地址<a href="ftp://ftp.hp.com/pub/softlib2/software1/cd/p1040463476/v49882/smartstart-8.30-0-x86.zip">ftp://ftp.hp.com/pub/softlib2/software1/cd/p1040463476/v49882/smartstart-8.30-0-x86.zip</a></p>
+
+<p>然后用光盘启动服务器，按照提示进入后，选择第2项配置存储卡，第一项是用来安装操作系统的，我发现没有Linux的操作系统。。。都是Windows系列。</p>
+
+<p>可以发现服务器自己的raid卡 HP Smart Array E200和MSA 1000存储。</p>
+
+<p>我是先将服务器的3块硬盘组成一个Raid 5，然后再配置MSA 1000的存储，也是将7块盘组成Raid 5。我看了下资料，说raid 6比raid5要损失8%-15%的性能，但是可以保证同时坏2块盘不丢失数据。不过我觉得raid5够用了。</p>
+
+<p>因为是双控制器，我这里的fireware是4.48所以采用的是active/standby模式。如果打算用active/active模式，需要更新fireware到7.0版本</p>
+
+<p>用smartstart光盘做好raid后，就可以给服务器安装系统了。</p>
+
+<p><strong>安装CentOS 5.4 64bit</strong></p>
+
+<p>安装CentOS 5.4 64bit版本前，先将连接到服务器的光纤拔掉，要不系统总是提示/dev/sda不可读取，这里的sda就是我们存储。
+一切安装正常安装就可以。</p>
+
+<p>正常安装后，连接好光纤，再启动服务器。</p>
+
+<p>这个时候因为没有安装驱动，服务器在启动过程中会报很多end_request: error</p>
+
+<p>而且我还发现如果不安装驱动，我们可以通过fdisk -l查找到存储设备，但是每次重启或者存储关机再开，存储的设备名都会变，有时候是/dev/sda有时候是/dev/sdb。所以很难在/etc/fstab里写入mount的配置。</p>
+
+<p>安装HBA卡驱动</p>
+
+<p>到HP网站下载驱动
+<a href="http://h20000.www2.hp.com/bizsupport/TechSupport/SoftwareIndex.jsp?lang=en&amp;cc=us&amp;prodNameId=1809832&amp;prodTypeId=12169&amp;prodSeriesId=1809835&amp;swLang=8&amp;taskId=135&amp;swEnvOID=4004">http://h20000.www2.hp.com/bizsupport/TechSupport/SoftwareIndex.jsp?lang=en&amp;cc=us&amp;prodNameId=1809832&amp;prodTypeId=12169&amp;prodSeriesId=1809835&amp;swLang=8&amp;taskId=135&amp;swEnvOID=4004</a></p>
+
+<p>也可以直接下载
+<a href="ftp://ftp.hp.com/pub/softlib/software10/COL19426/co-74973-1/hp_qla2x00-2009-03-17.tar.gz">ftp://ftp.hp.com/pub/softlib/software10/COL19426/co-74973-1/hp_qla2x00-2009-03-17.tar.gz</a></p>
+
+<p><a href="ftp://ftp.hp.com/pub/softlib/software11/COL28061/co-69719-3/hp-fc-enablement-2009-12-16.tar.gz">ftp://ftp.hp.com/pub/softlib/software11/COL28061/co-69719-3/hp-fc-enablement-2009-12-16.tar.gz</a></p>
+
+<p>上面两个文件，一个是qla2x00的驱动，后面一个是Linux fibre channel enablement kits for QLogic HBAs and mezzanine cards</p>
+
+<p>下载后解压安装</p>
+
+<pre><code>Installation instructions
+ 
+Download the appropriate driver kit for your distribution. The driver kit file will be in the format hp_qla2x00-yyyy-mm-dd.tar.gz.
+Copy the driver kit to the target system.
+Uncompress and untar the driver kit using the following command:
+# tar zxvf hp_qla2x00-yyyy-mm-dd.tar.gz
+Change directory to the hp_qla2x00-yyyy-mm-dd directory.
+Execute the INSTALL command.
+The INSTALL command syntax will vary depending on your conﬁguration. If a previous driver kit is installed, you can invoke the INSTALL command without any arguments as the script will use the currently loaded conﬁguration:
+# ./INSTALL
+To force the installation to failover mode, use the -f ﬂag:
+# ./INSTALL -f
+To force the installation to single-path mode, use the -s ﬂag:
+# ./INSTALL -s
+Use the -h option of the INSTALL script for a list of all supported arguments. The INSTALL script will install the appropriate driver RPM for your conﬁguration, as well as the appropriate ﬁbreutils RPM. Once the INSTALL script is ﬁnished, you will either have to reload the QLogic driver modules (qla2xxx, qla2300, qla2400, qla2xxx_conf) or reboot your server.
+The commands to reload the driver are:
+# /opt/hp/src/hp_qla2x00src/unload.sh
+# modprobe qla2xxx_conf
+# modprobe qla2xxx
+# modprobe qla2300
+# modprobe qla2400
+The command to reboot the server is:
+# reboot
+
+
+CAUTION: If your boot device is a SAN attached device you will have to reboot your server.
+
+To verify which RPM versions are installed, use the rpm command with the -q option.
+For example:
+# rpm -q hp_qla2x00src
+# rpm –q fibreutils
+</code></pre>
+
+<p>然后在继续安装HP Fibre Channel Enablement Kit</p>
+
+<pre><code>Installing the HP Fibre Channel Enablement Kit
+ 
+To install the HP Fibre Channel Enablement Kit, do the following:
+Download the hp-fc-enablement-yyyy-mm-dd.tar.gz file for your operating system and copy it to the target server
+Untar the enablement kit by executing the command to create the directory, hp-fc-enablement-yyyy-mm-dd.
+# tar zxvf hp-fc-enablement-yyyy-mm-dd.tar.gz
+Browse to the directory hp-fc-enablement-yyyy-mm-dd.
+Do one of the following to execute the install.sh script.
+If you are not using Device Mapper multipathing execute the following command:
+# ./install.sh -s
+If you are using Device Mapper multipathing execute the following command:
+# ./install.sh -m
+The hp-fc-enablement and fibreutils RPMs should be installed once this install completes. To verify the installation, enter the following commands:
+# rpm -q hp-fc-enablement
+# rpm -q fibreutils
+
+NOTE: For use with the driver that comes with the kernel you will need fibreutils 3.x or greater.
+
+</code></pre>
+
+<p>全部完成后，我们需要查看下/etc/modprobe.conf
+如果有下面图中标记的一些信息加入，说明上面的驱动安装正确。</p>
+
+<p><img src="http://farm9.staticflickr.com/8378/8512177477_69fd3f3534_z.jpg" alt="msa1000配置图片" /></p>
+
+<p>确实正确后，我们重启下服务器。</p>
+
+<p>当再次进入系统后，我们的存储应该被识别为/dev/sda设备</p>
+
+<p>用fdisk -l /dev/sda查看下，如果没有问题了，就可以使用fdisk /dev/sda进行分区</p>
+
+<p>我是把全部1.6T分成一个区/dev/sda1</p>
+
+<p>然后e2lable /dev/sda1 /data给卷标</p>
+
+<p>在/etc/fstab文件里加入/dev/sda1的挂着位置</p>
+
+<p>这样以后每次启动系统，就自动将存储挂着到系统的/data目录中了。如下图</p>
+
+<p><img src="http://farm9.staticflickr.com/8112/8512182419_1370b691bf.jpg" alt="存储mount成功" /></p>
+
+<p><strong>总结</strong></p>
+
+<p>本来参考<a href="www.s135.com">http://www.s135.com</a>博主的文章配置的，后来发现因为用了光纤卡，不安装驱动会有问题。还有就是双控制器的active/active和active/standby模式需要通过刷新不同的fireware实现。总得来说这个存储配置起来不难，安装官方文档和网络上一些文档就可以。写这篇文档就是为了记录下自己的配置过程，省的以后再配置还要到处找文档查资料。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2010-02-12-huawei-e1750-on-win7/">win7下使用联通无线上网卡HUAWEI E1750</a></li>
+        
+        <li><a href="/post/2010-02-02-my-htc-hero-mobile/">我的新手机HTC hero g3</a></li>
+        
+        <li><a href="/post/2010-01-28-e63-nokia-fireware-update/">诺基亚E63刷机</a></li>
+        
+        <li><a href="/post/2010-01-24-postfix-extmail-attachment-bug/">postfix&#43;extmail的附件大小显示和限制问题解决办法</a></li>
+        
+        <li><a href="/post/2010-01-19-extman/">extman后台登陆问题解决方法</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

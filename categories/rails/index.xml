@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rails on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/rails/</link>
+    <description>Recent content in Rails on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 02 Apr 2013 13:10:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/rails/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>centos5.5安装rails环境</title>
+      <link>https://xinlogs.com/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/</link>
+      <pubDate>Tue, 02 Apr 2013 13:10:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/</guid>
+      <description>最近招生需要写一个考试结果查询程序，就用rails来写了。以前一直java、php的，发现rails的高效开发以后，就打算尝试下。 程序写好后，就开始考虑服务器的问题了。我手边就只有centos的系统，也直到ubuntu和debian对于rails来说有好点。但是现实总是残酷的。。。
+##安装EPEL 因为系统为centos 5.5 所以很多现在流行的软件包都没有。所以采用epel来安装。
+wget http://dl.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm rpm -ivh epel-release-5-4.noarch.rpm  有了epel以后，就可以安装一些需要的软件包了。
+##安装git git直接用yum install git 就可以顺利安装了
+##安装rvm
+echo insecure &amp;gt;&amp;gt; ~/.curlrc curl -L get.rvm.io | bash -s stable source ~/.bashrc source ~/.bash_profile rvm list  ##安装ruby
+rvm install 1.9.3  安装的时候可能会因为系统缺少一些软件包而提示错误。根据提示安装对应软件包就可以了。 我这里是提示缺少libyaml-devel和libffi-devel俩个
+yum install libyaml-devel yum install libffi-devel  安装完成后，设置下默认的ruby版本
+rvm use 1.9.3 --default  有了这些，就可以直接用gem来安装rails了
+##安装Rails
+gem install rails  ##小结 上面安装基本很顺利，就是用rvm安装ruby的时候可能会提示确认支持的软件包。根据提示安装上就可以了。</description>
+    </item>
+    
+    <item>
+      <title>rails-best-practices-2</title>
+      <link>https://xinlogs.com/post/2013-03-16-rails-best-practices-2/</link>
+      <pubDate>Sat, 16 Mar 2013 10:23:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-03-16-rails-best-practices-2/</guid>
+      <description>&lt;p&gt;#SCOPE IT OUT&lt;/p&gt;
+
+&lt;p&gt;和前面一样，让我们先来看一段“SAD CODE”。&lt;/p&gt;
+
+&lt;p&gt;/app/controllers/tweets_controller.rb&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;def index
+  @tweets = Tweet.find(
+              :all,
+              :conditions =&amp;gt; {:user_id =&amp;gt; current_user.id},
+              :order =&amp;gt; &#39;created_at desc&#39;,
+              :limit =&amp;gt; 10
+             )
+  @trending = Topic.find(
+                :all,
+                :conditions =&amp;gt; [&amp;quot;started_trending &amp;gt; ?&amp;quot;, 1.day.ago],
+                :order =&amp;gt; &#39;mentions desc&#39;,
+                :limit =&amp;gt; 5
+               )
+  ...
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们先来看看@tweets获取这部分，代码是想取得当前用户下面的10条tweet并按照创建时间排序。&lt;/p&gt;
+
+&lt;p&gt;通过在model里定义scope来将排序条件转移到model，并且优化上面代码为如下样子：
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>rails-best-practices-1</title>
+      <link>https://xinlogs.com/post/2013-03-16-rails-best-practices-1/</link>
+      <pubDate>Sat, 16 Mar 2013 09:43:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-03-16-rails-best-practices-1/</guid>
+      <description>&lt;p&gt;#FAT MODEL,SKINNY CONTROLLER#&lt;/p&gt;
+
+&lt;p&gt;最近看了codeschool的教程，打算把里面讲解的rails best practices总结下。&lt;/p&gt;
+
+&lt;p&gt;视频里的第一部分就是讲解的Fat model，skinny controller。我理解的就是要尽量把业务代码写到model中，而controller要尽量的简单。&lt;/p&gt;
+
+&lt;p&gt;第一个例子是tweets_controller.rb的代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ruby&#34;&gt;class TweetsController &amp;lt; ApplicationController
+  def retweet
+    tweet = Tweet.find(params[:id])
+
+    if tweet.user == current_user
+      flash[:notice] = &amp;quot;Sorry, you can&#39;t retweet your own tweets&amp;quot;
+    elsif tweet.retweets.where(:user_id =&amp;gt; current_user.id).present?
+      flash[:notice] = &amp;quot;You already retweeted!&amp;quot;
+    else
+      t = Tweet.new
+      t.status = &amp;quot;RT #{tweet.user.name}: #{tweet.status}&amp;quot;
+      t.original_tweet = tweet
+      t.user = current_user
+      t.save
+      flash[:notice] = &amp;quot;Succesfully retweeted&amp;quot;
+    end
+
+    redirect_to tweet
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的代码就是所谓的“SAD CODE”，并不理想。最佳实践里好的代码，被codeschool称作“HAPPY CODE”,很有意思。&lt;/p&gt;
+
+&lt;p&gt;下面我们看看上面的代码该如何实现“HAYYP CODE”，首先要把一部分代码转移到tweet model里，然后上面的代码变成如下样子
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>rails中文问题</title>
+      <link>https://xinlogs.com/post/2013-03-14-railszhong-wen-wen-ti/</link>
+      <pubDate>Thu, 14 Mar 2013 10:56:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2013-03-14-railszhong-wen-wen-ti/</guid>
+      <description>&lt;p&gt;##rails controller中的中文问题&lt;/p&gt;
+
+&lt;p&gt;在ruby 1.9环境中，如果controller里出现中文，就会报错。报错如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;invalid multibyte char (US-ASCII)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;解决办法：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在这个controller的文件开头加入如下语句&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#encoding: utf-8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;##rails validates的中文问题&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Rails下request.raw_post的一些问题</title>
+      <link>https://xinlogs.com/post/2009-12-21-rails-request/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-rails-request/</guid>
+      <description>我在学习Agile Web Development with Rails在第18章 Observers的例子中
+&amp;lt;%=text_field_tag :search%&amp;gt; &amp;lt;%=observe_field( :search, :frequency =&amp;gt; 0.5, :update =&amp;gt; :results, :url =&amp;gt; {:action =&amp;gt; :search})%&amp;gt;  将text_field_tag里面的内容，每间隔0.5就提交给search这个action,然后将结果显示在层
+在search方法里面可以通过request.raw_post获取提交的数据
+def search render:text=&amp;gt;request.raw_post end  问题是上面这样返回的内容，总是在提交的内容后多一个=号
+比如在文本框输入div层显示的就是a=
+后来只能通过把最后2位抹去，来达到正常效果render:text=&amp;gt;request.raw_post.to(request.raw_post.length-2)</description>
+    </item>
+    
+    <item>
+      <title>rails下上传文件并且解决乱码问题</title>
+      <link>https://xinlogs.com/post/2009-12-21-rails-upload-unread/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-rails-upload-unread/</guid>
+      <description>这个问题是我在www.javaeye.com论坛上提出的，并且由mathsfan给出了解决办法
+首先创建一个项目，叫test
+在app目录下的controllers目录下，找到test_controller.rb文件
+添加一个upload的action
+def upload end  然后在view目录下的test目录下，创建一个upload.rhtml文件
+&amp;lt;%=form_tag({:action=&amp;gt;&#39;save&#39;},:multipart=&amp;gt;true)%&amp;gt; &amp;lt;br/&amp;gt;upload your file:&amp;lt;%=file_field(&amp;quot;file&amp;quot;,&amp;quot;file&amp;quot;)%&amp;gt; &amp;lt;br/&amp;gt; &amp;lt;%=submit_tag(&amp;quot;upload&amp;quot;)%&amp;gt; &amp;lt;%=end_form_tag%&amp;gt;  现在访问http://localhost:3000/test/upload，应该可以看到一个上传的界面了。
+不过还没有处理上传后的方法呢，所以还不能实现上传。因为上面的表单是提交给save这个action 的，现在还没有写呢。
+在写save之前，先要完成一些相关的方法
+在application.rb文件里，加入
+def uploadFile(file) #处理上传后的文件保存 if !file.original_filename.empty? #生成一个随机的文件名 @filename=getFileName(file.original_filename) #向dir目录写入文件 File.open(&amp;quot;#{RAILS_ROOT}/public/images/#{@filename}&amp;quot;, &amp;quot;wb&amp;quot;) do |f| f.write(file.read) end #返回文件名称 return @filename end end  def getFileName(filename) #获取文件名 if !filename.nil? return filename end end  现在在test_controller.rb里写出save的action
+def save unless request.get? if filename=uploadFile(params[:file][&#39;file&#39;]) #调用application.rb&amp;lt;/strong&amp;gt;里写的uploadFile对文件保存 render :text=&amp;gt;filename end end end  文件可以正确上传到public/images下 但是中文文件名变为了乱码,但是render :text=&amp;gt;filename返回的名字,并不是乱码.
+###解决办法###</description>
+    </item>
+    
+    <item>
+      <title>rails下使用sqlite3</title>
+      <link>https://xinlogs.com/post/2009-12-21-rails-use-sqlite3/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-rails-use-sqlite3/</guid>
+      <description>参考http://wiki.rubyonrails.org/rails/pages/HowtoUseSQLite
+安装SQLite
+SQLite 是一个轻量级的sql风格数据库.可以执行大部分sql92标准SQLite全部安装只有244kb,包括命令行客户端和DLL文件SQLite不用安装服务进程，就像Access数据库一样使用方便安装只需要2个文件
+ SQLite DLL SQLite command-line client for creating tables  添加sqlite3.exe 和sqlite3.dll 到系统的path下，我放在了c:\windows\system32下了
+安装sqlite3-ruby.gem
+gem install sqlite3-rubyAttempting local installation of &#39;sqlite3&#39; Local gem file not found: sqlite3*.gem Attempting remote installation of &#39;sqlite3&#39; Select which gem to install for your platform (i386-mswin32) 1. sqlite3-ruby 1.1.0 (mswin32) 2. sqlite3-ruby 1.1.0 (ruby) 3. sqlite3-ruby 1.0.1 (ruby) ... &amp;gt;  选择 1 安装sqlite3-ruby 1.1.0(mswin32) 现在好像2才是sqlite3-ruby 1.1.0(mswin32),总之选择(mswin32)就对了
+安装图像管理工具（也可以不用，直接用命令行也很方便）http://sqlitebrowser.sourceforge.net/
+创建数据库
+进入项目所在目录，比如我的项目是testsqld:\work\testsql&amp;gt;sqlite db\test.db上面命令就在db目录下，创建了一个test.db数据库</description>
+    </item>
+    
+    <item>
+      <title>rails实现图片验证码</title>
+      <link>https://xinlogs.com/post/2009-12-21-rails-graphical-verification-code/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-rails-graphical-verification-code/</guid>
+      <description>写在了babo.javaeye.com了
+http://babo.javaeye.com/blog/72298</description>
+    </item>
+    
+    <item>
+      <title>rails配合fckeditor实现文本编辑工具条</title>
+      <link>https://xinlogs.com/post/2009-12-21-rails-fckeditor/</link>
+      <pubDate>Mon, 21 Dec 2009 18:00:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-21-rails-fckeditor/</guid>
+      <description>主要参考了
+http://blog.caronsoftware.com/articles/2006/08/07/fckeditor-plugin-for-rails
+http://www.blogjava.net/rocky/archive/2006/11/04/rails-fckeditor-integration.html
+安装
+下载http://rubyforge.org/projects/fckeditorp/项目的 FCKEditor Plugin for Rails，将下载的文件加压缩后，保存到fckeditor文件夹中
+将fckeditor文件夹拷贝到自己项目的vendor/plugins目录下
+运行rack fckeditor:install
+然后在需要用到这个插件的页面，输入&amp;lt;%= javascript_include_tag &amp;quot;fckeditor/fckeditor&amp;quot; %&amp;gt;或者将这句话添加到app/view/layouts/下的对应文件中
+使用
+需要使用这个工具条的地方，输入
+&amp;lt;%=fckeditor_textarea(&amp;quot;post&amp;quot;, &amp;quot;body&amp;quot;, :toolbarSet =&amp;gt; &#39;Simple&#39;, :width =&amp;gt; &#39;100%&#39;, :height =&amp;gt; &#39;500px&#39; )%&amp;gt;
+注意fckeditor_textarea的一个参数post必须是action传过来的一个实体类，如果action没有传过来，就会提示出错
+比如我这里用到了post,我的action如下
+def new&amp;lt;br&amp;gt; @post = Post.new&amp;lt;br&amp;gt; end  第二个参数，body对应表单里的字段
+第三个参数toolbarSet=&amp;gt;&amp;ldquo;Simple&amp;rdquo;为工具条风格，这个风格可以在public/javascripts/fckcustom.js文件里面定义（修改后，要关闭浏览器再开才起作用）
+第四、五个参数，代表文本区域的大小
+图片上传
+默认安装后，图片上传不能用，需要修改vendor/plugins/fckeditor/app/controllers/fckeditor_controller.rb文件的upload_file action如下
+def upload_file @new_file = params[:NewFile] @url = upload_directory_path begin ftype = @new_file.content_type.strip if ! MIME_TYPES.include?(ftype) @errorNumber = 202 puts &amp;quot;#{ftype} is invalid MIME type&amp;quot; raise &amp;quot;#{ftype} is invalid MIME type&amp;quot; else path = current_directory_path + &amp;quot;/&amp;quot; + @new_file.</description>
+    </item>
+    
+  </channel>
+</rss>

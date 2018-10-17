@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>postfix&#43;extmail的附件大小显示和限制问题解决办法 | 鑫的方向</title>
+    <meta property="og:title" content="postfix&#43;extmail的附件大小显示和限制问题解决办法 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2010-01-24T21:06:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2010-01-24T21:06:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="postfix&#43;extmail的附件大小显示和限制问题解决办法">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2010-01-24-postfix-extmail-attachment-bug/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">postfix&#43;extmail的附件大小显示和限制问题解决办法</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2010年1月24日
+                            21:06
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>最近在给一个公司部署了postfix+extmail的邮件系统后，遇到了附件大小限制问题。</p>
+
+<p>extmail默认设置是5M，但是由于extmail的统计大小方法问题，一般附件限制比设置的小了1/3。也就是你设置了5M，也就能到3M多。</p>
+
+<p>这里先说下大小限制的配置。</p>
+
+<p>一、修改extmail的webmail.cf文件</p>
+
+<pre><code>SYS_MESSAGE_SIZE_LIMIT = 5242880 注意：以位为单位为5M字节。 
+
+SYS_MESSAGE_SIZE_LIMIT = xxx
+</code></pre>
+
+<p>二、修改/etc/postfix/main.cf文件，</p>
+
+<pre><code>message_size_limit = xxx
+</code></pre>
+
+<p>三、重启postfix即可，<code>service postfix restrart</code> 和重启apache，<code>service httpd restart</code></p>
+
+<p><strong>如何解决附件限制大小和系统文件大小相差1/3呢？</strong></p>
+
+<p>首先是修改/var/www/extsuite/extmail/libs/Ext/App目录下的Compose.pm文件</p>
+
+<pre><code>sub is_oversize {   
+    my $self = shift;   
+    my $sys = $self-&gt;{sysconfig};   
+    my $maxsize = $sys-&gt;{SYS_MESSAGE_SIZE_LIMIT};   
+    my $tsize = shift;   
+  
+    return 0 unless defined $maxsize and $maxsize &gt; 0;   
+    return 0 unless defined $tsize and $tsize &gt; 0;   
+  
+    if ($tsize &gt;= $maxsize) {   
+        return $maxsize;   
+    }   
+    0;   
+}   
+</code></pre>
+
+<p>注意到上面的if ($tsize &gt;= $maxsize)了吧，修改为if ($tsize &gt;= 1.29*$maxsize)</p>
+
+<p>这样修改后，基本extmail的附件限制大小就和系统显示的文件大小一样。</p>
+
+<p>目前还有一个文件，就是我们上传一个1M的内容，显示出来的附件大小大约是1.3M，这个问题需要修改一个human函数解决。</p>
+
+<p>在/var/www/extsuite/extmail/libs/Ext目录下，打开Utils.pm文件</p>
+
+<p>找到如下函数</p>
+
+<pre><code>sub human_size {   
+    my $s = $_[0];   
+    if($s&lt;1024) {   
+        return sprintf(&quot;%0.2f&quot;, $s/1024).&quot;K&quot;;   
+    }elsif($s&lt;1024*1024) {   
+        return sprintf(&quot;%0.1f&quot;, $s/1024).&quot;K&quot;;   
+    }else {   
+        return sprintf(&quot;%0.1f&quot;, $s/(1024*1024)).&quot;M&quot;;   
+    }   
+}   
+</code></pre>
+
+<p>将函数修改如下</p>
+
+<pre><code>sub human_size {   
+    my $s = $_[0];   
+    if($s&lt;1024) {   
+        return sprintf(&quot;%0.2f&quot;, $s/1024/1.36).&quot;K&quot;;   
+    }elsif($s&lt;1024*1024) {   
+        return sprintf(&quot;%0.1f&quot;, $s/1024/1.36).&quot;K&quot;;   
+    }else {   
+        return sprintf(&quot;%0.1f&quot;, $s/(1024*1024*1.36)).&quot;M&quot;;   
+    }   
+}   
+</code></pre>
+
+<p>这样就解决了extmail的附件大小显示和限制问题。</p>
+
+<p>目前还有一个遗留问题，就是在folder.htm模板界面里显示的邮件大小还是比系统文件大1/3。这个不知道怎么修改了。找到了对应函数，但是它直接显示的多少M或者多少K，用除1.36会出现问题。。。。这个期待高手解决了。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2010-01-19-extman/">extman后台登陆问题解决方法</a></li>
+        
+        <li><a href="/post/2010-01-12-open-telnet-win7/">win7下启动telnet--转载</a></li>
+        
+        <li><a href="/post/2010-01-07-quickmacro-on-win7/">windows 7平台下按键精灵的后台运行</a></li>
+        
+        <li><a href="/post/2010-01-03-druid-ubrs-quickmacro-code/">野D带黑上，后台挂机按键精灵代码</a></li>
+        
+        <li><a href="/post/2010-01-03-2010-snow-first/">2010年北京第一场雪</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

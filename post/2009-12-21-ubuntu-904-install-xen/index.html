@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ubuntu 9.04安装xen | 鑫的方向</title>
+    <meta property="og:title" content="ubuntu 9.04安装xen - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2009-12-21T18:00:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="ubuntu 9.04安装xen">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2009-12-21-ubuntu-904-install-xen/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">ubuntu 9.04安装xen</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2009年12月21日
+                            18:00
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/virtualization">Virtualization</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>主要参考下面两旁文章，先贴过来，以后再整理。</p>
+
+<p><a href="http://oceanobservatories.org/spaces/display/CIDev/Xen+on+Ubuntu+9.04+(Jaunty)">http://oceanobservatories.org/spaces/display/CIDev/Xen+on+Ubuntu+9.04+(Jaunty)</a></p>
+
+<p><a href="http://linux.com/community/blogs/Xen-Create-a-Jaunty-DomU-using-xen-create-image.html">http://linux.com/community/blogs/Xen-Create-a-Jaunty-DomU-using-xen-create-image.html</a></p>
+
+<p><strong>安装xen</strong></p>
+
+<p>Xen on Ubuntu 9.04 (Jaunty)</p>
+
+<p>Added by <a href="http://oceanobservatories.org/spaces/display/~thim">Thomas Im</a> , last edited by <a href="http://oceanobservatories.org/spaces/display/~thim">Thomas Im</a> on Jun 11, 2009  (<a href="http://oceanobservatories.org/spaces/pages/diffpages.action?pageId=18353165&originalId=18353171">view change</a>)
+Labels: 
+(None)
+Following applies to Ubuntu 9.04 Jaunty 64-bit installation.  Notes taken from rebuild of &lsquo;amoeba&rsquo; development system.
+Installation
+<pre>sudo apt-get install ubuntu-xen-server # Jaunty Xen package does not include the dom0 Xen kernel so these must be installed separately  wget <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux-2.6/linux-modules-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb">http://security.debian.org/debian-security/pool/updates/main/l/linux-2.6/linux-modules-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb</a> wget <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux-2.6/linux-image-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb  sudo">http://security.debian.org/debian-security/pool/updates/main/l/linux-2.6/linux-image-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb  sudo</a> dpkg -i linux-modules-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb linux-image-2.6.26-2-xen-amd64_2.6.26-15lenny3_amd64.deb  sudo apt-get install python2.5 shutdown -r now   sudo vim /etc/network/interfaces .. auto eth0 iface eth0 inet static   address xxx.xxx.xxx.xxx   gateway xxx.xxx.xxx.xxx   netmask 255.255.255.0   sudo vim /etc/resolv.conf &hellip; domain ucsd.edu search ucsd.edu  nameserver xxx.xxx.xxx.xxx nameserver xxx.xxx.xxx.xxx   sudo /etc/init.d/networking restart  </pre>Create Jaunty DomU (Guest)
+[<a href="http://linux.com/community/blogs/Xen-Create-a-Jaunty-DomU-using-xen-create-image.html">http://linux.com/community/blogs/Xen-Create-a-Jaunty-DomU-using-xen-create-image.html</a>]
+<img src="http://oceanobservatories.org/spaces/images/icons/emoticons/information.gif" border="0" width="16" height="16" align="absMiddle"><br><strong><strong>References:</strong></strong>
+<a href="https://help.ubuntu.com/community/Xen">https://help.ubuntu.com/community/Xen</a><br><a href="http://www.infohit.net/blog/adate/053109/archive/1.html">http://www.infohit.net/blog/adate/053109/archive/1.html</a><br><a href="http://www.chrisk.de/blog/2008/12/how-to-run-xen-in-ubuntu-intrepid-without-compiling-a-kernel-by-yourself/">http://www.chrisk.de/blog/2008/12/how-to-run-xen-in-ubuntu-intrepid-without-compiling-a-kernel-by-yourself/</a>
+<h3></h3></p>
+
+<p><strong>安装guest系统</strong>
+These are instructions for creating an Ubuntu Jaunty DomU on Debian Lenny Dom0 using Xen 3.2.1 that comes with Lenny.  I&rsquo;m installing into an LVM rather than using a file image.  See <a href="http://www.howtoforge.com/xen-live-migration-of-an-lvm-based-virtual-machine-with-iscsi-on-debian-lenny">this HowtoForge article for background of my particular setup</a>.  This tutorial assumes you&rsquo;re working from a similar setup with an iscsi target and LVM-based VMs.
+The reason I&rsquo;m posting this is because I had such a hard time finding some combination of tools that worked correctly to do this.  I tried a few options but had little success:
+<ul>
+<li>debootstrap - Didn&rsquo;t seem to work with Jaunty at all.  It would just crash </li>
+<li>vm-install - Doesn&rsquo;t support LVM-based VMs by default, but there is a procedure for converting the qcow image to an LVM</li>
+</ul>
+What I found is that I could find no way of creating the LVM-based VM in Lenny.  I actually had to create a sid instance first and then install my open-iscsi and xen-utils into the sid VM, then use SID to populate the VM.  <br><u><strong>Perform the following actions in your SID vm or workstation</strong></u><br>
+Note:  You&rsquo;ll need your /etc/xen-tools/xen-tools.conf setup like the instructions in the HowtoForge article (things like gateway, netmask, broadcast, passwd, fs type, install-method, etc).<br>
+Whenever I would try to build the vm with the default partitions, it would always fail.  For some reason the resulting vm would have an fstab that shows something like sda1 and sda2 instead of xvda1 and xvda2.  I had to create my own partition scheme before anything would work right.  Here&rsquo;s mine: $ <strong>sudo cat /etc/xen-tools/partitions.d/with-data</strong><br>
+[root]<br>
+size=4G<br>
+type=ext3<br>
+mountpoint=/<br>
+options=sync,errors=remount-ro<br>
+[swap]<br>
+size=512M<br>
+type=swap<br>
+[data]<br>
+size=4G<br>
+type=ext3<br>
+mountpoint=/data<br>
+options=nodev
+You will need to create a symlink for jaunty so that the option is recognized at the command-line. 
+<strong>$ cd /usr/lib/xen-tools</strong>
+<strong>$ sudo ln -s edgy.d jaunty.d  </strong>
+Now, finally, you can create the image.  This step may take some time
+<strong>$ xen-create-image &ndash;hostname=myserver &ndash;dhcp &ndash;lvm=vg_xen &ndash;dist=jaunty &ndash;mirror=<a href="http://archive.ubuntu.com/ubuntu">http://archive.ubuntu.com/ubuntu</a> &ndash;size=4Gb &ndash;memory=512Mb &ndash;swap=512MB &ndash;arch=i386 &ndash;partitions=with-data</strong>
+Since you&rsquo;re building the LVM on a different machine than it will eventually run on, you&rsquo;ll need to  copy the resulting xen config to the correct server:
+<strong>$ scp /etc/xen/myserver.cfg root@realhost:/etc/xen/</strong>
+That should be all you need to get this working.</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2009-12-21-centos-xen-memory-problem/">CentOS 5.3 安装虚拟化后的内存识别问题.</a></li>
+        
+        <li><a href="/post/2009-12-21-winphone-syncewithubuntu/">ubuntu 8.10下同步wm6.1手机</a></li>
+        
+        <li><a href="/post/2009-12-21-centos-5-3-64bit-install-on-hp-380-g5/">CentOS 5.3 64bit安装在HP 380G5服务器</a></li>
+        
+        <li><a href="/post/2009-12-21-rails-request/">Rails下request.raw_post的一些问题</a></li>
+        
+        <li><a href="/post/2009-12-21-wow-plugin-teamqueue/">修改了一个大战场团排插件 TeamQueue 1.35</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

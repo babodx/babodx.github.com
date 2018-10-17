@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Linux | 鑫的方向</title>
+    <meta property="og:title" content="Linux - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Linux">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/categories/linux/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/categories/linux/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">linux</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-01-19-extman/">extman后台登陆问题解决方法</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年1月19日
+                                19:08
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>前一阵子给一个公司架设了postfix+mysql+extmail的邮件系统。</p>
+
+<p>用了一段时间后，发现后台管理的extman不能登录了，提示如下</p>
+
+<pre><code>Can't open /tmp/extman//sid_26da75f9aec35f2cbc6b4fa425ab525e, No such file or directory
+</code></pre>
+
+<p>后来发现是/tmp目录下 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-01-19-extman/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-01-01-druapl-url-nginx-rewrite/">drupal在nginx 0.8.15下的简洁URL配置</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年1月1日
+                                18:06
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在学习drupal，发现这个程序比xoops、joomla都灵活，对应的学习曲线也高。反正安装后，根本不知道真没设置。呵呵</p>
+
+<p>下面先在nginx上配置了rewrite规则，让drupal支持简洁的URL</p>
+
+<pre><code>server
+{
+listen 80;
+server_name drupal.xinlogs.com;
+index index.html …</code></pre>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2010-01-01-druapl-url-nginx-rewrite/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-30-apache-virtualhost-configure/">apache下多虚拟主机的配置与管理</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月30日
+                                16:08
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>当一台服务器想给多个域名提供web服务的时候，我们可以使用apache虚拟主机配置。</p>
+
+<p>apache的配置文件在centos系统下，默认放在/etc/httpd/conf目录下的httpd.conf文件里。</p>
+
+<p>虚拟主机的配置如下</p>
+
+<pre><code>#############TEST VirtualHost
+&lt;VirtualHost *:80&gt; …</code></pre>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-30-apache-virtualhost-configure/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-28-tomcat-reboot-problems/">解决Linux下Tomcat不能重启和停止问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月28日
+                                15:33
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我的Tomcat 5.5.28安装在CentOS 5.3 64bit系统上</p>
+
+<p>每次重启都停住，只要要等5-10分钟才可以。</p>
+
+<p>系统reboot或者shutdown也都卡在关闭tomcat的过程中</p>
+
+<p>后来发现直接用/usr/local/tomcat/bin/shutdown.sh一样存在问题，但是如果Tomcat什么项目都不加载，却正常。</p>
+
+<p>我怀疑 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-28-tomcat-reboot-problems/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-24-nginx-epool-events/">nginx采用epoll的事件模型，为何效率高。</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月24日
+                                16:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>以前就知道在linux下nginx采用epoll事件模型，处理效率高。但是一直不知道具体为什么，今天查看了下文档，了解了原因。</p>
+
+<p>首先nginx支持一下这些事件模型（才考nginx的wiki）</p>
+
+<p>Nginx支持如下处理连接的方法（I/O复用方法），这些方法可以通过use指令指定。</p>
+
+<ul>
+<li>select - 标准方法。 如果当前平台没有更有效的方法，它是编译时默认 …</li></ul>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-24-nginx-epool-events/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-centos-5-3-64bit-install-on-hp-380-g5/">CentOS 5.3 64bit安装在HP 380G5服务器</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天安装了一台CentOS 5.3 64bit服务器。</p>
+
+<p>服务器硬件HP 380G5，4U高</p>
+
+<ul>
+<li>CPU 4核处理器 2颗</li>
+<li>内存 4G 硬盘 147G*3</li>
+</ul>
+
+<p>安装很顺利，采用server模式，去掉了不用的软件，加入虚拟化。</p>
+
+<p>安装后启动，占用内存在230M左右，感觉比CentOS 4.7高了很多呀。。。我在一台HP 140的1U服务器安装的CentOS …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-centos-5-3-64bit-install-on-hp-380-g5/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-centos-vpn-howto/">CentOS 5.3架设VPN和619错误排除</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我买这个VPS的主机，一个目的是用来做Blog空间，另外一个就是用来跑vpn。</p>
+
+<p>先按照<a href="http://rashost.com/blog/centos5-pptpd-vpn">http://rashost.com/blog/centos5-pptpd-vpn</a>这里的文章安装vpn服务。</p>
+
+<p><strong>内核支持</strong></p>
+
+<p>pptpd VPN需要内核支持mppe，我们的VPS自带的内核已经把mppe编译进去了，没有把mppe另外当作内核的模块。</p>
+
+<p><strong>软件安装</strong></p>
+
+<p>要安 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-centos-vpn-howto/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-ubuntu-804-update-to-810/">ubuntu 8.04升级到8.10</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#升级#</p>
+
+<p>昨天开始作的升级。</p>
+
+<p>早上到单位，就开始<code>Alt+F2</code></p>
+
+<p>在弹出的命令行窗口输入
+<code>update-manager -d</code></p>
+
+<p>然后就进入了漫长的等待，单位网络那个垃圾。。。。。告诉我42天。。。。。</p>
+
+<p>一直到下班，下载了900多个文件，一共要下载1300多</p>
+
+<p>晚上到家继续update-manager -d 发现居然可以接着下载，还以为要重新来呢。家里好 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-ubuntu-804-update-to-810/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-winphone-syncewithubuntu/">ubuntu 8.10下同步wm6.1手机</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>参考了</p>
+
+<ul>
+<li><a href="http://www.synce.org/moin/SynceWithUbuntu">http://www.synce.org/moin/SynceWithUbuntu</a></li>
+<li><a href="http://hi.baidu.com/john_zhy/blog/item/50e39f317240141febc4af5a.html">http://hi.baidu.com/john_zhy/blog/item/50e39f317240141febc4af5a.html</a></li>
+</ul>
+
+<p>我的本本 IBM R61</p>
+
+<p>系统 ubuntu 8.10从 8.04升级上来的。</p>
+
+<p>手机 eten X800 wm6.1英 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-winphone-syncewithubuntu/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-ubuntu-904-install-vmware-tools/">ubuntu 9.04 server 安装VMware Tools解决share folders问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我的主系统是Winxp在vmware 6.5.2 build-156735下安装的ubuntu server 9.04</p>
+
+<p>因为安装vmware tools后，可以使用vmware 提供的share folders让winxp的主系统可以将某个目录映射到虚拟的ubuntu系统里。</p>
+
+<p>我就开始在vmware里面安装vmware tools工具。下面是过程，包括不 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-ubuntu-904-install-vmware-tools/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/categories/linux/page/3/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/categories/linux/">1</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/3/">3</a>
+    </li>
+    
+    <li class="current">
+        <a href="/categories/linux/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/5/">5</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/categories/linux/page/5/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>HTC hero g3 openvpn设置 | 鑫的方向</title>
+    <meta property="og:title" content="HTC hero g3 openvpn设置 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2010-03-17T17:53:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2010-03-17T17:53:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="HTC hero g3 openvpn设置">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2010-03-17-htc-hero-openvpn/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">HTC hero g3 openvpn设置</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2010年3月17日
+                            17:53
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/hardware">Hardware</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>现在YouTube和google博客等站点都被屏蔽，为了打破限制，只能用vpn来穿越了。</p>
+
+<p>原来一直用pptpd类型vpn，这种类型速度快，但是要求防火墙或者网关支持。对内外支持不好（反正我在单位和家里歌华宽带都不支持）</p>
+
+<p>后来改用openvpn类型的vpn了，发现虽然openvpn配置麻烦，需要安装客户端。但却是对内网支持良好，穿透能力强。</p>
+
+<p>openvpn可以支持多系统（服务器我肯定用linux，这里多系统主要指客户端）</p>
+
+<p>Windows系统可以采用openvpn gui，这个在我博客以前文章提到了，今天要说的是我的手机，htc hero这次也可以让手机连接openvpn服务器上youtube等站点了。</p>
+
+<p><strong>手机型号及系统</strong></p>
+
+<p>我的手机是HTC hero g3</p>
+
+<p>采用的ROM是Flyzup制作的基于android 1.5修改的。</p>
+
+<p>Rom可以到Flyzup网站下载
+<a href="http://www.innovative-space.com/2010/02/21/flzyup-custom-rom-v1-6-final-release/">http://www.innovative-space.com/2010/02/21/flzyup-custom-rom-v1-6-final-release/</a></p>
+
+<p>其实只要手机用的Rom可以支持openvpn，存在tun.so文件就可以</p>
+
+<p><strong>安装相关软件</strong></p>
+
+<p>首先需要需要安装openvpn，这个软件我们可以到下面地址下载已经编译好的版本。因为是static编译的，所以不需要任何动态库支持直接解压就可以使用。
+<a href="http://github.com/downloads/fries/android-external-openvpn/openvpn-static-2.1.1.bz2">http://github.com/downloads/fries/android-external-openvpn/openvpn-static-2.1.1.bz2</a></p>
+
+<p>将解压后得到的openvpn-static-2.1.1文件改名为openvpn 并拷贝到手机的/system/xbin/目录下</p>
+
+<p>我是采用手机上安装的Better Terminal Emulator Pro来操作的，也可以用adb连接上usb操作。</p>
+
+<p>有了openvpn后，我们还要创建两个软连接才可以让后面的openvpn顺利建立连接</p>
+
+<p>用Better Terminal Emulator Pro进入终端模式，输入如下命令</p>
+
+<pre><code>mkdir /system/xbin/bb
+ln -s /system/xbin/ifconfig /system/xbin/bb/ifconfig
+ln -s /system/xbin/route /system/xbin/bb/route
+</code></pre>
+
+<p>上面创建两个命令的软连接，是因为后面安装的TunnelDroid软件，总是调用/system/xbin/bb目录下的命令，如果没有命令，就会出错。</p>
+
+<p>用google的电子市场，查找TunnelDroid软件，安装TunnelDroid软件。</p>
+
+<p><strong>配置TunnelDroid</strong></p>
+
+<p>其实和配置Windows下的客户端一样，也需要一个配置文件和3个密钥文件</p>
+
+<p>我们在sd卡的跟目录创建openvpn目录</p>
+
+<p>在openvpn目录放入client.ovpn配置文件和ca.crt、client-1.crt和client-1.key密钥文件</p>
+
+<p>这样启动TunnelDroid后，就会出现client.ovpn的选项，直接选择连接就可以。上面的配置文件和密钥，我都是从配置好的Windows机器拷贝过来的。</p>
+
+<p>目前我测试的android手机、windowsxp、windows7和Linux全部都可以连接openvpn服务器。</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2010-03-15-openvpn-install/">CentOS 5.3下OpenVPN安装和Win7下OpenVPN GUI安装</a></li>
+        
+        <li><a href="/post/2010-03-12-hp-computer-ghost-problem/">HP台式机器，ghost系统后，提示windows could not start</a></li>
+        
+        <li><a href="/post/2010-03-12-hp-msa1000-dl380g5-centos5/">CentOS 5.4 基于HP Proliant DL380 G5服务器配置Modular Smart Array 1000存储</a></li>
+        
+        <li><a href="/post/2010-02-12-huawei-e1750-on-win7/">win7下使用联通无线上网卡HUAWEI E1750</a></li>
+        
+        <li><a href="/post/2010-02-02-my-htc-hero-mobile/">我的新手机HTC hero g3</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

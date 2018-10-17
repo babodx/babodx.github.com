@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Life on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/life/</link>
+    <description>Recent content in Life on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 02 Jun 2010 22:05:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/life/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>很久没有写博客了，前几天得阑尾炎了。</title>
+      <link>https://xinlogs.com/post/2010-06-02-appendicitis/</link>
+      <pubDate>Wed, 02 Jun 2010 22:05:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-06-02-appendicitis/</guid>
+      <description>2010年5月27日。。。上午在单位突然得阑尾炎了。。。郁闷呀。 被同事直接给送医院了，老婆也及时赶过来了。 现在好多了，上来记录下。等好了以后，找时间切除阑尾吧。。。。</description>
+    </item>
+    
+    <item>
+      <title>支付宝支付godaddy的郁闷经历</title>
+      <link>https://xinlogs.com/post/2010-04-05-alipay-godaddy/</link>
+      <pubDate>Mon, 05 Apr 2010 14:55:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-04-05-alipay-godaddy/</guid>
+      <description>最近帮朋友弄了个网站并注册了域名。
+注册域名的时候，选择域名注册商，我原来用的namecheap.com 后来网上看很多人推荐name.com和godaddy.com。
+因为godaddy.com支持支付宝，我就选择了godaddy来注册。
+其实上面提到的三家都不错，godaddy域名价格最便宜。按照网站提示注册，购买域名，然后支付宝付款。
+郁闷就开始。。。。
+支付宝显示付款成功，但是godaddy购买的域名还在购物车中，并没有购买成功。
+我开始发邮件询问godaddy是什么情况。。。下面是我接到的回复。
+ Thank you for contacting customer support. Unfortunately, products purchased with Alipay may not be available for up to 13 hours while Alipay confirms that the funds have been received. A receipt does not display until the products are available in the account. If this time frame has passed since your initial purchase, please let us know so we may troubleshoot further. I apologize if I have misunderstood your question.</description>
+    </item>
+    
+    <item>
+      <title>2010年北京第一场雪</title>
+      <link>https://xinlogs.com/post/2010-01-03-2010-snow-first/</link>
+      <pubDate>Sun, 03 Jan 2010 09:20:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2010-01-03-2010-snow-first/</guid>
+      <description>2010年1月2日凌晨，北京开始飘落第一场雪。雪花很小。。。只有薄薄一层。。。。到了2日晚上雪花开始变大。。。 现在3日早上。。。大大的雪花，厚厚一层雪。。。 下午打算带老婆孩子玩学去了。</description>
+    </item>
+    
+  </channel>
+</rss>

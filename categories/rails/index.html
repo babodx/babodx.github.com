@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Rails | 鑫的方向</title>
+    <meta property="og:title" content="Rails - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Rails">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/categories/rails/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/categories/rails/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">rails</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/">centos5.5安装rails环境</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年4月2日
+                                13:10
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近招生需要写一个考试结果查询程序，就用rails来写了。以前一直java、php的，发现rails的高效开发以后，就打算尝试下。
+程序写好后，就开始考虑服务器的问题了。我手边就只有centos的系统，也直到ubuntu和debian对于rails来说有好点。但是现实总是残酷的。。。</p>
+
+<p>##安装EPEL
+因为系统为centos 5.5 所以很多现在流行的软件 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-2/">rails-best-practices-2</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年3月16日
+                                10:23
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#SCOPE IT OUT</p>
+
+<p>和前面一样，让我们先来看一段“SAD CODE”。</p>
+
+<p>/app/controllers/tweets_controller.rb</p>
+
+<pre><code class="language-ruby">def index
+  @tweets = Tweet.find(
+              :all,
+              :conditions =&gt; {:user_id …</code></pre>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-2/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-1/">rails-best-practices-1</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年3月16日
+                                09:43
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#FAT MODEL,SKINNY CONTROLLER#</p>
+
+<p>最近看了codeschool的教程，打算把里面讲解的rails best practices总结下。</p>
+
+<p>视频里的第一部分就是讲解的Fat model，skinny controller。我理解的就是要尽量把业务代码写到model中，而controller要尽量的简单。</p>
+
+<p>第一个例子 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-03-16-rails-best-practices-1/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-03-14-railszhong-wen-wen-ti/">rails中文问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年3月14日
+                                10:56
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>##rails controller中的中文问题</p>
+
+<p>在ruby 1.9环境中，如果controller里出现中文，就会报错。报错如下</p>
+
+<pre><code>invalid multibyte char (US-ASCII)
+</code></pre>
+
+<p><strong>解决办法：</strong></p>
+
+<p>在这个controller的文件开头加入如下语句</p>
+
+<pre><code>#encoding: utf-8
+</code></pre>
+
+<p>##rails validates …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-03-14-railszhong-wen-wen-ti/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-rails-request/">Rails下request.raw_post的一些问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我在学习Agile Web Development with Rails在第18章 Observers的例子中</p>
+
+<pre><code>&lt;%=text_field_tag :search%&gt;
+&lt;%=observe_field( :search,
+                  :frequency =&gt; 0.5, …</code></pre>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-rails-request/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-rails-upload-unread/">rails下上传文件并且解决乱码问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>这个问题是我在<a href="http://www.javaeye.com/">www.javaeye.com</a>论坛上提出的，并且由mathsfan给出了解决办法</p>
+
+<p>首先创建一个项目，叫<strong>test</strong></p>
+
+<p>在app目录下的controllers目录下，找到<strong>test_controller.rb</strong>文件</p>
+
+<p>添加一个upload的action</p>
+
+<pre><code>def upload
+
+end
+</code></pre>
+
+<p>然后在view目录下的test目录下， …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-rails-upload-unread/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-rails-use-sqlite3/">rails下使用sqlite3</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>参考<a href="http://wiki.rubyonrails.org/rails/pages/HowtoUseSQLite">http://wiki.rubyonrails.org/rails/pages/HowtoUseSQLite</a></p>
+
+<p><strong>安装SQLite</strong></p>
+
+<p>SQLite 是一个轻量级的sql风格数据库.可以执行大部分sql92标准SQLite全部安装只有244kb,包括命令行客户端和DLL文件SQLite不用安装服务进程，就像Access数据库一样使用方便安装只需要2 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-rails-use-sqlite3/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-rails-graphical-verification-code/">rails实现图片验证码</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>写在了babo.javaeye.com了</p>
+
+<p><a href="http://babo.javaeye.com/blog/72298">http://babo.javaeye.com/blog/72298</a></p>
+
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-rails-graphical-verification-code/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-21-rails-fckeditor/">rails配合fckeditor实现文本编辑工具条</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月21日
+                                18:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/rails">Rails</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>主要参考了</p>
+
+<p><a href="http://blog.caronsoftware.com/articles/2006/08/07/fckeditor-plugin-for-rails">http://blog.caronsoftware.com/articles/2006/08/07/fckeditor-plugin-for-rails</a></p>
+
+<p><a href="http://www.blogjava.net/rocky/archive/2006/11/04/rails-fckeditor-integration.html">http://www.blogjava.net/rocky/archive/2006/11/04/rails-fckeditor-integration.html …</a></p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2009-12-21-rails-fckeditor/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

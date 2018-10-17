@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>鑫的方向 | 嗜欲深着，天机浅！</title>
+    <meta property="og:title" content="鑫的方向 | 嗜欲深着，天机浅！">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="专注于金融科技，包括但不限于linux、python、Go语言(golang)、项目管理、运维、软件架构等">
+    <meta property="og:url" content="https://xinlogs.com/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://xinlogs.com">
+                            鑫的方向
+                        </a>
+                    </h1>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-02-02-monit-to-monitor-services/">monit监控linux服务</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年2月2日
+                                18:23
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近负责的两台服务器需要监控nginx和memcached服务，防止网站访问异常。</p>
+
+<p>我用monit来解决这个需求。</p>
+
+<p>monit是一款linux下的开源软件，可以负责监控系统的服务、进程、文件等内容，并设置一定的条件下执行特定的action。</p>
+
+<p>我们可以通过配置，让monit来检查网站的状态和memcached的状态，发现异常的时候，自动重启服务并邮件通知 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-02-02-monit-to-monitor-services/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-01-19-php-eaccelerator-vs-fastcgi-cache/">php eaccelerator vs fastcgi_cache性能比较</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年1月19日
+                                10:15
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近放假一直在家里测试php如何优化性能。
+今天比较了下默认php、eaccelerator和fastcgi_cache的性能。</p>
+
+<p>先介绍下我的测试环境：
+这次是在我VPS上做的测试：cpu 为1颗Intel&reg; Core&trade; i7-2600 CPU @ 3.40GHz，内存256M
+系统为centos 5.6 32bit
+php …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-01-19-php-eaccelerator-vs-fastcgi-cache/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-01-19-install-apachebench-on-centos-without-apache/">centos 单独安装apachebench</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年1月19日
+                                08:50
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>这两天在测试php性能优化方法。</p>
+
+<p>为了做压力测试可观察效果，就选择了ApacheBench来作为压力测试工具。其实就是大家常说的ab。</p>
+
+<p>但是这个工具是安装apache web server的时候自带的，现在我服务器上都是跑nginx。也不想为了用这个工具就再装个apache。所以在用下面方法单独安装ab工具，这里记录下步骤。
+ 
+首先安装ab运行需要的软 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-01-19-install-apachebench-on-centos-without-apache/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-01-17-squid-cache-php-script/">squid缓存php页面</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年1月17日
+                                19:25
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>这两天在看squid反向代理加速web应用方面的内容。</p>
+
+<p>总体来看squid的cache都是缓存一些静态内容，例如图片、css、js等文件。而动态内容是不能缓存的。那有没有办法让squid缓存php文件呢？答案是肯定的。</p>
+
+<p>首先用squid反向代理后，我们访问一个test.html的静态页面。</p>
+
+<pre><code>[root@localhost ~]# curl -I …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-01-17-squid-cache-php-script/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2012-01-15-mysql-error-index-is-slower/">Mysql错误索引比没索引还慢</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2012年1月15日
+                                16:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/database">Database</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天一个客户反映网站某个页面很慢。初步分析是数据库查询造成的延时。
+打开数据库的慢查询日志，监控到如下语句</p>
+
+<pre><code># Time: 120115  1:09:37
+# User@Host: sq_ttt[sq_ttt] @ localhost []
+# Query_time: 3.895267  Lock_time: 0.000131 Rows_sent: 1 …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2012-01-15-mysql-error-index-is-slower/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-30-php-performance-debugging-tools/">php性能调试工具</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月30日
+                                14:55
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在帮一些客户优化php性能。</p>
+
+<p>排除掉服务器环境、memcache这些办法后，剩下的就是找php代码有没有执行过慢的因素了。</p>
+
+<p>下面列出一些在php性能调试中可以用到的工具。</p>
+
+<p>1、xdebug
+     这个工具大家都很熟悉，开始php过程中，用来调试程序用的。</p>
+
+<p>2、webgrind
+     这个工具主要是配合xdebug来使用，用来监测php执行 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-12-30-php-performance-debugging-tools/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-29-find-php-slow-code/">php-fpm查找php慢速代码</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月29日
+                                21:45
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>前两天帮助一个客户优化ecshop。
+他的ecshop代码是找人修改过的，修改后速度已很很慢，大概打开一页需要9s吧。
+而默认的ecshop在同样服务器上速度就很快。
+开始走了很多弯路，因为只是速度慢，并无错误。就没有想到是代码的原因。
+对比两个ecshop，首先发现首页加载的request数量差距很大，慢的站点105次，快的46次。
+而且慢的站点1.66M …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-12-29-find-php-slow-code/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-25-ssh-login-protection-by-denyhosts/">通过denyhosts保护ssh登陆</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月25日
+                                18:31
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天查看服务器的/var/log/secure日志，发现很多类似下面的信息</p>
+
+<p><code>PAM 6 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=121.176.35.192  user=root</code></p>
+
+<p>说明经常有人通过ssh尝试登陆，并不断尝试猜测root的密码。</p>
+
+<p>这样 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-12-25-ssh-login-protection-by-denyhosts/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-22-monitor-network-connections-of-linux/">linux网络连接数量监控</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月22日
+                                19:44
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天早上一个客户的网站停止了响应，不能正常解析php内容。
+重启php-fpm后正常，判断应该是php-fpm进程僵死。所以就先参考网上内容，写了一个监控nginx状态脚本
+后来又想看看这个php-fpm进程挂掉和访问量是否有关系，于是打算记录下服务器每分钟的访问量。
+其实就是用cron每分钟执行我写的这个脚本，而脚本的作用就是获取当前linux的连接数，并 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-12-22-monitor-network-connections-of-linux/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2011-12-14-bbsxp6-to-phpwind8/">bbsxp 6.0数据导入phpwind 8.7方法</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2011年12月14日
+                                23:12
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天帮助猪八戒网上的一个客户将原来的bbsxp 6.0的论坛数据迁移到phpwind 8.7下。这里主要记录下思路</p>
+
+<p>phpwind官方论坛有各种的迁移程序，但是继续bbsxp的最早版本是2008. 而我这个客户的是bbsxp 6的access库。</p>
+
+<p>完成这个任务，我顺利升级到猪三戒！呵呵</p>
+
+<p>没有现成的，只能自己分析了。</p>
+
+<p>为了导入方便，我先将需要用到的数据 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2011-12-14-bbsxp6-to-phpwind8/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/page/4/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/">1</a>
+    </li>
+    
+    <li>
+        <a href="/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/page/4/">4</a>
+    </li>
+    
+    <li class="current">
+        <a href="/page/5/">5</a>
+    </li>
+    
+    <li>
+        <a href="/page/6/">6</a>
+    </li>
+    
+    <li>
+        <a href="/page/7/">7</a>
+    </li>
+    
+    <li>
+        <a href="/page/8/">8</a>
+    </li>
+    
+    <li>
+        <a href="/page/9/">9</a>
+    </li>
+    
+    <li>
+        <a href="/page/10/">10</a>
+    </li>
+    
+    <li>
+        <a href="/page/11/">11</a>
+    </li>
+    
+    <li>
+        <a href="/page/12/">12</a>
+    </li>
+    
+    <li>
+        <a href="/page/13/">13</a>
+    </li>
+    
+    <li>
+        <a href="/page/14/">14</a>
+    </li>
+    
+    <li>
+        <a href="/page/15/">15</a>
+    </li>
+    
+    <li>
+        <a href="/page/16/">16</a>
+    </li>
+    
+    <li>
+        <a href="/page/17/">17</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/page/6/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

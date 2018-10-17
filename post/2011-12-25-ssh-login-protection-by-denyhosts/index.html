@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>通过denyhosts保护ssh登陆 | 鑫的方向</title>
+    <meta property="og:title" content="通过denyhosts保护ssh登陆 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2011-12-25T18:31:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2011-12-25T18:31:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="通过denyhosts保护ssh登陆">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2011-12-25-ssh-login-protection-by-denyhosts/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">通过denyhosts保护ssh登陆</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2011年12月25日
+                            18:31
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/linux">Linux</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>今天查看服务器的/var/log/secure日志，发现很多类似下面的信息</p>
+
+<p><code>PAM 6 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=121.176.35.192  user=root</code></p>
+
+<p>说明经常有人通过ssh尝试登陆，并不断尝试猜测root的密码。</p>
+
+<p>这样总让人尝试我的密码也不是个事儿呀&hellip;.于是通过denyhosts软件，开启了保护。</p>
+
+<p>通过denyhosts我们可以设置登陆失败几次，就禁止这个IP再次登陆。并可以设置多少分钟后，放开保护。</p>
+
+<p><strong>denyhosts介绍</strong></p>
+
+<p>DenyHosts是Python语言写的一个程序，用DenyHosts可以阻止试图猜测SSH登录口令，它会分析/var/log/secure等日志文件，当发现同一IP在进行多次SSH密码尝试时就会记录IP到/etc/hosts.deny文件，从而达到自动屏蔽该IP的目的。</p>
+
+<p>安装需求</p>
+
+<p>首要要求有python环境，并版本在2.3以上</p>
+
+<p>CentOS 默认安装了2.4.3版本，我们可以通过下面命令查看</p>
+
+<pre><code>[root@localhost ~]# python -V
+
+Python 2.4.3
+</code></pre>
+
+<p><strong>注意大小写。</strong></p>
+
+<p>其次是sshd需要支持tcp_wrappers。这个一般都支持。可以用下面命令判断</p>
+
+<p><code>ldd /usr/sbin/sshd |grep wrap</code></p>
+
+<p>如果显示：libwrap.so.0 =&gt; /lib/libwrap.so.0 (0x00db7000)表示支持</p>
+
+<p><strong>安装</strong></p>
+
+<p>当前最新的版本是2.6</p>
+
+<p><a href="wget http://downloads.sourceforge.net/project/denyhosts/denyhosts/2.6/DenyHosts-2.6.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fdenyhosts%2Ffiles%2F&amp;ts=1324820171&amp;use_mirror=cdnetworks-kr-1">下载</a></p>
+
+<p><strong>解压安装</strong></p>
+
+<pre><code>tar zxvf DenyHosts-2.6.tar.gz 
+
+cd DenyHosts-2.6
+
+python setup.py install
+</code></pre>
+
+<p>默认将程序安装在/usr/share/denyhosts</p>
+
+<p>库文件在/usr/lib/python2.4/site-packages/DenyHosts/</p>
+
+<p>denyhosts.py安装到/usr/bin</p>
+
+<p><strong>设置启动脚本</strong></p>
+
+<pre><code>cd /usr/share/denyhosts/
+
+cp daemon-control-dist daemon-control
+
+chown root daemon-control
+
+chmod 700 daemon-control
+
+grep -v &quot;^#&quot; denyhosts.cfg-dist &gt; denyhosts.cfg
+</code></pre>
+
+<p>这样就生成了一个标准的配置文件denyhosts.cfg</p>
+
+<p>我们需要按照自己的想法，配置下这个denyhosts.cfg文件</p>
+
+<pre><code>SECURE_LOG = /var/log/secure
+
+#表示系统中secure日志文件位置
+
+HOSTS_DENY = /etc/hosts.deny
+
+#表示hosts.deny配置文件在系统中位置
+
+PURGE_DENY = 30m
+
+#表示多久后解封IP
+
+BLOCK_SERVICE  = sshd
+
+DENY_THRESHOLD_INVALID = 1
+
+#表示无效用户名，登陆失败几次就封IP
+
+DENY_THRESHOLD_VALID = 5
+#表示有效果的普通用户登陆几次就封IP
+
+DENY_THRESHOLD_ROOT = 3
+
+#表示root用户登陆失败几次封IP
+
+DENY_THRESHOLD_RESTRICTED = 1
+
+WORK_DIR = /usr/share/denyhosts/data
+
+SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS=YES
+
+HOSTNAME_LOOKUP=NO
+
+表示是否做域名反解析
+
+LOCK_FILE = /var/lock/subsys/denyhosts
+</code></pre>
+
+<p>启动denyhosts</p>
+
+<p><code>/usr/share/denyhosts/daemon-control start</code></p>
+
+<p>配置denyhosts随系统自启动</p>
+
+<pre><code>cd /etc/init.d
+
+ln -s /usr/share/denyhosts/daemon-control denyhosts
+
+chkconfig --add denyhosts
+
+chkconfig --level 345 denyhosts on
+</code></pre>
+
+<p>查看效果</p>
+
+<p>如果尝试登陆失败次数达到后，IP就会被记录到/etc/hosts.deny文件内，来达到阻止登陆的目的</p>
+
+<p>我们也可以通过查看/var/log/denyhosts日志文件来判断是否有被封的IP</p>
+
+<p>下面是我的机器部署denyhosts一段时间后封的IP</p>
+
+<pre><code># DenyHosts: Sun Dec 25 21:40:13 2011 | sshd: 112.164.231.91
+
+sshd: 112.164.231.91
+</code></pre>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2011-12-22-monitor-network-connections-of-linux/">linux网络连接数量监控</a></li>
+        
+        <li><a href="/post/2011-12-14-bbsxp6-to-phpwind8/">bbsxp 6.0数据导入phpwind 8.7方法</a></li>
+        
+        <li><a href="/post/2011-12-09-check-slow-php-script/">如何找到执行慢的php程序</a></li>
+        
+        <li><a href="/post/2011-12-01-howto-open-rewrite-log/">伪静态规则调试技巧</a></li>
+        
+        <li><a href="/post/2011-11-25-linux-source-install-multiple-versions-of-mysql/">Linux源码安装MySQL多版本共存</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>鑫的方向 | 嗜欲深着，天机浅！</title>
+    <meta property="og:title" content="鑫的方向 | 嗜欲深着，天机浅！">
+    <meta property="og:type" content="website">
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="专注于金融科技，包括但不限于linux、python、Go语言(golang)、项目管理、运维、软件架构等">
+    <meta property="og:url" content="https://xinlogs.com/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <h1>
+                        <a id="logo" href="https://xinlogs.com">
+                            鑫的方向
+                        </a>
+                    </h1>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-01-03-druid-ubrs-quickmacro-code/">野D带黑上，后台挂机按键精灵代码</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年1月3日
+                                19:34
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/game">Game</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>代码是运行在按键精灵里的。在winxp+按键精灵7和win7+按键精灵7下测试通过</p>
+
+<pre><code>Plugin hwnd=Window.GetKeyFocusWnd()
+Rem start
+For 30
+Plugin Bkgnd.KeyPress(hwnd,70)
+Delay 300
+EndFor
+Delay 1000
+Plugin …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-01-03-druid-ubrs-quickmacro-code/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-01-03-2010-snow-first/">2010年北京第一场雪</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年1月3日
+                                09:20
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/life">Life</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                2010年1月2日凌晨，北京开始飘落第一场雪。雪花很小。。。只有薄薄一层。。。。到了2日晚上雪花开始变大。。。
+现在3日早上。。。大大的雪花，厚厚一层雪。。。
+下午打算带老婆孩子玩学去了。
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-01-03-2010-snow-first/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2010-01-01-druapl-url-nginx-rewrite/">drupal在nginx 0.8.15下的简洁URL配置</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2010年1月1日
+                                18:06
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近在学习drupal，发现这个程序比xoops、joomla都灵活，对应的学习曲线也高。反正安装后，根本不知道真没设置。呵呵</p>
+
+<p>下面先在nginx上配置了rewrite规则，让drupal支持简洁的URL</p>
+
+<pre><code>server
+{
+listen 80;
+server_name drupal.xinlogs.com;
+index index.html …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2010-01-01-druapl-url-nginx-rewrite/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-31-bo-blog-insert-googleadsense/">bo-blog 2.1.1如何加入google广告条</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月31日
+                                16:29
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/php">PHP</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>刚开始使用的bo-blog的时候也不知道如何加入google广告条，经过这几天的咕哝，现在已经成功在右边和下面加入。方法记录如下</p>
+
+<p><strong>右侧边栏加入google广告</strong></p>
+
+<p>进入后台管理-&gt;常规管理-&gt;模块配置</p>
+
+<p>点击左侧的新建/编辑项目 如图</p>
+
+<p><img src="http://farm9.staticflickr.com/8102/8512175362_3d5fd9e7c9.jpg" alt="编辑项目截图" /></p>
+
+<p>然后在手动添加项目中选择侧边模块，确定。如图</p>
+
+<p><img src="http://farm9.staticflickr.com/8370/8512175480_2bb7b4d188.jpg" alt="侧边截图" /></p>
+
+<p>确认后，进入到新增/编辑项目页面</p>
+
+<p>项目名 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2009-12-31-bo-blog-insert-googleadsense/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-30-apache-virtualhost-configure/">apache下多虚拟主机的配置与管理</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月30日
+                                16:08
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>当一台服务器想给多个域名提供web服务的时候，我们可以使用apache虚拟主机配置。</p>
+
+<p>apache的配置文件在centos系统下，默认放在/etc/httpd/conf目录下的httpd.conf文件里。</p>
+
+<p>虚拟主机的配置如下</p>
+
+<pre><code>#############TEST VirtualHost
+&lt;VirtualHost *:80&gt; …</code></pre>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2009-12-30-apache-virtualhost-configure/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-30-playframework-installation-guide/">playframework--Installation guide 安装手册【翻译】</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月30日
+                                14:46
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/java">Java</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p><h1 id="Installationguide">Installation guide 安装手册</h1>
+<h2 id="aPrerequisitesa">
+<a>Prerequisites</a> 前提条件</h2>
+To run the play framework, you need <a href="http://java.sun.com">Java 5 or later</a>. If you wish to build play from source, you will need the <a href="http://bazaar-vcs.org/">Bazaar source control …</a></p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2009-12-30-playframework-installation-guide/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-28-tomcat-reboot-problems/">解决Linux下Tomcat不能重启和停止问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月28日
+                                15:33
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>我的Tomcat 5.5.28安装在CentOS 5.3 64bit系统上</p>
+
+<p>每次重启都停住，只要要等5-10分钟才可以。</p>
+
+<p>系统reboot或者shutdown也都卡在关闭tomcat的过程中</p>
+
+<p>后来发现直接用/usr/local/tomcat/bin/shutdown.sh一样存在问题，但是如果Tomcat什么项目都不加载，却正常。</p>
+
+<p>我怀疑 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2009-12-28-tomcat-reboot-problems/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-27-playframework-video/">playframework--开发视频</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月27日
+                                18:32
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/java">Java</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p><a href="www.playframework.org">http://www.playframework.org/</a></p>
+
+<p>网站上本来首页有一段大约10分钟的视频。内容是10分钟开发一个web程序，包括数据库的curd操作。</p>
+
+<p>但是由于视频是放在了<a href="http://vimeo.com/">http://vimeo.com/</a>国内正常情况下访问不到。</p>
+
+<p>我在浏览首页的时候，发现可以通过<a href="www.playframework.org">http://www.playframework.org/</a>下载mp4的视频观看。 …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2009-12-27-playframework-video/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-26-playframework/">playframework--play！java on rails框架</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月26日
+                                18:41
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/java">Java</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天看程序员，发现了play！framework这个java web框架。</p>
+
+<p>以前也接触过SSH框架，struts+spring+hibernate。。。看着每一个部分那厚厚的参考书。。我就害怕。</p>
+
+<p>后来就看了一阵子ruby on rails。彻底喜欢上了那种简洁的风格，约定优先配置也很棒。</p>
+
+<p>直到发现play框架，才知道原来java也可以这样简洁。play …</p>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2009-12-26-playframework/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2009-12-24-nginx-epool-events/">nginx采用epoll的事件模型，为何效率高。</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2009年12月24日
+                                16:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>以前就知道在linux下nginx采用epoll事件模型，处理效率高。但是一直不知道具体为什么，今天查看了下文档，了解了原因。</p>
+
+<p>首先nginx支持一下这些事件模型（才考nginx的wiki）</p>
+
+<p>Nginx支持如下处理连接的方法（I/O复用方法），这些方法可以通过use指令指定。</p>
+
+<ul>
+<li>select - 标准方法。 如果当前平台没有更有效的方法，它是编译时默认 …</li></ul>
+                            </div>
+                            <p class="readmore"><a href="https://xinlogs.com/post/2009-12-24-nginx-epool-events/">阅读全文</a></p>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="/page/10/">上一页</a>
+    </li>
+    
+
+    
+    <li>
+        <a href="/">1</a>
+    </li>
+    
+    <li>
+        <a href="/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/page/5/">5</a>
+    </li>
+    
+    <li>
+        <a href="/page/6/">6</a>
+    </li>
+    
+    <li>
+        <a href="/page/7/">7</a>
+    </li>
+    
+    <li>
+        <a href="/page/8/">8</a>
+    </li>
+    
+    <li>
+        <a href="/page/9/">9</a>
+    </li>
+    
+    <li>
+        <a href="/page/10/">10</a>
+    </li>
+    
+    <li class="current">
+        <a href="/page/11/">11</a>
+    </li>
+    
+    <li>
+        <a href="/page/12/">12</a>
+    </li>
+    
+    <li>
+        <a href="/page/13/">13</a>
+    </li>
+    
+    <li>
+        <a href="/page/14/">14</a>
+    </li>
+    
+    <li>
+        <a href="/page/15/">15</a>
+    </li>
+    
+    <li>
+        <a href="/page/16/">16</a>
+    </li>
+    
+    <li>
+        <a href="/page/17/">17</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/page/12/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

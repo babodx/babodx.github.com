@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Linux | 鑫的方向</title>
+    <meta property="og:title" content="Linux - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Linux">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/categories/linux/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://xinlogs.com/categories/linux/index.xml" title="鑫的方向" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">linux</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/">nginx通过http/1.1访问upstream</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2014年8月7日
+                                16:03
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>Nginx在做upstream的负载均衡的时候，默认请求后端应用服务器使用的是http/1.0协议。</p>
+
+<p>单位有个应用在采用nginx做负载均衡后，经常出现一个10s卡住现象。而用浏览器直接访问后端则没有这个问题。通过在后端应用上tcpdump抓包分析，发现nginx提交过来的请求都是http/1.0协议，而浏览器直接过来的是http/1.1协议。 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/">CentOS 5.10安装报磁盘空间错误</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2014年6月14日
+                                05:01
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>今天单位的一台HP DL380 G7安装CentOS 5.10的时候出现错误。
+因为服务器配了7块1T的磁盘，做了个Raid5以后，大约3.8T。所有采用了GPT分区，安装的时候直接报错了，提示GTP分区问题。 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/">linux-rescan-scsi</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2014年6月5日
+                                02:49
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近单位一台服务器在连接EMC DD 640的时候，没有识别出来对应的scsi设备。这里记录下解决办法，其实就是linux如何在不重启的情况下重新扫描scsi设备。
+比如HBA卡插上光纤后，无法识别。或者插上新的scsi盘无法识别，都可以用这个方法解决。</p>
+
+<p>1、先查看有哪些HBA卡的主机号</p>
+
+<pre><code>ls /sys/class/fc_host/
+</code></pre>
+
+<p>2、让系统重新扫 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/">自定义zabbix inventory界面</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2014年6月5日
+                                01:58
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>Zabbix报警后，点击报警的主机会出现一个host inventory连接。进入host inventory后，可以查看报警主机的一些信息。而Overview内的信息并不多，Details栏内信息又太多了。
+我想通过自定义这个Overview将比较关系的操作系统，联系人，硬件位置等信息显示在此页面中.</p>
+
+<p>通过查看代码，最终发现此页面对 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/">dig排查dns问题</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2014年4月14日
+                                22:05
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近单位的某些域名在用联通3g访问的时候，经常有无法解析域名的情况。后来是采用dig逐步排查，解决了问题的。</p>
+
+<p>##解决问题的思路##
+1、通过ping、dig命令，先判断域名是否可以被解析。</p>
+
+<p>2、如果只是某些机器不正常，就通过@参数指定dns服务器查询。</p>
+
+<p>3、如果查询不到解析，就+tcp 采用tcp协议尝试下。</p>
+
+<p>4、采用+trace通过递归查询，看看 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/">备份到阿里云的oss</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2014年2月9日
+                                16:37
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#概述#</p>
+
+<p>备份一直是个麻烦的问题。备份到本地担心系统坏了导致数据丢失，备份到远程机器成本又有点高。
+我的方法是通过ruby下的一个backup gem，来实现定期将mysql数据库和web程序备份到本地的同时，上传到阿里云的oss上。</p>
+
+<p>##安装##</p>
+
+<p>###ruby安装###</p>
+
+<p>通过rvm来安装ruby，首先安装rvm。参考<a href="http://rvm.io">http://rvm.io</a> 网 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-10-03-nginx-reverse-proxy-websockets/">nginx反向代理websockets</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年10月3日
+                                11:42
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>有些情况下，部署的服务器是只开80端口的，这个时候如果我们想要ssh怎么弄？</p>
+
+<p><strong>就是本地开其他端口的web ssh client，然后通过nginx的80端口反向代理。这个一般都需要走webscokets的，下面我就把我折腾的东西记录下。</strong></p>
+
+<p>##web client的选择##</p>
+
+<p>我是用了一个基于python技术，html5，websockets实现的web界 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-10-03-nginx-reverse-proxy-websockets/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-10-02-yi-ci-ru-qin-jian-cha/">一次入侵检查</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年10月2日
+                                21:38
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>#10.1放假期间的一次入侵处理#</p>
+
+<p>今天一个网站的朋友给我电话，说网站无法访问了。我尝试访问了下，提示数据库不存在。开始以为数据库出现问题了，尝试访问子域名无问题。ssh上去看到数据库正常。
+检查文件的时候，发现mysql_config.php是早上6点多修改过的。比较奇怪了。</p>
+
+<p>打开mysql_config.php发现已经被清空了。于是赶紧处理下，让网站 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-10-02-yi-ci-ru-qin-jian-cha/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/">nginx支持thinkphp的pathinfo模式</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年4月25日
+                                15:06
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近帮助一个朋友迁移系统。原有系统是www.pinphp.com开发的一套淘宝客程序，跑在Win03服务器上。因为ddos攻击、性能问题等原因，找我迁移到Linux系统下。</p>
+
+<p>首先我推荐的组合当然是现在流行的Ningx+php-fpm模式。便于优化而且效率很高。</p>
+
+<p>部署的过程中遇到的问题就是伪静态无法生效。一些带中文的url无法正常处理等。</p>
+
+<p>后来看代码发 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://xinlogs.com/post/2013-01-22-installation-server/">批量部署系统方案</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2013年1月22日
+                                19:00
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="/categories/linux">Linux</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                <p>最近单位一直弄刀片服务器，7个笼子，112片。安装系统是个麻烦的事情，如果单机安装，太痛苦了。
+所以就尝试了批量部署系统。
+ 
+主要是分Linux和Windows两种方案</p>
+
+<p>我这里Linux是CentOS。 采用了cobbler来做批量部署。</p>
+
+<p>Windows采用的是win 2008的部署服务，就是WDS来做批量部署。</p>
+
+<p>这样Linux做一台分发服务 …</p>
+                                <p class="readmore"><a href="https://xinlogs.com/post/2013-01-22-installation-server/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+<ol class="page-navigator">
+    
+
+    
+    <li class="current">
+        <a href="/categories/linux/">1</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/2/">2</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/3/">3</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/4/">4</a>
+    </li>
+    
+    <li>
+        <a href="/categories/linux/page/5/">5</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="/categories/linux/page/2/">下一页</a>
+    </li>
+    
+</ol>
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

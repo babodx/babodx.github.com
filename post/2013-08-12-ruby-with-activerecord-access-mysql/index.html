@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ruby采用ActiveRecord方式访问Mysql | 鑫的方向</title>
+    <meta property="og:title" content="Ruby采用ActiveRecord方式访问Mysql - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2013-08-12T11:03:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2013-08-12T11:03:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Ruby采用ActiveRecord方式访问Mysql">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2013-08-12-ruby-with-activerecord-access-mysql/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Ruby采用ActiveRecord方式访问Mysql</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2013年8月12日
+                            11:03
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/ruby">Ruby</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>前段时间一个朋友的DZ论坛因为误操作导致部分帖子被删除，因为发现的比较晚，所以再删除后已经有很多新帖子被发布了。所以就无法简单的还原到帖子被删除的某个时间点，因为这样就会造成数据库回档，很多新的帖子将消失。</p>
+
+<p>我想到的处理办法就是采用一个删除点前的备份恢复到一个新表中，然后用程序判断被删除的帖子导入到现在的数据库中。而最近一直比较迷恋ruby的我，理所当然就采用ruby来写了。</p>
+
+<p>ruby直接访问mysql可以采用mysql2这个gem，但是我发现居然不支持预编译sql语句，导致一些帖子里的特殊字符无法处理。后来就采用了ruby直接加载ActiveRecord的方法来处理。下面就是我最后的代码了。</p>
+
+<p>下面这个代码是为了修复数据导入后，DZ里面两个表直接关联错误，导致的某些版块显示不正常的问题。</p>
+
+<p></p>
+
+<pre><code class="language-ruby">require 'rubygems'
+gem 'activerecord'
+require 'mysql2'
+require 'active_record'
+
+//准备ActiveRecord的连接参数
+ActiveRecord::Base.establish_connection(
+  :adapter =&gt; 'mysql2',
+  :database =&gt; 'sq_tvtv',
+  :username =&gt; 'root',
+  :password =&gt; 'root',
+  :host =&gt; 'localhost',
+  :encoding =&gt; 'utf8',
+  :socket =&gt;'/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
+)
+
+//ORM的映射，一共用到了三张表
+class Cdb_thread &lt; ActiveRecord::Base
+end
+
+class Cdb_typeoptionvar &lt; ActiveRecord::Base
+end
+
+class Temp &lt; ActiveRecord::Base
+end
+
+//对帖子进行遍历操作，并导入Cdb_typeoptionvar表。
+tids=Cdb_thread.all
+puts &quot;tids is num : #{tids.count}&quot;
+
+tids.each do |tid|
+  #puts tid[&quot;tid&quot;]
+  vars=Cdb_typeoptionvar.where([ &quot;tid = ?&quot;, tid[&quot;tid&quot;]])
+  if vars.count==0
+      puts &quot;fix tid : #{tid[&quot;tid&quot;]}&quot;
+      ts=Temp.where([&quot;tid = ?&quot;,tid[&quot;tid&quot;]])
+      if ts.count&gt;0
+        puts &quot;found tid: #{tid[&quot;tid&quot;]}&quot;
+        ts.each do |t|
+          t1=Cdb_typeoptionvar.new
+          t1.sortid=t[&quot;sortid&quot;]
+          t1.tid=t[&quot;tid&quot;]
+          t1.optionid=t[&quot;optionid&quot;]
+          t1.expiration=t[&quot;expiration&quot;]
+          t1.value=t[&quot;value&quot;]
+          t1.save
+          puts &quot;insert sortid : #{t[&quot;sortid&quot;]}&quot;
+        end
+
+      end
+
+  end
+end
+</code></pre>
+
+<p>我是直接把数据库连接信息写在代码里了，其实也可以单独写在一个配置文件里，通过yaml来加载过来。可以参考如下代码</p>
+
+<p>首先把数据库连接信息提出到一个database.yml文件中</p>
+
+<pre><code class="language-ruby">adapter：mysql2
+database：sq_tvtv
+username：root
+password：root
+host：localhost
+encoding：utf8
+socket：/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock
+</code></pre>
+
+<p>然后需要访问数据库的程序按照如下代码加载上这些数据库配置信息即可</p>
+
+<pre><code class="language-ruby">require 'rubygems'
+require 'active_record'
+require 'yaml'
+
+dbconfig = YAML::load(File.open('database.yml'))
+ActiveRecord::Base.establish_connection(dbconfig)
+</code></pre>
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2013-05-06-securecrt-for-mac-store-password/">mac下的secureCRT如何保存密码？</a></li>
+        
+        <li><a href="/post/2013-04-29-digitalocean-vps/">digitalocean-vps</a></li>
+        
+        <li><a href="/post/2013-04-25-nginxzhi-chi-thinkphpde-pathinfomo-shi/">nginx支持thinkphp的pathinfo模式</a></li>
+        
+        <li><a href="/post/2013-04-02-centos5-dot-5an-zhuang-railshuan-jing/">centos5.5安装rails环境</a></li>
+        
+        <li><a href="/post/2013-03-16-rails-best-practices-2/">rails-best-practices-2</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

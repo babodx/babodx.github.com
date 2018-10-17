@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on 鑫的方向</title>
+    <link>https://xinlogs.com/categories/java/</link>
+    <description>Recent content in Java on 鑫的方向</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 30 Dec 2009 14:46:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://xinlogs.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>playframework--Installation guide 安装手册【翻译】</title>
+      <link>https://xinlogs.com/post/2009-12-30-playframework-installation-guide/</link>
+      <pubDate>Wed, 30 Dec 2009 14:46:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-30-playframework-installation-guide/</guid>
+      <description>Installation guide 安装手册 Prerequisites 前提条件 To run the play framework, you need Java 5 or later. If you wish to build play from source, you will need the Bazaar source control client to fetch the source code and Ant to build it. 要运行Play框架，你需要Java 5以后的的JDK。如果你想从源码构建play框架，你需要用Bazaar源码控制的客户端去获取源代码并用Ant创建它。 If you are using MacOS, java is just built-in. If you are using linux, make sure to use either the Sun-JDK or OpenJDK (and not gcj which is the default java command on many linux distro).</description>
+    </item>
+    
+    <item>
+      <title>playframework--开发视频</title>
+      <link>https://xinlogs.com/post/2009-12-27-playframework-video/</link>
+      <pubDate>Sun, 27 Dec 2009 18:32:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-27-playframework-video/</guid>
+      <description>http://www.playframework.org/
+网站上本来首页有一段大约10分钟的视频。内容是10分钟开发一个web程序，包括数据库的curd操作。
+但是由于视频是放在了http://vimeo.com/国内正常情况下访问不到。
+我在浏览首页的时候，发现可以通过http://www.playframework.org/下载mp4的视频观看。
+&amp;lt;下面给出下载地址，感兴趣的朋友可以下载观看http://download.playframework.org/presentations/screencast.mp4</description>
+    </item>
+    
+    <item>
+      <title>playframework--play！java on rails框架</title>
+      <link>https://xinlogs.com/post/2009-12-26-playframework/</link>
+      <pubDate>Sat, 26 Dec 2009 18:41:00 +0000</pubDate>
+      
+      <guid>https://xinlogs.com/post/2009-12-26-playframework/</guid>
+      <description>今天看程序员，发现了play！framework这个java web框架。
+以前也接触过SSH框架，struts+spring+hibernate。。。看着每一个部分那厚厚的参考书。。我就害怕。
+后来就看了一阵子ruby on rails。彻底喜欢上了那种简洁的风格，约定优先配置也很棒。
+直到发现play框架，才知道原来java也可以这样简洁。play框架扔掉了J2EE的各种规范。。。完全像rails一样简洁了
+**Play！的主要特性： ** * 简单的开发周期。该框架可自动编译和重新装载已改变的源文件。 * 智能绑定HTTP参数到Java方法参数。 * 基于Apache Mina的快速HTTP服务器http://mina.apache.org/ * 一个基于Groovy的强大的模板引擎，可实现多层继承，定制用户标签等功能。 * 优秀的错误报告功能：发生异常时，该框架会直接显示出错误的源代码，甚至是模板代码。
+目前playframework网站的资料也比较全。从安装入门到开发实例应有尽有。我打算有时间慢慢翻译过来，发布在我的博客上。也是对自己学习的一种激励。
+官方网站
+http://www.playframework.org/
+各种实例
+Yet Another Blog EngineThe final application from the play guide tutorial.ForumA simple forum application using JPA.JobboardA full faetured job board application that uses the CRUD module to automatically generate the administration area. ChatAn HTTP based chat application. We use the asynchronous request model to be able to handle a lot of simultaneous connected users without resources waste.</description>
+    </item>
+    
+  </channel>
+</rss>

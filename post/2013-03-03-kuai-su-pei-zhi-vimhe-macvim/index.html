@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>快速配置vim和macvim | 鑫的方向</title>
+    <meta property="og:title" content="快速配置vim和macvim - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2013-03-03T14:41:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2013-03-03T14:41:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="快速配置vim和macvim">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2013-03-03-kuai-su-pei-zhi-vimhe-macvim/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">快速配置vim和macvim</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2013年3月3日
+                            14:41
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/vim">Vim</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>vim以为需要安装各种插件和配置好vimrc才能适合我们开发使用。如果默认只安装vim不用任何插件，并不好用。</p>
+
+<p>以前写过一篇<a href="http://babodx.github.com/blog/2011/10/31/gvim-vimrc-file/">配置gvim</a>，那个时候还是手动安装各种差距和写vimrc</p>
+
+<p>现在已经开始采用vundle来管理vim插件了。而且平台也换mac了。</p>
+
+<p>mac下面自带了vim 7.3 但是我们在mac的图形界面下面还是原因使用macvim。所以要先安装上macvim。</p>
+
+<pre><code>brew install macvim
+</code></pre>
+
+<p><strong>安装vim套件</strong></p>
+
+<p>所谓vim套件其实就是一些高手整理好的vimrc和配色方案，然后通过vundle来安装上vimrc里面需要的各种插件。来达到快速让vim达到一个很好使用和适合开发的程度。</p>
+
+<p>我使用的是vundle-vimfiles项目，先抓一份文件到自己本地。</p>
+
+<p>如果你很浏览自己原来的.vim，那就先备份一下。我是直接删除了。呵呵</p>
+
+<p>切换到自己的目录<code>cd ~</code></p>
+
+<p>git代码到自己本地</p>
+
+<pre><code>git clone git://github.com/ywjno/vundle-vimfiles.git
+</code></pre>
+
+<p>用vundle-vimfiles文件夹链接到~/.vim</p>
+
+<pre><code>ln -s vundle-vimfiles ~/.vim
+</code></pre>
+
+<p>然后将vundle-vimfiles项目里的vimrc文件链接到~/.vimrc，vundle-vimfiles项目给我们提供了几个版本的vimrc，例如<code>vimrc</code>、<code>easy-vimrc</code>、<code>gvimrc</code></p>
+
+<p>我这里在console下面用vim，一般看代码还是喜欢用macvim打开。所以我用了两个配置文件。</p>
+
+<p>链接到console下的vim配置文件</p>
+
+<pre><code>ln -s ~/.vim/vimrc ~/.vimrc
+</code></pre>
+
+<p>链接到macvim的配置文件</p>
+
+<pre><code>ln -s ~/.vim/gvimrc ~/.gvimrc
+</code></pre>
+
+<p>最后我们安装好Vundle项目来帮助我们安装vimrc里面需要的各种vim plugin</p>
+
+<pre><code>git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+</code></pre>
+
+<p>安装后，我们进入vim通过vundle来继续安装需要的各种plugin。进入vim后，输入如下命令安装插件</p>
+
+<pre><code>:BundleInstall
+</code></pre>
+
+<p>如果以后想更新插件，主要输入<code>:BundleInstall!</code></p>
+
+<p><strong>调整配色</strong></p>
+
+<p>我的配色喜欢solarized_light，编辑~/.gvimrc在前面加入<code>:colorscheme solarized_light</code></p>
+
+<p>这样打开也就3-5分钟我们就完全配置好我们的vim编辑器了</p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2013-02-28-emlogqian-yi-dao-octopress/">emlog迁移到octopress</a></li>
+        
+        <li><a href="/post/2013-02-24-git-first-on-ubuntu/">git-first-on-ubuntu</a></li>
+        
+        <li><a href="/post/2013-02-20-wo-2013nian-xue-xi-lie-biao/">我2013年学习列表</a></li>
+        
+        <li><a href="/post/2013-02-13-kai-shi-shi-yong-octopress/">开始使用octopress</a></li>
+        
+        <li><a href="/post/2013-02-02-cloudstack-on-vmware/">cloudstack on vmware</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

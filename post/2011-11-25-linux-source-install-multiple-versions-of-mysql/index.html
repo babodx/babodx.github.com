@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Linux源码安装MySQL多版本共存 | 鑫的方向</title>
+    <meta property="og:title" content="Linux源码安装MySQL多版本共存 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2011-11-25T18:48:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2011-11-25T18:48:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="Linux源码安装MySQL多版本共存">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2011-11-25-linux-source-install-multiple-versions-of-mysql/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Linux源码安装MySQL多版本共存</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2011年11月25日
+                            18:48
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/database">Database</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>原来我的服务器上是MySQL 5.5.16。本来是用的挺稳定。但是当时编译的时候由于手误将DDEFAULT_COLLATION=utf8-general_ci \弄错啦。。。应该是utf8_general_ci。导致很多程序用的时候报错，或者需要修改。
+最近发现MySQL更新到了5.5.18了，就打算迁移到新数据库正好修正原来问题。
+为了不影响访问，就打算在5.5.16运行的情况下，继续安装好5.5.18.等顺利转移到5.5.18后，再关闭原来MySQL5.5.16版本。
+也就有了今天这篇文章。在Linux下从源码安装多版本或者多个MySQL数据库。</p>
+
+<p><strong>重点：多版本或者多个MySQL同时运行，主要就是多个MySQL需要运行在不同目录，不同的端口，采用不同的数据库路径。</strong></p>
+
+<p><strong>步骤</strong></p>
+
+<p><strong>1、首先是下载需要安装的MySQL</strong></p>
+
+<p>下载mysql 5.5.16</p>
+
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.16.tar.gz/from/http://mysql.mirrors.pair.com/
+</code></pre>
+
+<p><strong>下载mysql 5.5.18</strong></p>
+
+<pre><code>wget http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-5.5.16.tar.gz/from/http://mysql.mirrors.pair.com/
+</code></pre>
+
+<p><strong>2、安装支持程序</strong></p>
+
+<p>原来版本的MySQL源码安装都是采用./configure和make这些。但是新版本的都是用cmake来弄了。所以如果系统中没有的，需要先安装cmake</p>
+
+<pre><code>yum install cmake
+</code></pre>
+
+<p><strong>3、创建MySQL用户和用户组</strong></p>
+
+<pre><code>/usr/sbin/groupadd mysql
+
+/usr/sbin/useradd -g mysql mysql
+</code></pre>
+
+<p><strong>4、解压、编译、安装MySQL</strong></p>
+
+<p><strong>解压</strong>
+<code>
+tar zxvf mysql-5.5.16.tar.gz
+cd mysql-5.5.16
+</code></p>
+
+<p><strong>编译参数</strong></p>
+
+<pre><code>cmake . \
+  -DCMAKE_INSTALL_PREFIX=/usr/local/webserver/mysql5516/ \
+  -DMYSQL_DATADIR=/data0/mysql/3306/data \
+  -DMYSQL_UNIX_ADDR=/data0/mysql/3306/mysqld.sock \
+  -DWITH_MYISAM_STORAGE_ENGINE=1 \
+  -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+  -DWITH_BLACKHOLE_STORAGE_ENGINE=0 \
+  -DWITH_ARCHIVE_STORAGE_ENGINE=0 \
+  -DWITHOUT_PARTITION_STORAGE_ENGINE=1 \
+  -DENABLED_LOCAL_INFILE=1 \
+  -DMYSQL_TCP_PORT=3306 \
+  -DEXTRA_CHARSETS=all \
+  -DDEFAULT_CHARSET=utf8 \
+  -DDEFAULT_COLLATION=utf8_general_ci \
+  -DWITH_DEBUG=0 \
+  -DWITH_EMBEDDED_SERVER=1 \
+  -DWITH_SSL=system \
+  -DWITH_READLINE=1
+</code></pre>
+
+<p><strong>注意：编译参数里有几项需要根据自己具体情况设置。我这里将MySQL5.5.16运行于3306端口，并安装在mysql5516目录。</strong></p>
+
+<pre><code>-DCMAKE_INSTALL_PREFIX=/usr/local/webserver/mysql5516/   设置mysql的安装目录
+
+-DMYSQL_DATADIR=/data0/mysql/3306/data 设置mysql数据库文件的位置
+
+-DMYSQL_UNIX_ADDR=/data0/mysql/3306/mysqld.sock 设置mysql启动后sock文件位置
+
+-DMYSQL_TCP_PORT=3306 设置mysql的监听端口
+</code></pre>
+
+<p>以上这些设置需要根据不同版本的mysql相应修改。不然多个版本同时监听3306端口，肯定冲突了。</p>
+
+<p><strong>编译</strong></p>
+
+<p><code>make</code></p>
+
+<p><strong>安装</strong></p>
+
+<p><code>make install</code></p>
+
+<p><strong>5、配置目录权限、创建目录、建立初始数据。</strong></p>
+
+<p><strong>配置目录权限</strong></p>
+
+<pre><code>chmod +w /usr/local/webserver/mysql5516
+
+chown -R mysql:mysql /usr/local/webserver/mysql5516
+
+cd ../
+</code></pre>
+
+<p><strong>创建相关目录</strong></p>
+
+<pre><code>mkdir -p /data0/mysql/3306/data/
+mkdir -p /data0/mysql/3306/binlog/
+mkdir -p /data0/mysql/3306/relaylog/
+chown -R mysql:mysql /data0/mysql/
+</code></pre>
+
+<p><strong>建立初始数据</strong></p>
+
+<pre><code>/usr/local/webserver/mysql5516/scripts/mysql_install_db --basedir=/usr/local/webserver/mysql --datadir=/data0/mysql/3306/data --user=mysql
+</code></pre>
+
+<p><strong>6、创建My.cnf配置文件和Mysql启动脚本</strong></p>
+
+<p>创建my.cnf配置文件</p>
+
+<pre><code>cp support-files/my-small.cnf /usr/local/webserver/mysql5516/my.cnf
+</code></pre>
+
+<p><strong>注意：原来mysql默认的配置文件放在/etc/my.cnf。现在多个版本同时运行，需要每个版本都将配置文件单独放在自己的安装目录内。</strong></p>
+
+<p><strong>创建MySQL启动脚本</strong></p>
+
+<pre><code>cp support-files/mysql.server /etc/init.d/mysql5516
+</code></pre>
+
+<p><strong>注意：原来mysql默认采用mysqld脚本，现在每个mysql需要有自己的启动脚本，并通过修改启动脚本来为每个mysql指定采用的配置文件。</strong></p>
+
+<p>修改/etc/init.d/mysql5516，用来指定采用的配置文件位置。</p>
+
+<pre><code># Try to find basedir in /etc/my.cnf 
+1    conf=/etc/my.cnf
+</code></pre>
+
+<p>在文件的213和214行内容如上，我们需要修改conf=/etc/my.cnf为我们指定的my.cnf文件位置。</p>
+
+<p>在我们这里是</p>
+
+<pre><code>conf=/usr/local/webserver/mysql5516/my.cnf
+</code></pre>
+
+<p>修改mysqld5516权限为可执行</p>
+
+<pre><code>chmod +x mysqld5516
+</code></pre>
+
+<p><strong>7、启动mysql并配置为开机运行</strong></p>
+
+<p>启动</p>
+
+<pre><code>service mysqld5516 start
+</code></pre>
+
+<p>开机运行</p>
+
+<pre><code>chkconfig mysqld5516 on
+</code></pre>
+
+<p>以上是MySQL 5.5.16的安装。下面5.5.18版本的安装</p>
+
+<p>5.5.18版本的安装基本和MySQL 5.5.16版本一样。我们因为要两个数据库同时运行。所以再给cmake的参数时候，需要安装上面注意的内容设定5.5.18的安装目录为/usr/local/webserver/mysql5518 再调整运行端口为3307
+具体的cmake参数如下</p>
+
+<pre><code>cmake . \
+  -DCMAKE_INSTALL_PREFIX=/usr/local/webserver/mysql5518/ \
+  -DMYSQL_DATADIR=/data0/mysql/3307/data \
+  -DMYSQL_UNIX_ADDR=/data0/mysql/3307/mysqld.sock \
+  -DWITH_MYISAM_STORAGE_ENGINE=1 \
+  -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+  -DWITH_BLACKHOLE_STORAGE_ENGINE=0 \
+  -DWITH_ARCHIVE_STORAGE_ENGINE=0 \
+  -DWITHOUT_PARTITION_STORAGE_ENGINE=1 \
+  -DENABLED_LOCAL_INFILE=1 \
+  -DMYSQL_TCP_PORT=3307 \
+  -DEXTRA_CHARSETS=all \
+  -DDEFAULT_CHARSET=utf8 \
+  -DDEFAULT_COLLATION=utf8_general_ci \
+  -DWITH_DEBUG=0 \
+  -DWITH_EMBEDDED_SERVER=1 \
+  -DWITH_SSL=system \
+
+</code></pre>
+
+<p>还需要为mysql5518配置相应权限和建立3307端口的相关目录。因为上面已经有具体步骤，这里只是罗列下命令，不具体说明</p>
+
+<pre><code>chmod +w /usr/local/webserver/mysql5518
+
+chown -R mysql:mysql /usr/local/webserver/mysql5518
+
+cd ../
+
+mkdir -p /data0/mysql/3307/data/
+mkdir -p /data0/mysql/3307/binlog/
+mkdir -p /data0/mysql/3307/relaylog/
+chown -R mysql:mysql /data0/mysql/
+</code></pre>
+
+<p>最后的启动脚本也要修改为调用5518目录下的my.cnf配置。 而且my.cnf的[mysqld]段也要指定运行端口为3307
+下面是我mysql5518目录下的my.cnf中的一些需要修改的项
+注意：下面文件并不是完整的my.cnf，只是将需要修改的列出来了</p>
+
+<pre><code>[client]
+port    = 3307
+socket  = /data0/mysql/3307/mysql.sock
+
+[mysqld]
+port    = 3307
+socket  = /data0/mysql/3307/mysql.sock
+basedir = /usr/local/webserver/mysql5518
+datadir = /data0/mysql/3307/data
+log-error = /data0/mysql/3307/mysql_error.log
+pid-file = /data0/mysql/3307/mysql.pid
+log-bin = /data0/mysql/3307/binlog/binlog
+relay-log-index = /data0/mysql/3307/relaylog/relaylog
+relay-log-info-file = /data0/mysql/3307/relaylog/relaylog
+relay-log = /data0/mysql/3307/relaylog/relaylog
+</code></pre>
+
+<p>这样弄完后，我服务器上就可以同时运行mysql5516与mysql5518两个版本的数据库了。</p>
+
+<p>启动、关闭、重启mysql 5.5.16全部采用service mysqld5516脚本来控制。</p>
+
+<p>启动、关闭、重启mysql 5.5.18全部采用service mysqld5518脚本来控制。</p>
+
+<p><strong>总结：同时运行多个版本数据库，可以方便我们升级数据库或者对不同版本进行测试。</strong></p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2011-11-20-emlog-alipay-pulgin/">emlog支付插件发布</a></li>
+        
+        <li><a href="/post/2011-11-17-emlog-optimize-via-minify/">emlog访问速度优化之minify整合css与js文件</a></li>
+        
+        <li><a href="/post/2011-11-13-nginx-301-rewrite/">nginx通过301统一入口域名</a></li>
+        
+        <li><a href="/post/2011-11-10-centos-linux-sshclient-unreadable-code/">Centos Linux 远程终端ssh乱码问题</a></li>
+        
+        <li><a href="/post/2011-11-06-godaddy-to-dnspod/">解决godaddy注册域名无法解析问题</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>

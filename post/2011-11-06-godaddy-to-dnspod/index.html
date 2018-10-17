@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.49" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>解决godaddy注册域名无法解析问题 | 鑫的方向</title>
+    <meta property="og:title" content="解决godaddy注册域名无法解析问题 - 鑫的方向">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2011-11-06T18:25:00&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2011-11-06T18:25:00&#43;08:00">
+        
+    <meta name="Keywords" content="linux,运维,devops,python,golang">
+    <meta name="description" content="解决godaddy注册域名无法解析问题">
+        
+    <meta name="author" content="dongxin">
+    <meta property="og:url" content="https://xinlogs.com/post/2011-11-06-godaddy-to-dnspod/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://xinlogs.com">
+                        鑫的方向
+                    </a>
+                
+                <p class="description">嗜欲深着，天机浅！</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://xinlogs.com">首页</a>
+                    
+                    <a  href="/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">解决godaddy注册域名无法解析问题</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2011年11月6日
+                            18:25
+                        </date>
+                        
+                        <div class="post-meta meta-category">
+                            |
+                            
+                                <a href="/categories/host">Host</a>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            <p>godaddy.com是全球知名的域名注册商。国内很多站长也是使用的这个注册商。</p>
+
+<p>但是出于各种原因，godaddy的域名服务器经常被国内封掉。导致我们注册的域名无法被解析。直接影响了网站的稳定性。</p>
+
+<p>解决办法无非两个：一、不用godaddy了，二、换域名服务器。</p>
+
+<p>如果不打算用godaddy了，我推荐name.com也不错，不过不支持支付宝了。需要用paypal支付</p>
+
+<p>而我选择了第二种办法，采用国内的dns服务器来代替godaddy自己的，这样可以很好的解决问题。</p>
+
+<p>具体步骤：</p>
+
+<p>到<a href="http://www.dnspod.cn去注册一个免费账号，不知道dnspod为何物的，可以参考下面介绍">http://www.dnspod.cn去注册一个免费账号，不知道dnspod为何物的，可以参考下面介绍</a></p>
+
+<p>关于DNSPod</p>
+
+<p>DNSPod建立于2006年3月份，是国内最早提供免费智能DNS产品的网站，致力于为各类网站提供高质量的多线智能DNS免费解析。</p>
+
+<p>DNSPod以稳定性、安全性、功能强大、智能免费、高速等优 势深得广大站长和企业用户们的喜爱，以至于越来越多的企业站、地方门户站、游戏站等等都在使用DNSPod，他们喜欢的是DNSPod给他们带来的稳定性、承受能力强、访问速度快以及极高的用户体验，使用普通的DNS（像域名注册商提供的）不是不可以“用”，但是避免不了因为不稳定导致网站时常经常打不开，由于功 能限制不能实现想要实现的功能、因为用户体验不够好等丢失客户。所以选择一个好的DNS服务商可以为自己的网站带来很大的、意想不到的收益，避开不必要的损失。</p>
+
+<p>功能上：除了智能DNS解析，普通DNS解析也可以满足用户的稳定、高速等需求。相对竞争对手的产品，DNSPod除了实时生效，不限制用户添加的域名和记录数量外，还率先提供 了IPv6的支持和动态域名解析的功能，另外还支持DNS轮询、URL转发、API接口、批量修改管理等先进功能。并且所有功能都是免费提供。</p>
+
+<p>使用DNSPod的站长们知道，DNSPod不仅仅是以雄厚的技术优势，而且还是靠优质的服务赢得市场的，为几十万免费用户和几千VIP用户分别设立相应的技术支持！做到用户与DNSPod随时可以沟通，有问题及时解决！</p>
+
+<p>暴风影音、华军下载、魅族手机、VeryCD、4399、 霏凡下载、雨林木风、深度、手机之家、去看去看、站长之家、51啦、Discuz、cnBeta、 逐浪文学等知名网站都是DNSPod vip用户。</p>
+
+<p>将域名服务器修改到国内</p>
+
+<p>在 dnspod的后台域名管理中，添加自己需要转到国内的解析的域名。如下图</p>
+
+<p><img src="http://farm9.staticflickr.com/8251/8513876981_070153af29_z.jpg" alt="dnspod后台" /></p>
+
+<p>点开我们刚添加的域名，可以看到分配给我们的dns服务器。如下图</p>
+
+<p><img src="http://farm9.staticflickr.com/8105/8513879533_140115711c_z.jpg" alt="添加dns服务器" /></p>
+
+<p>现在我们登录到godaddy下，修改我们的DNS服务器到刚才dnspod分配给我们的dns服务器上。</p>
+
+<p>登录后，如下图所示，点my account</p>
+
+<p><img src="http://farm9.staticflickr.com/8530/8513882515_d24da3b0d9_z.jpg" alt="account截图" /></p>
+
+<p>然后在域名管理界面，点我们要转到国内解析的域名。如图</p>
+
+<p><img src="http://farm9.staticflickr.com/8520/8513884849_f2c2282477_z.jpg" alt="域名管理截图" /></p>
+
+<p>进入域名管理后，找到NameServers项，点set name servers。如图</p>
+
+<p><img src="http://farm9.staticflickr.com/8374/8513887055_cf354bfba5_z.jpg" alt="nameserver截图" /></p>
+
+<p>上面点击“Set Nameservers”后，会弹出一个窗口让你设置DNS Server。如下图</p>
+
+<p><img src="http://farm9.staticflickr.com/8518/8515007886_405481c010_z.jpg" alt="set nameserver" /></p>
+
+<p>将Nameserver1和Nameserver2里面的内容修改为dnspod分配给我们的dns服务器。nameserver3和nameserver4里面清空。</p>
+
+<p>点 “OK”按钮完成设置。</p>
+
+<p>域名服务器设置完，我们回到dnspod的后台，查看我们域名的状态。一般情况会是无法解析或者dns错误。这个说明还没有生效。最慢48小时生效。如果48小时候，还是错误就要找dnspod联系看看怎么解决了。也可以自己使用dnspod提供的域名全面诊断来判断问题。</p>
+
+<p>下面是完全生效后的状态</p>
+
+<p><img src="http://farm9.staticflickr.com/8371/8513897017_913b9e6764_z.jpg" alt="设置完成的状态" /></p>
+
+                        </div>
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/2011-10-31-gvim-vimrc-file/">Gvim配置</a></li>
+        
+        <li><a href="/post/2011-10-26-mod-template-emidream/">修改EMiDream模板</a></li>
+        
+        <li><a href="/post/2011-10-25-bo-blog-to-emlog/">微博从bo-blog迁移到了emlog。</a></li>
+        
+        <li><a href="/post/2011-10-25-write-blog-offline/">离线博客工具-菊子曰</a></li>
+        
+        <li><a href="/post/2011-10-25-debian-administration-site/">一个关于debian系统管理的站点</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://xinlogs.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="https://xinlogs.com/post/2015-02-16-hexo/" title="切换到hexo">切换到hexo</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-08-07-nginx-http-1-dot-1-upstream/" title="nginx通过http/1.1访问upstream">nginx通过http/1.1访问upstream</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-14-disk-space-error-while-installing-centos5/" title="CentOS 5.10安装报磁盘空间错误">CentOS 5.10安装报磁盘空间错误</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-linux-rescan-scsi/" title="linux-rescan-scsi">linux-rescan-scsi</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-06-05-zabbix-custom-inventory/" title="自定义zabbix inventory界面">自定义zabbix inventory界面</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-15-owncloud-zip-filename/" title="owncloud打包zip下载文件名乱码">owncloud打包zip下载文件名乱码</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-dig-debug-dns-query/" title="dig排查dns问题">dig排查dns问题</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-14-edit-octopress-on-multiple-computers/" title="多电脑同步octopress">多电脑同步octopress</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-04-08-zabbix-introduction/" title="zabbix介绍">zabbix介绍</a>
+            </li>
+            
+            <li>
+                <a href="https://xinlogs.com/post/2014-02-09-backup-to-aliyun-oss/" title="备份到阿里云的oss">备份到阿里云的oss</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+        <ul class="widget-list">
+            
+            <li>
+                <a href="/categories/cloudstack/">cloudstack(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/css/">css(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/database/">database(11)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/game/">game(13)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/git/">git(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/hardware/">hardware(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/host/">host(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/java/">java(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/life/">life(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/linux/">linux(47)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mac/">mac(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/mobile/">mobile(4)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/octopress/">octopress(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/php/">php(15)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/plan/">plan(1)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/rails/">rails(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/ruby/">ruby(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/software/">software(5)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/vim/">vim(2)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/virtualization/">virtualization(9)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/website/">website(3)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/windows/">windows(6)</a>
+            </li>
+            
+            <li>
+                <a href="/categories/zabbix/">zabbix(1)</a>
+            </li>
+            
+        </ul>
+    </section>
+
+    <section class="widget">
+            <h3 class="widget-title">标签</h3>
+            <div class="tagcloud">
+                
+            </div>
+        </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2018 <a href="https://xinlogs.com">鑫的方向 By dongxin</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io">Hugo</a>.
+        <a href="http://www.flysnow.org/">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script type="text/javascript">
+window.MathJax = {
+    tex2jax: {
+        inlineMath: [ ['$','$'] ],
+        processEscapes: true
+    }
+};
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+</body>
+</html>
